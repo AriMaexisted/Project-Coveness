@@ -1,57 +1,57 @@
 var peer = new Peer();
-let ourId = "" 
+let ourId = "";
+let ourConn = null;
 
 peer.on("open", function (id) {
-  console.log("My peer ID is: " + id);
+  console.log("ID: " + id);
   ourId = id;
 });
 
-function sendMsg() {
-    const id = document.getElementById("input").value;
-    var conn = peer.connect(id);
-    console.log("Sending")
-    conn.on("open", function () {
-        // Send messages
-        conn.send("ID:"+ourId);
-    });
+function handleData(conn) {
+  conn.on("data", function (data) {
+    console.log("Received data:", data);
+
+    if (data === "red") {
+      document.body.style.backgroundColor = "#FF0000";
+    } else if (data === "blue") {
+      document.body.style.backgroundColor = "#0000FF";
+    }
+  });
 }
 
-peer.on('connection', function (conn) { 
-    conn.on("open", function () {
-        conn.on("data", function (data){
-            if(data.includes("ID:")){
-                cleanId = data.slice(3);
-                peer.connect(cleanId);
-            }
-            if(data=="red"){
-                document.body.style.backgroundColor = "#FF0000";
-            }else if(data=="blue"){
-                document.body.style.backgroundColor = "#0000FF";
-            }else if(data=="sent!"){
-                console.log("Message recieved!");
-            }
-        })
-        conn.send("sent!");
-        console.log("sent")
-    })
+function sendMsg() {
+  const targetId = document.getElementById("input").value;
+  ourConn = peer.connect(targetId); 
+
+  ourConn.on("open", function () {
+    console.log("Connected with: " + targetId);
+    handleData(ourConn);
+  });
+}
+
+peer.on("connection", function (conn) {
+  ourConn = conn;
+  console.log("Connected with: " + conn.peer);
+
+  ourConn.on("open", function () {
+    handleData(ourConn);
+  });
 });
 
 function red() {
-    const id = document.getElementById("input").value;
-    var conn = peer.connect(id);
-    console.log("Sending")
-    conn.on("open", function () {
-        // Send messages
-        conn.send("red");
-    });
+  if (ourConn && ourConn.open) {
+    console.log("Sending red");
+    ourConn.send("red");
+  } else {
+    console.log("Unable");
+  }
 }
 
 function blu() {
-    const id = document.getElementById("input").value;
-    var conn = peer.connect(id);
-    console.log("Sending")
-    conn.on("open", function () {
-        // Send messages
-        conn.send("blue");
-    });
+  if (ourConn && ourConn.open) {
+    console.log("Sending blue");
+    ourConn.send("blue");
+  } else {
+    console.log("Unable");
+  }
 }
