@@ -6,13 +6,21 @@
     <title>Begin</title>
     <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="js/host.js" defer></script>
+    <!-- <script src="js/main.js" defer></script> -->
 </head>
 <body>
-    <input type="text" id="input">
-    <button onclick="sendMsg()">Send</button>
+    <button onclick="claimHost()">Claim host</button>
+    <button onclick="startGame()">Start game</button>
+    <h1 id="idRev"></h1>
 
-
-    <button onclick="red()">RED</button>
-    <button onclick="blu()">BLUE</button>
+    <input id="name" type="text" placeholder="name">
+    <input id="code" type="text" placeholder="code">
+    <button onclick="joinGame()">Join Game!</button>
+    
+    <h2>Players</h2>
+    <ol id="playerList">
+    </ol>
+    
 </body>
 </html>
