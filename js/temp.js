@@ -1,58 +1,121 @@
 var peer = new Peer();
 let ourId = "";
 let ourConn = null;
+let o = false
+let myTurn = false;
+let buttons = Array.from(document.querySelectorAll(".row button:not([onclick*='joinGame'])"));
+
+let activate = false;
+
+enabled(false)
+
+console.log(peer)
 
 peer.on("open", function (id) {
-  console.log("ID: " + id);
-  ourId = id;
+    console.log("ID: " + id);
+    ourId = id;
 });
 
-function handleData(conn) {
-  conn.on("data", function (data) {
-    console.log("Received data:", data);
+function joinGame(){
+    ourConn = peer.connect(document.getElementById("name").value);
+    ourConn.on('open', function() {
+        document.getElementById("name").disabled = true
+        enabled(true)
+        ourConn.on('data', function(data){
+            if(!o){
+                buttons[data].textContent = 'o';
+            }else{
+                buttons[data].textContent = 'x';
+            }
+            myTurn = true
+            enabled(myTurn);
+            checkGame();
+        })
+    })
+    o = true
+}
 
-    if (data === "red") {
-      document.body.style.backgroundColor = "#FF0000";
-    } else if (data === "blue") {
-      document.body.style.backgroundColor = "#0000FF";
+peer.on('connection', function(conn){
+    ourConn = conn
+    if(o && !activate){
+        myTurn = true;
+        activate = true;
     }
-  });
+    ourConn.on('data', function(data){
+        if(!o){
+            buttons[data].textContent = 'o';
+        }else{
+            buttons[data].textContent = 'x';
+        }
+        myTurn = true
+        enabled(myTurn);
+        checkGame();
+    })
+})
+
+function send(val){
+    if(buttons[val].textContent !== ''){
+        return
+    }
+    ourConn.send(val);
+    myTurn = false;
+    enabled(myTurn);
+    if(o){
+        buttons[val].textContent = 'o';
+    }else{
+        buttons[val].textContent = 'x';
+    }
+    checkGame();
 }
 
-function sendMsg() {
-  const targetId = document.getElementById("input").value;
-  ourConn = peer.connect(targetId); 
-
-  ourConn.on("open", function () {
-    console.log("Connected with: " + targetId);
-    handleData(ourConn);
-  });
+function enabled(val){
+    buttons.forEach(element => {
+        element.disabled = !val;
+    });
 }
 
-peer.on("connection", function (conn) {
-  ourConn = conn;
-  console.log("Connected with: " + conn.peer);
+function checkGame(){
+    winner = false
+    isO = false
+    for (let i=0;i<3;i++) {
+        if(buttons[i*3].textContent === buttons[i*3+1].textContent && 
+            buttons[i*3+1].textContent === buttons[i*3+2].textContent &&
+            buttons[i*3+2].textContent !== '' ){
+                winner = true
+                isO = (buttons[i*3+2]==='o')
+            }
 
-  ourConn.on("open", function () {
-    handleData(ourConn);
-  });
-});
+        if(buttons[i].textContent === buttons[i+3].textContent && 
+            buttons[i+3].textContent === buttons[i+6].textContent &&
+            buttons[i+6].textContent !== '' ){
+                winner = true
+                isO = (buttons[i]==='o')
+            }
 
-function red() {
-  if (ourConn && ourConn.open) {
-    console.log("Sending red");
-    ourConn.send("red");
-  } else {
-    console.log("Unable");
-  }
+        }
+    if(buttons[0].textContent === buttons[4].textContent && 
+        buttons[4].textContent === buttons[8].textContent &&
+        buttons[8].textContent !== '' ){
+            winner = true
+            isO = (buttons[4]==='o')
+        }
+
+    if(buttons[2].textContent === buttons[4].textContent && 
+        buttons[4].textContent === buttons[6].textContent &&
+        buttons[6].textContent !== '' ){
+            winner = true
+            isO = (buttons[4]==='o')
+        }
+
+    if(winner){
+        win(isO);
+    }
 }
 
-function blu() {
-  if (ourConn && ourConn.open) {
-    console.log("Sending blue");
-    ourConn.send("blue");
-  } else {
-    console.log("Unable");
-  }
+function win(isO){
+    if(isO !== o){
+        document.getElementById("grat").innerHTML = "You won!" 
+    }else{
+        document.getElementById("grat").innerHTML = "You lost!" 
+    }
 }
-

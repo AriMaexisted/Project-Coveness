@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" defer></script>
+    <script src="js/temp.js"defer></script>
+</head>
+<body>
+    <div class="row">
+        <button onclick="send(0)"></button>
+        <button onclick="send(1)"></button>
+        <button onclick="send(2)"></button>
+    </div>
+    <div class="row">
+        <button onclick="send(3)"></button>
+        <button onclick="send(4)"></button>
+        <button onclick="send(5)"></button>
+    </div>
+    <div class="row">
+        <button onclick="send(6)"></button>
+        <button onclick="send(7)"></button>
+        <button onclick="send(8)"></button>
+    </div>
+    <div class="row">
+        <input id="name" type="text" placeholder="id">
+        <button onclick="joinGame()">Join Game!</button>
+    </div>
+    <div class="row">
+        <p id="grat"></p>
+    </div>
+    <style>
+        .row{
+            display: flex;
+            flex-direction: row;
+        }
+        button{
+            width:100px;
+            height:100px;
+        }
+    </style>
+</body>
+</html>
