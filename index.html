@@ -6,21 +6,36 @@
     <title>Begin</title>
     <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" defer></script>
     <script src="js/main.js" defer></script>
-    <script src="js/host.js" defer></script>
-    <!-- <script src="js/main.js" defer></script> -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <button onclick="claimHost()">Claim host</button>
-    <button onclick="startGame()">Start game</button>
-    <h1 id="idRev"></h1>
+    <div id="hostIntroBoard">
+        <button onclick="claimHost()">Back to player</button>
+        <button onclick="startGame()">Start game</button>
+        <button onclick="copyId()">Copy ID</button>
+        <div id="playerConfig">
 
-    <input id="name" type="text" placeholder="name">
-    <input id="code" type="text" placeholder="code">
-    <button onclick="joinGame()">Join Game!</button>
+        </div>
+    </div>
+    <div id="playerIntroBoard">
+        <button id="hostClaimBtn" onclick="claimHost()">Claim host</button>
+        <input id="name" type="text" placeholder="name">
+        <input id="code" type="text" placeholder="code">
+        <button id="joinGameBtn" onclick="joinGame()">Join Game!</button>
+        <h2>Players</h2>
+        <ol id="playerList">
+            
+        </ol>
+    </div>
+
+    <dialog id="roleSelect">
+        <h1>Hello</h1>
+    </dialog>
+
     
-    <h2>Players</h2>
-    <ol id="playerList">
-    </ol>
+    <div id="playerPlayingBoard">
+        
+    </div>
     
 </body>
 </html>

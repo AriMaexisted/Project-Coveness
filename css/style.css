@@ -1,0 +1,23 @@
+#hostIntroBoard{
+    display: none;
+    flex-direction: column;
+}
+
+.playerConfigRow{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.playerConfigRow *{
+    border: 2px solid black;
+    width: 20vw;
+    align-self: stretch;
+    height: auto;
+    margin: 0;
+}
+
+#playerIntroBoard{
+    display:flex
+}
+

@@ -1,4 +1,8 @@
-//PEER CODE
+//PEER CODE--------------------------------------------------------
+
+// Helper 
+const isAlphaNumeric = str => /^[a-z0-9]*$/gi.test(str);
+
 
 let host = false;
 const peer = new Peer();
@@ -36,8 +40,17 @@ setInterval(() => {
 function claimHost(){
     host = !host
     if(host){
-        copyTextToClipboard(peer.id);
+        copyId();
+        document.getElementById("hostIntroBoard").style.display = "flex"
+        document.getElementById("playerIntroBoard").style.display = "none"
+    }else{
+        document.getElementById("hostIntroBoard").style.display = "none"
+        document.getElementById("playerIntroBoard").style.display = "flex" 
     }
+}
+
+function copyId(){
+    copyTextToClipboard(peer.id);
 }
 
 // PEER
@@ -91,7 +104,7 @@ function messageRecieved(data, conn){
 
 }
 
-//HOST CODE
+//HOST CODE--------------------------------------------------------
 /**
  * String
  * The display names for every client
@@ -110,15 +123,37 @@ function newPlayer(msg, conn){
     connections.forEach(cConn => {
         cConn.send([3, names]);        
     })
-    introPlayers.innerHTML = "";
+
+    
+    const playerConfig = document.getElementById("playerConfig")
+    
+    playerConfig.innerHTML = "";
     names.forEach(cName => {
-        const liElem = document.createElement('li');
-        liElem.textContent = cName;
-        introPlayers.appendChild(liElem);
+        const playerDiv = document.createElement('div');
+        const playerName = document.createElement('h1');
+        const role = document.createElement('button');
+        playerName.textContent = cName;
+        playerConfig.appendChild(playerDiv);
+        playerDiv.appendChild(playerName);
+        playerDiv.appendChild(role);
+        playerDiv.classList.add("playerConfigRow");
+
+        playerDiv.classList.add(names.indexOf(cName));
+        playerName.classList.add(names.indexOf(cName));
+        role.classList.add(names.indexOf(cName));
+        
+        role.addEventListener('click', () => {
+            setRole();
+        })
     })
 }
 
-//CLIENT CODE
+function setRole(){
+    const roleSelect = document.getElementById('roleSelect');
+    roleSelect.showModal();
+}
+
+//CLIENT CODE--------------------------------------------------------
 let hostConn = null;
 
 /**
@@ -126,12 +161,20 @@ let hostConn = null;
  * Triggers when connecting to host
  */
 function joinGame(){
+
+    if(!isAlphaNumeric(document.getElementById("name").value)){
+        alert("Please only use letters and numbers")
+        return
+    }
+
     const targetId = document.getElementById("code").value;
     hostConn = peer.connect(targetId); // Sets hostConn
 
     if(hostConn){
         hostConn.send([0,"Ping"]); // Sends a ping to start loop
         console.log("Connected")
+        document.getElementById("joinGameBtn").disabled = true;
+        document.getElementById("hostClaimBtn").disabled = true;
     }
 
     hostConn.on('data', function(data){
