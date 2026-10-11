@@ -6,7 +6,9 @@
     <title>Begin</title>
     <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="js/role.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/role.css">
 </head>
 <body>
     <div id="hostIntroBoard">
@@ -28,14 +30,51 @@
         </ol>
     </div>
 
-    <dialog id="roleSelect">
-        <h1>Hello</h1>
+    <dialog id="roleSelect" class="roleMenuDialog">
+        <div class="RMwrapper">
+
+        </div>
+        <button>WHat</button>
+        
     </dialog>
 
+
+    <button onclick="setRole()"></button>
     
     <div id="playerPlayingBoard">
         
     </div>
+
+    
+
+    <template id="roleMenu">
+        <div id="RMstart" class="RMdiv">
+            <button onclick="transfer('RMTowns')">Town</button>
+            <button onclick="transfer('RMMafia')">Mafia</button>
+            <button onclick="transfer('RMCoven')">Coven</button>
+            <button onclick="transfer('RMNeutral')">Neutral</button>
+        </div>
+        <div id="RMTowns" class="RMdiv">
+            <button onclick="transfer('RMTI')">Investigative</button>
+            <button onclick="transfer('RMKilling')">Killing</button>
+            <button onclick="transfer('RMProtective')">Protective</button>
+            <button onclick="transfer('RMSupport')">Support</button>
+        </div>
+        <div id="RMTI" class="RMdiv">
+            <button onclick="transfer('Investigator')"><img class="RMimg" src="images/roles/Investigator.svg"></button>
+            <button onclick="transfer('Lookout')"><img class="RMimg" src="images/roles/Lookout.svg"></button>
+            <button onclick="transfer('Psychic')"><img class="RMimg" src="images/roles/Psychic.svg"></button>
+            <button onclick="transfer('Sheriff')"><img class="RMimg" src="images/roles/Sheriff.svg"></button>
+            <button onclick="transfer('Spy')"><img class="RMimg" src="images/roles/Spy.svg"></button>
+            <button onclick="transfer('Tracker')"><img class="RMimg" src="images/roles/Tracker.svg"></button>
+        </div>
+        <div id="Investigator" class="RMdiv">
+            <img class="RMimg" src="images/roles/Investigator.svg">
+            <div class="RMiframeContainer">
+                <iframe class="RMiframe" src="https://town-of-salem.fandom.com/wiki/Investigator_(ToS)"></iframe>
+            </div>
+        </div>
+    </template>
     
 </body>
 </html>

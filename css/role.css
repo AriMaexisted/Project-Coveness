@@ -1,0 +1,24 @@
+.roleMenuDialog{
+    width: 80vw;
+}
+
+.RMdiv{
+    display: none;
+    flex-wrap: wrap;
+}
+
+.RMimg{
+    height: 20vh;
+}
+
+.RMiframeContainer{
+    height: 40vh;
+    width: 40vh;
+}
+
+.RMiframe{
+    height: 200%;
+    width: 200%;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+}

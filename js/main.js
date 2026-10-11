@@ -1,5 +1,15 @@
 //PEER CODE--------------------------------------------------------
 
+const RMwrappers = document.querySelectorAll(".RMwrapper");
+const RMmenu = document.getElementById("roleMenu");
+
+RMwrappers.forEach(div => {
+    div.appendChild(RMmenu.content.cloneNode(true));
+    console.log("Hello")
+});
+
+
+
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9]*$/gi.test(str);
 
@@ -150,7 +160,9 @@ function newPlayer(msg, conn){
 
 function setRole(){
     const roleSelect = document.getElementById('roleSelect');
+    const roleMenuStart = document.getElementById('RMstart');
     roleSelect.showModal();
+    roleMenuStart.style.display = "flex";
 }
 
 //CLIENT CODE--------------------------------------------------------
