@@ -1,12 +1,7 @@
 //PEER CODE--------------------------------------------------------
 
-const RMwrappers = document.querySelectorAll(".RMwrapper");
-const RMmenu = document.getElementById("roleMenu");
 
-RMwrappers.forEach(div => {
-    div.appendChild(RMmenu.content.cloneNode(true));
-    console.log("Hello")
-});
+
 
 
 
@@ -162,7 +157,7 @@ function setRole(){
     const roleSelect = document.getElementById('roleSelect');
     const roleMenuStart = document.getElementById('RMstart');
     roleSelect.showModal();
-    roleMenuStart.style.display = "flex";
+    transfer('RMstart')
 }
 
 //CLIENT CODE--------------------------------------------------------

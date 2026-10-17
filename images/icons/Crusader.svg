@@ -1,0 +1,40 @@
+<svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_n_839_248)">
+<mask id="path-1-inside-1_839_248" fill="white">
+<path d="M125 0C180.228 0 225 22.3858 225 50V250H25V50C25 22.3858 69.7715 0 125 0Z"/>
+</mask>
+<path d="M125 0C180.228 0 225 22.3858 225 50V250H25V50C25 22.3858 69.7715 0 125 0Z" fill="#380060"/>
+<path d="M225 250V255H230V250H225ZM25 250H20V255H25V250ZM125 0V5C152.006 5 176.209 10.4839 193.475 19.1168C211.04 27.8993 220 39.107 220 50H225H230C230 33.2787 216.575 19.4865 197.947 10.1725C179.02 0.709008 153.222 -5 125 -5V0ZM225 50H220V250H225H230V50H225ZM225 250V245H25V250V255H225V250ZM25 250H30V50H25H20V250H25ZM25 50H30C30 39.107 38.9605 27.8993 56.5254 19.1168C73.7912 10.4839 97.9937 5 125 5V0V-5C96.7778 -5 70.9803 0.709008 52.0533 10.1725C33.4253 19.4865 20 33.2787 20 50H25Z" fill="#F7FFC2" mask="url(#path-1-inside-1_839_248)"/>
+</g>
+<rect x="100" y="50" width="50" height="200" fill="#F7FFC2"/>
+<rect x="200" y="100" width="50" height="150" transform="rotate(90 200 100)" fill="#F7FFC2"/>
+<rect x="105" y="55" width="40" height="195" fill="#380060"/>
+<rect x="195" y="105" width="40" height="140" transform="rotate(90 195 105)" fill="#380060"/>
+<rect x="185" y="115" width="20" height="40" transform="rotate(90 185 115)" fill="#F7FFC2"/>
+<rect x="105" y="115" width="20" height="40" transform="rotate(90 105 115)" fill="#F7FFC2"/>
+<defs>
+<filter id="filter0_n_839_248" x="25" y="0" width="200" height="250" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.25 0.25" stitchTiles="stitch" numOctaves="3" result="noise" seed="8803" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise2">
+<feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise2" result="noise2Clipped" />
+<feFlood flood-color="#5CA1E2" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feFlood flood-color="rgba(255, 255, 255, 0.25)" result="color2Flood" />
+<feComposite operator="in" in2="noise2Clipped" in="color2Flood" result="color2" />
+<feMerge result="effect1_noise_839_248">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+<feMergeNode in="color2" />
+</feMerge>
+</filter>
+</defs>
+</svg>

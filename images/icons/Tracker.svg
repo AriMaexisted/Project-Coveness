@@ -1,0 +1,19 @@
+<svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_839_228)">
+<circle cx="125" cy="125" r="125" fill="#380060"/>
+<g clip-path="url(#paint0_angular_839_228_clip_path)" data-figma-skip-parse="true"><g transform="matrix(-0.1005 0.1 -0.1 -0.1005 125 125)"><foreignObject x="-1256.85" y="-1256.85" width="2513.7" height="2513.7"><div xmlns="http://www.w3.org/1999/xhtml" style="background:conic-gradient(from 90deg,rgba(91, 161, 225, 0.8) 0deg,rgba(91, 161, 225, 0) 36.3462deg,rgba(91, 161, 225, 0) 360deg);height:100%;width:100%;opacity:1"></div></foreignObject></g></g><circle cx="125" cy="125" r="125" data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_ANGULAR&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.35931584239006042,&#34;g&#34;:0.63154858350753784,&#34;b&#34;:0.88621795177459717,&#34;a&#34;:0.80000001192092896},&#34;position&#34;:0.0},{&#34;color&#34;:{&#34;r&#34;:0.35968297719955444,&#34;g&#34;:0.63150453567504883,&#34;b&#34;:0.88623207807540894,&#34;a&#34;:0.0},&#34;position&#34;:0.10096153616905212},{&#34;color&#34;:{&#34;r&#34;:0.36005008220672607,&#34;g&#34;:0.63146054744720459,&#34;b&#34;:0.88624620437622070,&#34;a&#34;:0.0},&#34;position&#34;:1.0}],&#34;transform&#34;:{&#34;m00&#34;:-200.99995422363281,&#34;m01&#34;:-200.00003051757812,&#34;m02&#34;:325.49993896484375,&#34;m10&#34;:200.00003051757812,&#34;m11&#34;:-200.99995422363281,&#34;m12&#34;:125.49993133544922},&#34;opacity&#34;:1.0,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;stopsVar&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.35931584239006042,&#34;g&#34;:0.63154858350753784,&#34;b&#34;:0.88621795177459717,&#34;a&#34;:0.80000001192092896},&#34;position&#34;:0.0},{&#34;color&#34;:{&#34;r&#34;:0.35968297719955444,&#34;g&#34;:0.63150453567504883,&#34;b&#34;:0.88623207807540894,&#34;a&#34;:0.0},&#34;position&#34;:0.10096153616905212},{&#34;color&#34;:{&#34;r&#34;:0.36005008220672607,&#34;g&#34;:0.63146054744720459,&#34;b&#34;:0.88624620437622070,&#34;a&#34;:0.0},&#34;position&#34;:1.0}],&#34;visible&#34;:true}"/>
+<circle cx="125" cy="125" r="73" stroke="#5CA1E2" stroke-width="4"/>
+<circle cx="125" cy="125" r="23" stroke="#5CA1E2" stroke-width="4"/>
+<rect x="123" width="4" height="250" fill="#5CA1E2"/>
+<rect x="125.389" y="122" width="4" height="127.447" transform="rotate(45 125.389 122)" fill="#5CA1E2"/>
+<rect x="250" y="123" width="4" height="250" transform="rotate(90 250 123)" fill="#5CA1E2"/>
+<circle cx="49" cy="180" r="5" fill="#F7FFC2"/>
+<circle cx="74" cy="139" r="5" fill="#F7FFC2"/>
+<circle cx="125" cy="125" r="122.5" stroke="#F7FFC2" stroke-width="5"/>
+</g>
+<defs>
+<clipPath id="paint0_angular_839_228_clip_path"><circle cx="125" cy="125" r="125"/></clipPath><clipPath id="clip0_839_228">
+<rect width="250" height="250" fill="white"/>
+</clipPath>
+</defs>
+</svg>

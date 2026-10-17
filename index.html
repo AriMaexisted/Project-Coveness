@@ -30,9 +30,8 @@
         </ol>
     </div>
 
-    <dialog id="roleSelect" class="roleMenuDialog">
-        <div class="RMwrapper">
-
+    <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
+        <div class="roleMenu">
         </div>
         <button>WHat</button>
         
@@ -47,13 +46,13 @@
 
     
 
-    <template id="roleMenu">
-        <div id="RMstart" class="RMdiv">
-            <button onclick="transfer('RMTowns')">Town</button>
+    <!--<template id="roleMenu">
+        <div id="RMstart" class="RMdiv">-->
+            <!-- <button onclick="transfer('RMTowns')">Town</button>
             <button onclick="transfer('RMMafia')">Mafia</button>
             <button onclick="transfer('RMCoven')">Coven</button>
-            <button onclick="transfer('RMNeutral')">Neutral</button>
-        </div>
+            <button onclick="transfer('RMNeutral')">Neutral</button> -->
+        <!--</div>
         <div id="RMTowns" class="RMdiv">
             <button onclick="transfer('RMTI')">Investigative</button>
             <button onclick="transfer('RMKilling')">Killing</button>
@@ -68,13 +67,14 @@
             <button onclick="transfer('Spy')"><img class="RMimg" src="images/roles/Spy.svg"></button>
             <button onclick="transfer('Tracker')"><img class="RMimg" src="images/roles/Tracker.svg"></button>
         </div>
-        <div id="Investigator" class="RMdiv">
+        <div id="Investigator" class="RMdiv RMroleDiv">
             <img class="RMimg" src="images/roles/Investigator.svg">
-            <div class="RMiframeContainer">
-                <iframe class="RMiframe" src="https://town-of-salem.fandom.com/wiki/Investigator_(ToS)"></iframe>
-            </div>
+            <button onclick="transfer('InvestigatorHelp')"><img class="RMimg" src="images/roles/Tracker.svg"></button>
         </div>
-    </template>
+        <div id="InvestigatorHelp" class="RMdiv RMiframeContainer">
+            <iframe class="RMiframe" src="https://town-of-salem.fandom.com/wiki/Investigator_(ToS)"></iframe>
+        </div>
+    </template>-->
     
 </body>
 </html>
