@@ -21,3 +21,6 @@
     display:flex
 }
 
+#chatError{
+    display: none;
+}

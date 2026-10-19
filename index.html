@@ -44,37 +44,16 @@
         
     </div>
 
-    
+    <div id="chatDiv">
+        <input id="chatInput" type="text">
+        <button onclick="sendMsg(document.getElementById('chatInput').value)">Send</button>
+        <div id="chatError">
+            <p> Please only use letters, numbers, spaces, or these symbols: , . ! ? </p>
+        </div>
+        <div id="chatHistory">
 
-    <!--<template id="roleMenu">
-        <div id="RMstart" class="RMdiv">-->
-            <!-- <button onclick="transfer('RMTowns')">Town</button>
-            <button onclick="transfer('RMMafia')">Mafia</button>
-            <button onclick="transfer('RMCoven')">Coven</button>
-            <button onclick="transfer('RMNeutral')">Neutral</button> -->
-        <!--</div>
-        <div id="RMTowns" class="RMdiv">
-            <button onclick="transfer('RMTI')">Investigative</button>
-            <button onclick="transfer('RMKilling')">Killing</button>
-            <button onclick="transfer('RMProtective')">Protective</button>
-            <button onclick="transfer('RMSupport')">Support</button>
         </div>
-        <div id="RMTI" class="RMdiv">
-            <button onclick="transfer('Investigator')"><img class="RMimg" src="images/roles/Investigator.svg"></button>
-            <button onclick="transfer('Lookout')"><img class="RMimg" src="images/roles/Lookout.svg"></button>
-            <button onclick="transfer('Psychic')"><img class="RMimg" src="images/roles/Psychic.svg"></button>
-            <button onclick="transfer('Sheriff')"><img class="RMimg" src="images/roles/Sheriff.svg"></button>
-            <button onclick="transfer('Spy')"><img class="RMimg" src="images/roles/Spy.svg"></button>
-            <button onclick="transfer('Tracker')"><img class="RMimg" src="images/roles/Tracker.svg"></button>
-        </div>
-        <div id="Investigator" class="RMdiv RMroleDiv">
-            <img class="RMimg" src="images/roles/Investigator.svg">
-            <button onclick="transfer('InvestigatorHelp')"><img class="RMimg" src="images/roles/Tracker.svg"></button>
-        </div>
-        <div id="InvestigatorHelp" class="RMdiv RMiframeContainer">
-            <iframe class="RMiframe" src="https://town-of-salem.fandom.com/wiki/Investigator_(ToS)"></iframe>
-        </div>
-    </template>-->
+    </div>
     
 </body>
 </html>

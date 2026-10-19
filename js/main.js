@@ -1,13 +1,24 @@
 //PEER CODE--------------------------------------------------------
 
 
-
-
-
-
 // Helper 
-const isAlphaNumeric = str => /^[a-z0-9]*$/gi.test(str);
+const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
 
+
+async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log('Text copied to clipboard successfully!');
+  } catch (err) {
+    console.error('Failed to copy text: ', err);
+  }
+}
+
+/**
+ * String
+ * The display names for every client
+ */
+let names = [];
 
 let host = false;
 const peer = new Peer();
@@ -61,7 +72,6 @@ function copyId(){
 // PEER
 // Listens for 
 peer.on('connection', function(conn){
-    connections.push(conn);
     handleConnections(conn);
 })
 
@@ -97,6 +107,7 @@ function messageRecieved(data, conn){
             newPlayer(msg, conn);
             break;
         case 3:
+            names = msg;
             console.log(msg)
             introPlayers.innerHTML = ""
             msg.forEach(cName => {
@@ -105,16 +116,27 @@ function messageRecieved(data, conn){
                 introPlayers.appendChild(liElem);
             })
             break;
+        case 4:
+            sendChatUpdate(connections.indexOf(conn), msg);
+            break;
+        case 5:
+            updateChatbox(msg);
+            break;
     }
 
 }
 
+function updateChatbox(msg){
+    const newP = document.createElement('p');
+    let name = names[msg[0]];
+    if(msg[0]==-1){
+        name = "Host"
+    }
+    newP.innerText = name + ": " + (msg[1]);
+    document.getElementById('chatHistory').appendChild(newP)
+}
+
 //HOST CODE--------------------------------------------------------
-/**
- * String
- * The display names for every client
- */
-const names = [];
 /**
  * DataConnection
  * The display connection object for every client
@@ -160,6 +182,14 @@ function setRole(){
     transfer('RMstart')
 }
 
+function sendChatUpdate(id, text){
+    connections.forEach((conn) => {
+        conn.send([5, [id, text]]);
+        console.log(conn);
+    } )
+    updateChatbox([id, text]);
+}
+
 //CLIENT CODE--------------------------------------------------------
 let hostConn = null;
 
@@ -170,7 +200,7 @@ let hostConn = null;
 function joinGame(){
 
     if(!isAlphaNumeric(document.getElementById("name").value)){
-        alert("Please only use letters and numbers")
+        alert("Please only use letters, numbers, spaces, or these symbols: , . ! ?")
         return
     }
 
@@ -195,15 +225,25 @@ function joinGame(){
     });
 }
 
-
-
-
-
-async function copyTextToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    console.log('Text copied to clipboard successfully!');
-  } catch (err) {
-    console.error('Failed to copy text: ', err);
-  }
+function sendMsg(msg){
+    if(!hostConn){
+        if(host){
+            sendChatUpdate(-1, msg);
+        }
+        return;
+    }
+    if(isAlphaNumeric(msg)){
+        hostConn.send([4,msg]);
+    }else{
+        const errorMsg = document.getElementById("chatError");
+        if(errorMsg.style.display = "flex"){
+            return;
+        }
+        errorMsg.style.display = "flex";
+        setTimeout(function(){
+            errorMsg.style.display = "none";
+        }, 2000);
+    }
 }
+
+
