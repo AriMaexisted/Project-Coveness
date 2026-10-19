@@ -25,6 +25,7 @@ const peer = new Peer();
 
 const introPlayers = document.getElementById("playerList");
 
+
 /**
  * Watchdog boolean that is constantly flipped to check connectivity
  */
@@ -46,7 +47,7 @@ setInterval(() => {
     }
     
     }
-}, 5000);
+}, 10000);
 
 /**
  * PEER
@@ -142,6 +143,9 @@ function updateChatbox(msg){
  * The display connection object for every client
  */
 const connections = [];
+const roles = [];
+
+let selectedPlayer = -1;
 
 
 function newPlayer(msg, conn){
@@ -164,6 +168,7 @@ function newPlayer(msg, conn){
         playerDiv.appendChild(playerName);
         playerDiv.appendChild(role);
         playerDiv.classList.add("playerConfigRow");
+        playerDiv.id = "playerDiv-".concat(names.indexOf(cName));
 
         playerDiv.classList.add(names.indexOf(cName));
         playerName.classList.add(names.indexOf(cName));
@@ -171,6 +176,7 @@ function newPlayer(msg, conn){
         
         role.addEventListener('click', () => {
             setRole();
+            selectedPlayer = names.indexOf(cName)
         })
     })
 }
@@ -180,6 +186,13 @@ function setRole(){
     const roleMenuStart = document.getElementById('RMstart');
     roleSelect.showModal();
     transfer('RMstart')
+}
+
+function submitRole(){
+    roles[selectedPlayer] = focusedRole;
+    document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector("button").style.backgroundColor = "red";
+    roleSelect.close();
+    document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector("button").innerText = focusedRole;
 }
 
 function sendChatUpdate(id, text){

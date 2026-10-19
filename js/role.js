@@ -84,6 +84,7 @@ const allRoles={
 };
 
 
+let focusedRole = ""
 
 let RMnum = 0
 let roleMenus = document.getElementsByClassName("roleMenu");
@@ -156,13 +157,14 @@ function roleIter(roleMenu, ind){
                 roleDiv.classList.add("RMdiv");
                 roleButton.addEventListener('click', () => {
                     transfer("RM".concat(roleName, ind));
+                    setFocusedRole(roleName);
                 });
                 roleButton.innerHTML = `<img class="RMimg" src="./images/roles/${roleNameRaw}.svg">`
                 // const roleImg = document.createElement('img')
                 // roleButton.innerHTML = 
                 
                 alignmentDiv.appendChild(roleButton);
-                roleMenu.appendChild(roleDiv)
+                roleMenu.appendChild(roleDiv);
 
 
             });
@@ -179,4 +181,9 @@ function transfer(id, ind){
 
     console.log(id)
     document.getElementById(id).style.display = "flex";
+}
+
+function setFocusedRole(role){
+    focusedRole = role;
+    document.getElementById('selRole').innerText = focusedRole;
 }
