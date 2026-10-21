@@ -173,6 +173,8 @@ function newPlayer(msg, conn){
         playerDiv.classList.add(names.indexOf(cName));
         playerName.classList.add(names.indexOf(cName));
         role.classList.add(names.indexOf(cName));
+
+        
         
         role.addEventListener('click', () => {
             setRole();
@@ -213,7 +215,7 @@ let hostConn = null;
 function joinGame(){
 
     if(!isAlphaNumeric(document.getElementById("name").value)){
-        alert("Please only use letters, numbers, spaces, or these symbols: , . ! ?")
+        alert("Please only use letters, numbers, spaces, or these symbols: , . ! ?");
         return
     }
 
@@ -234,9 +236,18 @@ function joinGame(){
     // Sends name
     hostConn.on('open', function(){
         console.log("Hostconn: " + hostConn.peer);
-        hostConn.send([2,document.getElementById("name").value])
+        hostConn.send([2,document.getElementById("name").value]);
     });
 }
+
+peer.on('error', function(err){
+    if(err.type==='peer-unavailable'){
+        alert("Connection failed! Please try again.");
+        document.getElementById("joinGameBtn").disabled = false;
+        document.getElementById("hostClaimBtn").disabled = false;
+        hostConn = null;
+    }
+})
 
 function sendMsg(msg){
     if(!hostConn){

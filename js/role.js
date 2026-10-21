@@ -129,7 +129,7 @@ function roleIter(roleMenu, ind){
             alignmentButton.addEventListener('click', () => {
                 transfer("RM".concat(team, alignment, ind));
             });
-            alignmentButton.innerText = alignment;
+            alignmentButton.innerHTML = `<img class="RMimg" src="./images/icons/alignment/${team}.svg">`;
 
             console.log(teamDiv)
             teamDiv.appendChild(alignmentButton);
@@ -159,7 +159,7 @@ function roleIter(roleMenu, ind){
                     transfer("RM".concat(roleName, ind));
                     setFocusedRole(roleName);
                 });
-                roleButton.innerHTML = `<img class="RMimg" src="./images/roles/${roleNameRaw}.svg">`
+                roleButton.innerHTML = `<img class="RMimg" src="./images/roles/${roleNameRaw}.svg">`;
                 // const roleImg = document.createElement('img')
                 // roleButton.innerHTML = 
                 
