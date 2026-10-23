@@ -4,6 +4,8 @@
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
 
+const avatar = [0,0,0];
+
 
 async function copyTextToClipboard(text) {
   try {
@@ -123,6 +125,9 @@ function messageRecieved(data, conn){
         case 5:
             updateChatbox(msg);
             break;
+        case 6:
+            avatars.push(msg);
+            break;
     }
 
 }
@@ -137,12 +142,62 @@ function updateChatbox(msg){
     document.getElementById('chatHistory').appendChild(newP)
 }
 
+function avatarChange(id, spClass){
+    switch(id){
+        case 0:
+            avatar[0]--;
+            if(avatar[0]==-1){avatar[0]=7;}
+            break;
+        case 1:
+            avatar[1]--;
+            if(avatar[1]==-1){avatar[1]=7;}
+            break;
+        case 2:
+            avatar[2]--;
+            if(avatar[2]==-1){avatar[2]=7;}
+            break;
+        case 3:
+            avatar[0]++;
+            if(avatar[0]==8){avatar[0]=0;}
+            break;
+        case 4:
+            avatar[1]++;
+            if(avatar[1]==8){avatar[1]=0;}
+            break;
+        case 5:
+            avatar[2]++;
+            if(avatar[2]==8){avatar[2]=0;}
+            break;
+    }
+    document.querySelector(`.${spClass}.avatarT`).src = `images/avatar/T${avatar[0]}.svg`
+    document.querySelector(`.${spClass}.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
+    document.querySelector(`.${spClass}.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
+    if(hostConn){
+        hostConn.send([6, avatar]);
+    }
+}
+
+function randomAvatar(){
+    avatar[0] = Math.floor(Math.random()*8);
+    avatar[1] = Math.floor(Math.random()*8);
+    avatar[2] = Math.floor(Math.random()*8);
+    document.querySelector(`.changer.avatarT`).src = `images/avatar/T${avatar[0]}.svg`
+    document.querySelector(`.changer.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
+    document.querySelector(`.changer.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
+    if(hostConn){
+        hostConn.send([6, avatar]);
+    }
+}
+
 //HOST CODE--------------------------------------------------------
 /**
  * DataConnection
  * The display connection object for every client
  */
 const connections = [];
+
+const players =[];
+const avatars = [];
 const roles = [];
 
 let selectedPlayer = -1;
@@ -165,8 +220,7 @@ function newPlayer(msg, conn){
         const role = document.createElement('button');
         playerName.textContent = cName;
         playerConfig.appendChild(playerDiv);
-        playerDiv.appendChild(playerName);
-        playerDiv.appendChild(role);
+        
         playerDiv.classList.add("playerConfigRow");
         playerDiv.id = "playerDiv-".concat(names.indexOf(cName));
 
@@ -174,8 +228,32 @@ function newPlayer(msg, conn){
         playerName.classList.add(names.indexOf(cName));
         role.classList.add(names.indexOf(cName));
 
-        
-        
+        const avatarDiv = document.createElement('div');
+        const avatarT = document.createElement('img');
+        const avatarB = document.createElement('img');
+        const avatarC = document.createElement('img');
+
+        avatarDiv.classList.add("avatarWrapper");
+        avatarDiv.style.height = "50px";
+
+        avatarDiv.appendChild(avatarT);
+        avatarDiv.appendChild(avatarB);
+        avatarDiv.appendChild(avatarC);
+    
+        avatarT.classList.add("avatarT");
+        avatarB.classList.add("avatarB");
+        avatarC.classList.add("avatarC");
+
+        avatarT.src = `images/avatar/T${avatars[names.indexOf(cName)][0]}.svg`
+        avatarB.src = `images/avatar/B${avatars[names.indexOf(cName)][1]}.svg`
+        avatarC.src = `images/avatar/C${avatars[names.indexOf(cName)][2]}.svg`
+
+
+
+        playerDiv.appendChild(avatarDiv);
+        playerDiv.appendChild(playerName);
+        playerDiv.appendChild(role);
+
         role.addEventListener('click', () => {
             setRole();
             selectedPlayer = names.indexOf(cName)
@@ -227,6 +305,9 @@ function joinGame(){
         console.log("Connected")
         document.getElementById("joinGameBtn").disabled = true;
         document.getElementById("hostClaimBtn").disabled = true;
+        document.querySelectorAll("#avatarCreatorDiv button").forEach((button) => {
+            button.disabled = true;
+        })
     }
 
     hostConn.on('data', function(data){
@@ -236,6 +317,7 @@ function joinGame(){
     // Sends name
     hostConn.on('open', function(){
         console.log("Hostconn: " + hostConn.peer);
+        hostConn.send([6, avatar]);
         hostConn.send([2,document.getElementById("name").value]);
     });
 }

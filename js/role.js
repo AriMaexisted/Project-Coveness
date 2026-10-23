@@ -129,7 +129,7 @@ function roleIter(roleMenu, ind){
             alignmentButton.addEventListener('click', () => {
                 transfer("RM".concat(team, alignment, ind));
             });
-            alignmentButton.innerHTML = `<img class="RMimg" src="./images/icons/alignment/${team}.svg">`;
+            alignmentButton.innerHTML = `<img class="RMimg" src="./images/icons/alignment/${team.concat(alignment)}.svg">`;
 
             console.log(teamDiv)
             teamDiv.appendChild(alignmentButton);

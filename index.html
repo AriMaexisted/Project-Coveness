@@ -28,6 +28,26 @@
         <ol id="playerList">
             
         </ol>
+        <div id="avatarCreatorDiv">
+            <div>
+                <button onclick="avatarChange(0, 'changer')">&lt;</button>
+                <button onclick="avatarChange(1, 'changer')">&lt;</button>
+                <button onclick="avatarChange(2, 'changer')">&lt;</button>
+            </div>
+            <div class="avatarWrapper" style="height:100px;">
+                <img class="avatarT changer" style="z-index: 3;" src="images/avatar/T0.svg"></img>
+                <img class="avatarB changer" style="z-index: 2;" src="images/avatar/B0.svg"></img>
+                <img class="avatarC changer" style="z-index: 1;" src="images/avatar/C0.svg"></img>
+            </div>
+            <div>
+                <button onclick="avatarChange(3, 'changer')">&gt;</button>
+                <button onclick="avatarChange(4, 'changer')">&gt;</button>
+                <button onclick="avatarChange(5, 'changer')">&gt;</button>
+            </div>
+            <div>
+                <button onclick="randomAvatar()">Random</button>
+            </div>
+        </div>
     </div>
 
     <dialog id="roleSelect" class="roleMenuDialog" closedby="any">

@@ -6,3 +6,4 @@
 |3|String|Player list update|H->C|
 |4|String|Client message|C->H|
 |5|Array|Chatbox update|H->C|
+|6|Array|Avatar Update|H->C|
