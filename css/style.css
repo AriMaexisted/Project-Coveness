@@ -67,3 +67,7 @@
 .avatarC{
     z-index: 1;
 }
+
+#roleRevealIntro, #roleRevealCards, #roleRevealSubtext{
+    display: none;
+}

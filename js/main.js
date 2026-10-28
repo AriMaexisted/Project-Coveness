@@ -4,9 +4,16 @@
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
 
+/**
+ * The user's avatar
+ */
 const avatar = [0,0,0];
 
-
+/**
+ * Peer
+ * Copies a text to user's clipboard
+ * @param {*} text 
+ */
 async function copyTextToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -22,16 +29,27 @@ async function copyTextToClipboard(text) {
  */
 let names = [];
 
+/**
+ * Boolean
+ * Is the host
+ */
 let host = false;
+
+/**
+ * Peer
+ * The user's peer 
+ */
 const peer = new Peer();
-
-const introPlayers = document.getElementById("playerList");
-
 
 /**
  * Watchdog boolean that is constantly flipped to check connectivity
  */
-let disconnect = false;     
+let disconnect = false;  
+
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = '';
+});
 
 setInterval(() => {
     //Client send ping out
@@ -41,8 +59,13 @@ setInterval(() => {
         if(!disconnect){
             disconnect=true
         }else{
+            window.removeEventListener('beforeunload', function (e) {
+                e.preventDefault();
+                e.returnValue = '';
+            });
             alert("You have been disconnected.")
-    }
+            location.reload();
+        }
     //Peer check if id is there
     if(!peer.id){
         document.body.style.backgroundColor = "#ff0000";
@@ -99,6 +122,7 @@ function messageRecieved(data, conn){
     let msg = data[1];
     switch(data[0]){
         case 0:
+            disconnected[connections.indexOf(conn)] = false;
             conn.send([1,"Pong"]);
             console.log("Pong");
             break;
@@ -107,7 +131,9 @@ function messageRecieved(data, conn){
             console.log("Sent");
             break;
         case 2:
-            newPlayer(msg, conn);
+            if(!playing){
+                newPlayer(msg, conn);
+            }
             break;
         case 3:
             names = msg;
@@ -127,6 +153,9 @@ function messageRecieved(data, conn){
             break;
         case 6:
             avatars.push(msg);
+            break;
+        case 7:
+            gameStart();
             break;
     }
 
@@ -191,26 +220,18 @@ function randomAvatar(){
 
 //HOST CODE--------------------------------------------------------
 /**
- * DataConnection
+ * DataConnection Array
  * The display connection object for every client
  */
 const connections = [];
 
-const players =[];
 const avatars = [];
 const roles = [];
+const disconnected = [];
 
 let selectedPlayer = -1;
 
-
-function newPlayer(msg, conn){
-    connections.push(conn);
-    names.push(msg);
-    connections.forEach(cConn => {
-        cConn.send([3, names]);        
-    })
-
-    
+function updatePlayerlist(){
     const playerConfig = document.getElementById("playerConfig")
     
     playerConfig.innerHTML = "";
@@ -227,6 +248,7 @@ function newPlayer(msg, conn){
         playerDiv.classList.add(names.indexOf(cName));
         playerName.classList.add(names.indexOf(cName));
         role.classList.add(names.indexOf(cName));
+        role.classList.add("roleBtn");
 
         const avatarDiv = document.createElement('div');
         const avatarT = document.createElement('img');
@@ -248,8 +270,10 @@ function newPlayer(msg, conn){
         avatarB.src = `images/avatar/B${avatars[names.indexOf(cName)][1]}.svg`
         avatarC.src = `images/avatar/C${avatars[names.indexOf(cName)][2]}.svg`
 
+        const kickButton = document.createElement('button');
+        kickButton.innerText = "Kick";
 
-
+        playerDiv.appendChild(kickButton);
         playerDiv.appendChild(avatarDiv);
         playerDiv.appendChild(playerName);
         playerDiv.appendChild(role);
@@ -258,7 +282,42 @@ function newPlayer(msg, conn){
             setRole();
             selectedPlayer = names.indexOf(cName)
         })
+        kickButton.addEventListener('click', () => {
+            kick(names.indexOf(cName));
+        })
     })
+}
+
+function newPlayer(msg, conn){
+    connections.push(conn);
+    let newName = msg;
+    let extend = 2
+    while(names.indexOf(newName) != -1){
+        newName = msg.concat(extend);
+        extend++;
+    }
+    names.push(newName);
+    connections.forEach(cConn => {
+        cConn.send([3, names]);        
+    })
+    updatePlayerlist();
+    disconnected.push(false);
+    setInterval(()=>{
+        if(disconnected[connections.indexOf(conn)]){
+            alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
+            kick(connections.indexOf(conn)+1);
+        }else{
+            disconnected[connections.indexOf(conn)] = true;
+        }
+    },10000)
+}
+
+function kick(player){
+    connections[player].close();
+    connections.splice(player, 1);
+    names.splice(player, 1);
+    avatars.splice(player, 1);
+    updatePlayerlist();
 }
 
 function setRole(){
@@ -270,9 +329,8 @@ function setRole(){
 
 function submitRole(){
     roles[selectedPlayer] = focusedRole;
-    document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector("button").style.backgroundColor = "red";
     roleSelect.close();
-    document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector("button").innerText = focusedRole;
+    document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector(".roleBtn").innerText = focusedRole;
 }
 
 function sendChatUpdate(id, text){
@@ -285,6 +343,12 @@ function sendChatUpdate(id, text){
 
 //CLIENT CODE--------------------------------------------------------
 let hostConn = null;
+
+
+/**
+ * Element
+ */
+const introPlayers = document.getElementById("playerList");
 
 /**
  * CLIENT
@@ -320,6 +384,16 @@ function joinGame(){
         hostConn.send([6, avatar]);
         hostConn.send([2,document.getElementById("name").value]);
     });
+
+    
+    hostConn.on('close', function(){
+        window.removeEventListener('beforeunload', function (e) {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+        alert("You have been disconnected.")
+        location.reload();
+    })
 }
 
 peer.on('error', function(err){
@@ -327,6 +401,9 @@ peer.on('error', function(err){
         alert("Connection failed! Please try again.");
         document.getElementById("joinGameBtn").disabled = false;
         document.getElementById("hostClaimBtn").disabled = false;
+        document.querySelectorAll("#avatarCreatorDiv button").forEach((button) => {
+            button.disabled = true;
+        })
         hostConn = null;
     }
 })
@@ -351,5 +428,4 @@ function sendMsg(msg){
         }, 2000);
     }
 }
-
 
