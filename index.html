@@ -56,12 +56,18 @@
         </div>
         <p>Selected role:</p>
         <p id="selRole"></p>
-        <button onclick="submitRole()">WHat</button>
+        <button onclick="submitRole()">Submit</button>
         
     </dialog>
 
 
-    <button onclick="setRole()"></button>
+    <dialog id="whisperPlayerList" closedby="any">
+
+    </dialog>
+
+
+    <!-- <button onclick="setRole()"></button>
+    <button onclick="gameStart('Investigator')"></button> -->
     
     <div id="playerPlayingBoard">
         
@@ -71,16 +77,41 @@
             <p id="roleRevealSubtext"></p>
         </div>
 
+        <div id="playingMenu">
+            <div id="topBar">
+                <div id="playerTabs">
+                    <button onclick="switchTabs('Players')">Players</button>
+                    <button onclick="switchTabs('Graveyard')">Graveyard</button>
+                    <button onclick="switchTabs('LastWill')">Last Will</button>
+                    <button onclick="switchTabs('DeathNote')" id="DeathNote">Death Note</button>
+                </div>
+                <div id="topBarContent">
+                    <div id="playerList">
+
+                    </div>
+                    <div id="graveyard">
+
+                    </div>
+                    <div id="lastWill">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="chatDiv">
-        <input id="chatInput" type="text">
-        <button onclick="sendMsg(document.getElementById('chatInput').value)">Send</button>
+        <div id="chatInputWrapper">
+            <button onclick="whisper()">Whisper</button>
+            <input id="chatInput" type="text">
+            <button onclick="sendMsg(document.getElementById('chatInput').value)">Send</button>
+        </div>
         <div id="chatError">
             <p> Please only use letters, numbers, spaces, or these symbols: , . ! ? </p>
         </div>
         <div id="chatHistory">
-
+            <p>AAAAAAAAAAAAA</p>
         </div>
     </div>
     

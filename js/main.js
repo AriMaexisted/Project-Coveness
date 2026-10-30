@@ -155,7 +155,7 @@ function messageRecieved(data, conn){
             avatars.push(msg);
             break;
         case 7:
-            gameStart();
+            gameStart(msg);
             break;
     }
 
@@ -218,6 +218,14 @@ function randomAvatar(){
     }
 }
 
+function whisper(){
+    document.getElementById('whisperPlayerList').showModal();
+    
+    // if(host){
+    // }else{
+    // }
+}
+
 //HOST CODE--------------------------------------------------------
 /**
  * DataConnection Array
@@ -274,10 +282,10 @@ function updatePlayerlist(){
         kickButton.innerText = "Kick";
 
         playerDiv.appendChild(kickButton);
-        playerDiv.appendChild(avatarDiv);
+        playerDiv.cloneNode(avatarDiv);
         playerDiv.appendChild(playerName);
         playerDiv.appendChild(role);
-
+        
         role.addEventListener('click', () => {
             setRole();
             selectedPlayer = names.indexOf(cName)
@@ -285,6 +293,17 @@ function updatePlayerlist(){
         kickButton.addEventListener('click', () => {
             kick(names.indexOf(cName));
         })
+        
+        const whisperButtonDiv = document.createElement('button');
+        const whisperButtonIcon = avatarDiv.cloneNode(true);
+        const whisperButtonName = document.createElement('p');
+
+        whisperButtonName.innerText = cName;
+
+        whisperButtonDiv.append(whisperButtonIcon);
+        whisperButtonDiv.append(whisperButtonName);
+
+        document.getElementById("whisperPlayerList").append(whisperButtonDiv);
     })
 }
 
@@ -306,6 +325,7 @@ function newPlayer(msg, conn){
         if(disconnected[connections.indexOf(conn)]){
             alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
             kick(connections.indexOf(conn)+1);
+            clearInterval();
         }else{
             disconnected[connections.indexOf(conn)] = true;
         }

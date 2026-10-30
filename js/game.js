@@ -1,27 +1,32 @@
 
 let playing = false;
 
-// --------------HOSE CONNECTION---------------
+// --------------HOST CONNECTION---------------
 
 function startGame(){
     connections.forEach(conn => {
-        conn.send([7,connections.indexOf(conn)]);
+        conn.send([7,roles[connections.indexOf(conn)]]);
     });
+
 }
 
 
 // --------------CLIENT CONNECTION--------------
 
-function gameStart(){
-    const card = roleRevealCards;
-    const subtext = roleRevealSubtext;
+function gameStart(role){
+    const subtext = document.getElementById("roleRevealSubtext");
+    const card = document.getElementById("roleRevealCards");
     document.getElementById("playerIntroBoard").style.display = "none";
     document.getElementById("playerPlayingBoard").style.display = "flex";
     document.getElementById("roleRevealIntro").style.display = "flex";
-    console.log("Yo");
-    console.log(document.getElementById("roleRevealIntro").style.display);
+    console.log(role);
+    card.src = `./images/roles/${role}.svg`;
+    subtext.innerText = `${role}`;
     setInterval(() => {
-        document.getElementById("roleRevealCards").style.display = "flex";
-        document.getElementById("roleRevealSubtext").style.display = "flex";
+        subtext.style.display = "flex";
+        card.style.display = "flex";
     }, 1500)
+    setInterval(() => {
+        document.getElementById("roleReveal").style.display = "none";
+    }, 4000)
 }
