@@ -17,8 +17,11 @@ function gameStart(role){
     const subtext = document.getElementById("roleRevealSubtext");
     const card = document.getElementById("roleRevealCards");
     document.getElementById("playerIntroBoard").style.display = "none";
-    document.getElementById("playerPlayingBoard").style.display = "flex";
     document.getElementById("roleRevealIntro").style.display = "flex";
+    document.getElementById("chatDiv").style.display = "none";
+    document.getElementById("playingRoleList").appendChild(document.getElementById("roleMenuTemp").cloneNode(true));
+    roleIter(document.getElementById("playingRoleList"), "pla")
+    transfer('RMstartpla');
     console.log(role);
     card.src = `./images/roles/${role}.svg`;
     subtext.innerText = `${role}`;
@@ -28,5 +31,19 @@ function gameStart(role){
     }, 1500)
     setInterval(() => {
         document.getElementById("roleReveal").style.display = "none";
+        document.getElementById("playerPlayingBoard").style.display = "flex";
+        document.getElementById("chatDiv").style.display = "flex";
     }, 4000)
+}
+
+function switchTabs(tab){
+
+    let topBarTabs = document.getElementsByClassName("topBarTabs");
+
+    Array.prototype.forEach.call(topBarTabs, function(topBarTab) {
+        topBarTab.style.display = "none";
+    });
+
+    document.getElementById(tab).style.display = "flex";
+
 }

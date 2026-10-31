@@ -6,6 +6,8 @@
     <title>Begin</title>
     <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="js/host.js" defer></script>
+    <script src="js/client.js" defer></script>
     <script src="js/role.js" defer></script>
     <script src="js/game.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
@@ -52,7 +54,7 @@
     </div>
 
     <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
-        <div class="roleMenu">
+        <div class="roleMenu" id="roleMenuTemp">
         </div>
         <p>Selected role:</p>
         <p id="selRole"></p>
@@ -80,20 +82,30 @@
         <div id="playingMenu">
             <div id="topBar">
                 <div id="playerTabs">
-                    <button onclick="switchTabs('Players')">Players</button>
-                    <button onclick="switchTabs('Graveyard')">Graveyard</button>
-                    <button onclick="switchTabs('LastWill')">Last Will</button>
-                    <button onclick="switchTabs('DeathNote')" id="DeathNote">Death Note</button>
+                    <button onclick="switchTabs('gamePlayerList')">Players</button>
+                    <button onclick="switchTabs('graveyard')">Graveyard</button>
+                    <button onclick="switchTabs('lastWill')">Last Will</button>
+                    <button onclick="switchTabs('roles')">Roles</button>
+                    <button onclick="switchTabs('deathNote')" id="DeathNeote">Death Note</button>
                 </div>
                 <div id="topBarContent">
-                    <div id="playerList">
+                    <div id="gamePlayerList" class="topBarTabs">
 
                     </div>
-                    <div id="graveyard">
+                    <div id="graveyard" class="topBarTabs">
 
                     </div>
-                    <div id="lastWill">
+                    <div id="lastWill" class="topBarTabs">
+                        <textarea id="lastWillText"></textarea>
+                        <button>Save</button>
+                    </div>
+                    <div id="roles" class="topBarTabs">
+                        <div id="playingRoleList"></div>
 
+                    </div>
+                    <div id="deathNote" class="topBarTabs">
+                        <textarea id="deathNoteText"></textarea>
+                        <button>Save</button>
                     </div>
                 </div>
             </div>
@@ -111,7 +123,6 @@
             <p> Please only use letters, numbers, spaces, or these symbols: , . ! ? </p>
         </div>
         <div id="chatHistory">
-            <p>AAAAAAAAAAAAA</p>
         </div>
     </div>
     

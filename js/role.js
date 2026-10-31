@@ -96,7 +96,7 @@ Array.prototype.forEach.call(roleMenus, function(roleMenu) {
 
 function roleIter(roleMenu, ind){
     const roleStart = document.createElement('div');
-    roleStart.id = 'RMstart'
+    roleStart.id = 'RMstart'.concat(ind);
     roleStart.classList.add('RMdiv')
     roleMenu.appendChild(roleStart);
 
@@ -115,7 +115,7 @@ function roleIter(roleMenu, ind){
 
         const alignmentBackButton = document.createElement('button');
         alignmentBackButton.addEventListener('click', () => {
-            transfer('RMstart');
+            transfer('RMstart'.concat(ind));
         });
         alignmentBackButton.innerText = "Back"
         teamDiv.appendChild(alignmentBackButton);
