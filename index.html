@@ -26,9 +26,9 @@
         <input id="code" type="text" placeholder="code">
         <button id="joinGameBtn" onclick="joinGame()">Join Game!</button>
         <h2>Players</h2>
-        <ol id="playerList">
+        <div id="playerList">
             
-        </ol>
+        </div>
         <div id="avatarCreatorDiv">
             <div>
                 <button onclick="avatarChange(0, 'changer')">&lt;</button>
@@ -104,7 +104,7 @@
     <div id="chatDiv">
         <div id="chatInputWrapper">
             <button onclick="whisper()">Whisper</button>
-            <input id="chatInput" type="text">
+            <input id="chatInput" type="text" placeholder="Type here">
             <button onclick="sendMsg(document.getElementById('chatInput').value)">Send</button>
         </div>
         <div id="chatError">

@@ -8,3 +8,4 @@
 |5|Array|Chatbox update|H->C|
 |6|Array|Avatar Update|C->H|
 |7|Array|Game start|H->C|
+|8|Array|Whisper|C->H|

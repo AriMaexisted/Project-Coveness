@@ -46,6 +46,8 @@ const peer = new Peer();
  */
 let disconnect = false;  
 
+let myName = "none";
+
 window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
     e.returnValue = '';
@@ -85,9 +87,11 @@ function claimHost(){
         copyId();
         document.getElementById("hostIntroBoard").style.display = "flex"
         document.getElementById("playerIntroBoard").style.display = "none"
+        myName = "Host";
     }else{
         document.getElementById("hostIntroBoard").style.display = "none"
         document.getElementById("playerIntroBoard").style.display = "flex" 
+        myName = "";
     }
 }
 
@@ -136,14 +140,7 @@ function messageRecieved(data, conn){
             }
             break;
         case 3:
-            names = msg;
-            console.log(msg)
-            introPlayers.innerHTML = ""
-            msg.forEach(cName => {
-                const liElem = document.createElement('li');
-                liElem.textContent = cName;
-                introPlayers.appendChild(liElem);
-            })
+            clientUpdatePlayerlist(msg);
             break;
         case 4:
             sendChatUpdate(connections.indexOf(conn), msg);
@@ -157,6 +154,9 @@ function messageRecieved(data, conn){
         case 7:
             gameStart(msg);
             break;
+        case 8:
+            sendWhisperUpdate(-2, msg);
+            break;
     }
 
 }
@@ -167,43 +167,12 @@ function updateChatbox(msg){
     if(msg[0]==-1){
         name = "Host"
     }
+    if(msg[0]==-2){
+        name = "";
+        newP.style.color = "#5CA1E2";
+    }
     newP.innerText = name + ": " + (msg[1]);
     document.getElementById('chatHistory').appendChild(newP)
-}
-
-function avatarChange(id, spClass){
-    switch(id){
-        case 0:
-            avatar[0]--;
-            if(avatar[0]==-1){avatar[0]=7;}
-            break;
-        case 1:
-            avatar[1]--;
-            if(avatar[1]==-1){avatar[1]=7;}
-            break;
-        case 2:
-            avatar[2]--;
-            if(avatar[2]==-1){avatar[2]=7;}
-            break;
-        case 3:
-            avatar[0]++;
-            if(avatar[0]==8){avatar[0]=0;}
-            break;
-        case 4:
-            avatar[1]++;
-            if(avatar[1]==8){avatar[1]=0;}
-            break;
-        case 5:
-            avatar[2]++;
-            if(avatar[2]==8){avatar[2]=0;}
-            break;
-    }
-    document.querySelector(`.${spClass}.avatarT`).src = `images/avatar/T${avatar[0]}.svg`
-    document.querySelector(`.${spClass}.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
-    document.querySelector(`.${spClass}.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
-    if(hostConn){
-        hostConn.send([6, avatar]);
-    }
 }
 
 function randomAvatar(){
@@ -220,10 +189,42 @@ function randomAvatar(){
 
 function whisper(){
     document.getElementById('whisperPlayerList').showModal();
-    
-    // if(host){
-    // }else{
-    // }
+}
+
+function sendMsg(msg){
+    if(!hostConn){
+        if(host){
+            sendChatUpdate(-1, msg);
+        }
+        return;
+    }
+    if(isAlphaNumeric(msg)){
+        console.log(whisperTarget);
+        if(whisperTarget !== ""){
+            hostConn.send([8,[whisperTarget, msg, names.indexOf(myName)]])
+            console.log("whispering")
+            return;
+        }
+        hostConn.send([4,msg]);
+    }else{
+        const errorMsg = document.getElementById("chatError");
+        if(errorMsg.style.display = "flex"){
+            return;
+        }
+        errorMsg.style.display = "flex";
+        setTimeout(function(){
+            errorMsg.style.display = "none";
+        }, 2000);
+    }
+}
+
+let whisperTarget = "";
+
+function setWhisperTarget(id){
+    console.log(`Whispering to ${id}`)
+    whisperTarget = id;
+    document.getElementById("whisperPlayerList").close();
+    document.getElementById("chatInput").placeholder = `Whispering to ${names[id]}`;
 }
 
 //HOST CODE--------------------------------------------------------
@@ -233,7 +234,7 @@ function whisper(){
  */
 const connections = [];
 
-const avatars = [];
+let avatars = [];
 const roles = [];
 const disconnected = [];
 
@@ -255,6 +256,7 @@ function updatePlayerlist(){
 
         playerDiv.classList.add(names.indexOf(cName));
         playerName.classList.add(names.indexOf(cName));
+        playerName.classList.add("playerConfigName");
         role.classList.add(names.indexOf(cName));
         role.classList.add("roleBtn");
 
@@ -282,7 +284,7 @@ function updatePlayerlist(){
         kickButton.innerText = "Kick";
 
         playerDiv.appendChild(kickButton);
-        playerDiv.cloneNode(avatarDiv);
+        playerDiv.appendChild(avatarDiv);
         playerDiv.appendChild(playerName);
         playerDiv.appendChild(role);
         
@@ -317,15 +319,17 @@ function newPlayer(msg, conn){
     }
     names.push(newName);
     connections.forEach(cConn => {
-        cConn.send([3, names]);        
+        cConn.send([3, [names, avatars]]);        
     })
     updatePlayerlist();
     disconnected.push(false);
-    setInterval(()=>{
+    const dcI = setInterval(()=>{
         if(disconnected[connections.indexOf(conn)]){
-            alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
-            kick(connections.indexOf(conn)+1);
-            clearInterval();
+            if(!playing){
+                alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
+                kick(connections.indexOf(conn)+1);
+                clearInterval(dcI);
+            }
         }else{
             disconnected[connections.indexOf(conn)] = true;
         }
@@ -333,11 +337,13 @@ function newPlayer(msg, conn){
 }
 
 function kick(player){
-    connections[player].close();
-    connections.splice(player, 1);
-    names.splice(player, 1);
-    avatars.splice(player, 1);
-    updatePlayerlist();
+    if(connections[player]){
+        connections[player].close();
+        connections.splice(player, 1);
+        names.splice(player, 1);
+        avatars.splice(player, 1);
+        updatePlayerlist();
+    }
 }
 
 function setRole(){
@@ -359,6 +365,17 @@ function sendChatUpdate(id, text){
         console.log(conn);
     } )
     updateChatbox([id, text]);
+}
+
+function sendWhisperUpdate(id, msg){
+    
+    connections.forEach((conn) => {
+        conn.send([5, [id, `${names[msg[2]]} is whispering to ${names[msg[0]]}`]]);
+        console.log(conn);
+    } )
+    console.log(msg)
+    connections[msg[2]].send([5, [id, `To ${names[msg[0]]}: ${msg[1]}`]]);
+    connections[msg[0]].send([5, [id, `From ${names[msg[2]]}: ${msg[1]}`]]);
 }
 
 //CLIENT CODE--------------------------------------------------------
@@ -389,6 +406,7 @@ function joinGame(){
         console.log("Connected")
         document.getElementById("joinGameBtn").disabled = true;
         document.getElementById("hostClaimBtn").disabled = true;
+        myName = document.getElementById("name").value;
         document.querySelectorAll("#avatarCreatorDiv button").forEach((button) => {
             button.disabled = true;
         })
@@ -428,24 +446,87 @@ peer.on('error', function(err){
     }
 })
 
-function sendMsg(msg){
-    if(!hostConn){
-        if(host){
-            sendChatUpdate(-1, msg);
-        }
-        return;
-    }
-    if(isAlphaNumeric(msg)){
-        hostConn.send([4,msg]);
-    }else{
-        const errorMsg = document.getElementById("chatError");
-        if(errorMsg.style.display = "flex"){
-            return;
-        }
-        errorMsg.style.display = "flex";
-        setTimeout(function(){
-            errorMsg.style.display = "none";
-        }, 2000);
-    }
+function clientUpdatePlayerlist(msg){
+    names = msg[0];
+    avatars = msg[1];
+    console.log(msg)
+    introPlayers.innerHTML = ""
+    names.forEach(cName => {
+        const player = document.createElement('div');
+        const playerName = document.createElement('p');
+        player.classList.add("clientPlayerListPlayer");
+
+        const avatarDiv = document.createElement('div');
+        const avatarT = document.createElement('img');
+        const avatarB = document.createElement('img');
+        const avatarC = document.createElement('img');
+
+        avatarDiv.classList.add("avatarWrapper");
+        avatarDiv.style.height = "50px";
+
+        avatarDiv.appendChild(avatarT);
+        avatarDiv.appendChild(avatarB);
+        avatarDiv.appendChild(avatarC);
+    
+        avatarT.classList.add("avatarT");
+        avatarB.classList.add("avatarB");
+        avatarC.classList.add("avatarC");
+
+        console.log(names.indexOf(cName));
+        console.log(msg[1][names.indexOf(cName)]);
+
+        avatarT.src = `images/avatar/T${msg[1][names.indexOf(cName)][0]}.svg`
+        avatarB.src = `images/avatar/B${msg[1][names.indexOf(cName)][1]}.svg`
+        avatarC.src = `images/avatar/C${msg[1][names.indexOf(cName)][2]}.svg`
+
+        playerName.textContent = cName;
+        player.appendChild(avatarDiv);
+        player.appendChild(playerName);
+
+        introPlayers.appendChild(player);
+
+        const whisperPlayer = player.cloneNode(true);
+        const whisperButton = document.createElement('button');
+        whisperButton.appendChild(whisperPlayer);
+        whisperButton.addEventListener('click', ()=>{
+            setWhisperTarget(names.indexOf(cName));
+        })
+        document.getElementById("whisperPlayerList").appendChild(whisperButton);
+    })
 }
 
+
+function avatarChange(id, spClass){
+    switch(id){
+        case 0:
+            avatar[0]--;
+            if(avatar[0]==-1){avatar[0]=7;}
+            break;
+        case 1:
+            avatar[1]--;
+            if(avatar[1]==-1){avatar[1]=7;}
+            break;
+        case 2:
+            avatar[2]--;
+            if(avatar[2]==-1){avatar[2]=7;}
+            break;
+        case 3:
+            avatar[0]++;
+            if(avatar[0]==8){avatar[0]=0;}
+            break;
+        case 4:
+            avatar[1]++;
+            if(avatar[1]==8){avatar[1]=0;}
+            break;
+        case 5:
+            avatar[2]++;
+            if(avatar[2]==8){avatar[2]=0;}
+            break;
+    }
+    document.querySelector(`.${spClass}.avatarT`).src = `images/avatar/T${avatar[0]}.svg`
+    document.querySelector(`.${spClass}.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
+    document.querySelector(`.${spClass}.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
+    if(hostConn){
+        hostConn.send([6, avatar]);
+    }
+}
