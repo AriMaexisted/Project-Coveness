@@ -1,18 +1,28 @@
+:root{
+    --purp: #380060;
+    --yell: #F7FFC2;
+    --blue: #5CA1E2;
+}
+
 body{
-    background-color: #380060;
-    color: #F7FFC2;
+    background-color: var(--purp);
+    color: var(--yell);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea{
     font-family: Arial, Helvetica, sans-serif;
 }
 
 button{
-    background-color: #F7FFC2;
-    color: #380060;
+    background-color: var(--yell);
+    color: var(--purp);
     border: 0;
     font-weight: bolder;
 }
 
 dialog{
-    background-color: #380060;
+    background-color: var(--purp);
 }
 
 .clientPlayerListPlayer{
@@ -44,7 +54,7 @@ dialog{
 }
 
 .playerConfigRow *{
-    border: 2px solid black;
+    border: 2px solid var(--purp);
     width: 20vw;
     align-self: stretch;
     height: auto;
@@ -52,7 +62,7 @@ dialog{
 }
 
 #playerIntroBoard{
-    /* display:flex; */
+    /* Find later */
     display:none;
     width: 100%;
     height: 100%;
@@ -110,10 +120,12 @@ dialog{
 
 #roleRevealIntro, #roleRevealCards, #roleRevealSubtext{
     display: none;
+    color: var(--yell);
 }
 
 #playerPlayingBoard{
     /* display: none; */
+    /* Find later */
     display: flex;
 }
 
@@ -188,8 +200,27 @@ dialog{
 
 #deathNoteText{
     width: 100%;
+    background-color: var(--purp);
+    color: var(--yell);
+}
+
+#lastWill{
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
 }
 
 #lastWillText{
     width: 100%;
+    background-color: var(--yell);
+    color: var(--purp);
+}
+
+#midBar{
+    margin-top: 10px;
+}
+
+#showRole{
+    aspect-ratio: 5/7;
+    height: 30vh;
 }

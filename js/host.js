@@ -121,7 +121,7 @@ function setRole(){
     const roleSelect = document.getElementById('roleSelect');
     const roleMenuStart = document.getElementById('RMstart');
     roleSelect.showModal();
-    transfer('RMstart')
+    transfer('RMstart0')
 }
 
 function submitRole(){

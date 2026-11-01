@@ -105,6 +105,7 @@ function clientUpdatePlayerlist(msg){
         player.appendChild(playerName);
 
         document.getElementById("gamePlayerList").appendChild(player);
+        document.getElementById("playerList").appendChild(player);
 
         const whisperPlayer = player.cloneNode(true);
         const whisperButton = document.createElement('button');

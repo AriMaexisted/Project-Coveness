@@ -13,6 +13,8 @@ function startGame(){
 
 // --------------CLIENT CONNECTION--------------
 
+let myRole = "none"
+
 function gameStart(role){
     const subtext = document.getElementById("roleRevealSubtext");
     const card = document.getElementById("roleRevealCards");
@@ -23,7 +25,12 @@ function gameStart(role){
     roleIter(document.getElementById("playingRoleList"), "pla")
     transfer('RMstartpla');
     console.log(role);
+    document.getElementById("showRoleImg").src = `./images/roles/${role}.svg`; 
+    document.getElementById("showRoleImg").style.height = "30vh";
+    document.getElementById("showRoleImg").style.aspectRatio = "5/7"
     card.src = `./images/roles/${role}.svg`;
+    card.style.height = "30vh";
+    card.style.aspectRatio = "5/7";
     subtext.innerText = `${role}`;
     setInterval(() => {
         subtext.style.display = "flex";
@@ -46,4 +53,8 @@ function switchTabs(tab){
 
     document.getElementById(tab).style.display = "flex";
 
+}
+
+function markDead(ind){
+    
 }
