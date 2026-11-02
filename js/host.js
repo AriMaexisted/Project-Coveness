@@ -139,12 +139,23 @@ function sendChatUpdate(id, text){
 }
 
 function sendWhisperUpdate(id, msg){
+
     
+    console.log(msg)
+    if(msg[0] == "host"){
+        connections[msg[2]].send([5, [id, `To Host: ${msg[1]}`]]);
+        updateChatbox([id, `To Host from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);
+        return;
+        connections.forEach((conn) => {
+            conn.send([5, [id, `${names[msg[2]]} is whispering to the host`]]);
+            console.log(conn);
+        } )
+        return;
+    }
     connections.forEach((conn) => {
         conn.send([5, [id, `${names[msg[2]]} is whispering to ${names[msg[0]]}`]]);
         console.log(conn);
     } )
-    console.log(msg)
     connections[msg[2]].send([5, [id, `To ${names[msg[0]]}: ${msg[1]}`]]);
     connections[msg[0]].send([5, [id, `From ${names[msg[2]]}: ${msg[1]}`]]);
     updateChatbox([id, `To ${names[msg[0]]} from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);

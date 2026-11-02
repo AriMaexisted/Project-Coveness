@@ -237,6 +237,12 @@ function sendMsg(msg){
 let whisperTarget = "";
 
 function setWhisperTarget(id){
+    if(id == "host"){
+        whisperTarget = "host";
+        document.getElementById("whisperPlayerList").close();
+        document.getElementById("chatInput").placeholder = `Whispering to the host`;
+        return;
+    }
     console.log(`Whispering to ${id}`)
     whisperTarget = id;
     document.getElementById("whisperPlayerList").close();

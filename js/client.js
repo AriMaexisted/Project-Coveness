@@ -74,6 +74,14 @@ function clientUpdatePlayerlist(msg){
     introPlayers.innerHTML = ""
     document.getElementById("gamePlayerList").innerHTML = ""
     document.getElementById("whisperPlayerList").innerHTML = ""
+
+    const hostWhisper = document.createElement('button');
+    hostWhisper.addEventListener('click', () => {
+        setWhisperTarget('host')
+    })
+    hostWhisper.innerText = "Host"
+    document.getElementById("whisperPlayerList").appendChild(hostWhisper);
+    
     document.getElementById("PSdisplay").innerHTML = ""
     names.forEach(cName => {
         const player = document.createElement('div');
