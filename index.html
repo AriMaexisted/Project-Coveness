@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="css/role.css">
 </head>
 <body>
+    <div id="loading">
+        <h1>Loading please wait</h1>
+    </div>
+
     <div id="hostIntroBoard">
         <button onclick="claimHost()">Back to player</button>
         <button onclick="startGame()">Start game</button>
@@ -22,6 +26,20 @@
 
         </div>
     </div>
+
+    <div id="hostPlayingBoard">
+        <div>    
+            <button onclick="setTime(0)">Announcements</button>
+            <button onclick="setTime(1)">Discussion</button>
+            <button onclick="setTime(2)">Voting</button>
+            <button onclick="setTime(3)">Stand</button>
+            <button onclick="setTime(4)">Night</button>
+        </div>
+        <div>
+            
+        </div>
+    </div>
+
     <div id="playerIntroBoard">
         <button id="hostClaimBtn" onclick="claimHost()">Claim host</button>
         <input id="name" type="text" placeholder="name">
@@ -52,24 +70,6 @@
             </div>
         </div>
     </div>
-
-    <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
-        <div class="roleMenu" id="roleMenuTemp">
-        </div>
-        <p>Selected role:</p>
-        <p id="selRole"></p>
-        <button onclick="submitRole()">Submit</button>
-        
-    </dialog>
-
-
-    <dialog id="whisperPlayerList" closedby="any">
-
-    </dialog>
-
-
-    <!-- <button onclick="setRole()"></button>
-    <button onclick="gameStart('Investigator')"></button> -->
     
     <div id="playerPlayingBoard">
         
@@ -78,15 +78,18 @@
             <img id="roleRevealCards">
             <p id="roleRevealSubtext"></p>
         </div>
-
+        
         <div id="playingMenu">
+                    <div>
+                        <h2 id="time"></h2>
+                    </div>
             <div id="topBar">
                 <div id="playerTabs">
                     <button onclick="switchTabs('gamePlayerList')">Players</button>
                     <button onclick="switchTabs('graveyard')">Graveyard</button>
                     <button onclick="switchTabs('lastWill')">Last Will</button>
                     <button onclick="switchTabs('roles')">Roles</button>
-                    <button onclick="switchTabs('deathNote')" id="DeathNeote">Death Note</button>
+                    <button onclick="switchTabs('deathNote')" id="DeathNoteBtn">Death Note</button>
                 </div>
                 <div id="topBarContent">
                     <div id="gamePlayerList" class="topBarTabs">
@@ -111,13 +114,41 @@
             </div>
 
             <div id="midBar">
-                <button id="showRole">
+                <button onclick="showRole()"id="showRole">
                     <img id="showRoleImg">
                 </button>
+                <div id="playerSelector">
+                    <div id="PSdisplay">
+                        
+                    </div>
+                    <div id="PSselector">
+                        <button onClick="moveVote(true)">&lt;</button>
+                        <button id="PSsubmit">Vote</button>
+                        <button onClick="moveVote(false)">&gt;</button>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
+
+    <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
+        <div class="roleMenu" id="roleMenuTemp">
+        </div>
+        <p>Selected role:</p>
+        <p id="selRole"></p>
+        <button onclick="submitRole()">Submit</button>
+        
+    </dialog>
+
+
+    <dialog id="whisperPlayerList" closedby="any">
+    </dialog>
+
+
+    <!-- <button onclick="setRole()"></button>
+    <button onclick="gameStart('Investigator')"></button> -->
+    
 
     <div id="chatDiv">
         <div id="chatInputWrapper">

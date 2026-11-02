@@ -41,6 +41,16 @@ let host = false;
  */
 const peer = new Peer();
 
+const peerInt = setInterval((e) => {
+    console.log(peer.id);
+    if(!peer.id){
+        clearInterval(peerInt);
+        document.getElementById("loading").style.display = "none"
+        document.getElementById("playerIntroBoard").style.display = "flex"
+    }
+    
+}, 100)
+
 /**
  * Watchdog boolean that is constantly flipped to check connectivity
  */
@@ -87,10 +97,12 @@ function claimHost(){
         copyId();
         document.getElementById("hostIntroBoard").style.display = "flex"
         document.getElementById("playerIntroBoard").style.display = "none"
+        document.getElementById("chatDiv").style.display = "flex";
         myName = "Host";
     }else{
         document.getElementById("hostIntroBoard").style.display = "none"
         document.getElementById("playerIntroBoard").style.display = "flex" 
+        document.getElementById("chatDiv").style.display = "none";
         myName = "";
     }
 }
@@ -124,6 +136,7 @@ function handleConnections(conn){
  */
 function messageRecieved(data, conn){
     let msg = data[1];
+    console.log(msg)
     switch(data[0]){
         case 0:
             disconnected[connections.indexOf(conn)] = false;
@@ -156,6 +169,9 @@ function messageRecieved(data, conn){
             break;
         case 8:
             sendWhisperUpdate(-2, msg);
+            break;
+        case 9:
+            changeTime(msg);
             break;
     }
 

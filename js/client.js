@@ -1,7 +1,6 @@
 //CLIENT CODE--------------------------------------------------------
 let hostConn = null;
 
-
 /**
  * Element
  */
@@ -15,11 +14,13 @@ function joinGame(){
 
     if(!isAlphaNumeric(document.getElementById("name").value)){
         alert("Please only use letters, numbers, spaces, or these symbols: , . ! ?");
-        return
+        return;
     }
 
     const targetId = document.getElementById("code").value;
     hostConn = peer.connect(targetId); // Sets hostConn
+
+
 
     if(hostConn){
         hostConn.send([0,"Ping"]); // Sends a ping to start loop
@@ -55,23 +56,25 @@ function joinGame(){
 }
 
 peer.on('error', function(err){
-    if(err.type==='peer-unavailable'){
-        alert("Connection failed! Please try again.");
-        document.getElementById("joinGameBtn").disabled = false;
-        document.getElementById("hostClaimBtn").disabled = false;
-        document.querySelectorAll("#avatarCreatorDiv button").forEach((button) => {
-            button.disabled = true;
-        })
-        hostConn = null;
-    }
+    console.log(err);
+    alert("Connection failed! Please try again. Error:".concat(err.type));
+    document.getElementById("joinGameBtn").disabled = false;
+    document.getElementById("hostClaimBtn").disabled = false;
+    document.querySelectorAll("#avatarCreatorDiv button").forEach((button) => {
+        button.disabled = true;
+    })
+    hostConn = null;
 })
 
 function clientUpdatePlayerlist(msg){
+    document.getElementById("chatDiv").style.display = "flex";
     names = msg[0];
     avatars = msg[1];
     console.log(msg)
     introPlayers.innerHTML = ""
     document.getElementById("gamePlayerList").innerHTML = ""
+    document.getElementById("whisperPlayerList").innerHTML = ""
+    document.getElementById("PSdisplay").innerHTML = ""
     names.forEach(cName => {
         const player = document.createElement('div');
         const playerName = document.createElement('p');
@@ -105,7 +108,14 @@ function clientUpdatePlayerlist(msg){
         player.appendChild(playerName);
 
         document.getElementById("gamePlayerList").appendChild(player);
-        document.getElementById("playerList").appendChild(player);
+
+        const PLplayer = player.cloneNode(true)
+        document.getElementById("playerList").appendChild(PLplayer);
+        
+        const PSplayer = player.cloneNode(true);
+        document.getElementById("PSdisplay").appendChild(PSplayer);
+        PSplayer.classList.add("PSplays");
+        PSplayer.dataset.player = (names.indexOf(cName));
 
         const whisperPlayer = player.cloneNode(true);
         const whisperButton = document.createElement('button');

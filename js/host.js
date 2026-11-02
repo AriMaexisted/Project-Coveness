@@ -98,7 +98,7 @@ function newPlayer(msg, conn){
         if(disconnected[connections.indexOf(conn)]){
             if(!playing){
                 alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
-                kick(connections.indexOf(conn)+1);
+                kick(connections.indexOf(conn));
                 clearInterval(dcI);
             }
         }else{
@@ -147,4 +147,5 @@ function sendWhisperUpdate(id, msg){
     console.log(msg)
     connections[msg[2]].send([5, [id, `To ${names[msg[0]]}: ${msg[1]}`]]);
     connections[msg[0]].send([5, [id, `From ${names[msg[2]]}: ${msg[1]}`]]);
+    updateChatbox([id, `To ${names[msg[0]]} from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);
 }
