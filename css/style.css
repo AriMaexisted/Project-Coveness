@@ -27,6 +27,7 @@ button:disabled{
 
 dialog{
     background-color: var(--purp);
+    color: var(--yell);
 }
 
 .clientPlayerListPlayer{
@@ -240,8 +241,28 @@ dialog{
 #playerSelector{
     height: 30vh;
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+
+#trialSelector{
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+#trialSelector *{
+    height: 5vh;
+}
+
+#Abstain{
+    font-weight: normal;
+}
+
+.deadPlayer{
+    display: none;
 }

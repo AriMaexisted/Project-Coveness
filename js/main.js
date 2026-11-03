@@ -116,6 +116,10 @@ peer.on('connection', function(conn){
     handleConnections(conn);
 })
 
+peer.on('open', function(err){
+    console.log("Huh");
+})
+
 /**
  * PEER
  * Runs whenever a connection is made
@@ -220,6 +224,7 @@ function sendMsg(msg){
             hostConn.send([8,[whisperTarget, msg, names.indexOf(myName)]])
             console.log("whispering")
             whisperTarget = "";
+            document.getElementById("chatInput").placeholder = "Type here";
             return;
         }
         hostConn.send([4,msg]);

@@ -1,84 +1,84 @@
-const allRoles={
-    Town:{
-        Investigative:[
-            {name:'Investigator',wiki:'https://town-of-salem.fandom.com/wiki/Investigator_(ToS)',image:'images/roles/Investigator.svg'},
-            {name:'Lookout',wiki:'https://town-of-salem.fandom.com/wiki/Lookout_(ToS)',image:'images/roles/Lookout.svg'},
-            {name:'Psychic',wiki:'https://town-of-salem.fandom.com/wiki/Psychic_(ToS)',image:'images/roles/Psychic.svg'},
-            {name:'Sheriff',wiki:'https://town-of-salem.fandom.com/wiki/Sheriff_(ToS)',image:'images/roles/Sheriff.svg'},
-            {name:'Spy',wiki:'https://town-of-salem.fandom.com/wiki/Spy_(ToS)',image:'images/roles/Spy.svg'},
-            {name:'Tracker',wiki:'https://town-of-salem.fandom.com/wiki/Tracker_(ToS)',image:'images/roles/Tracker.svg'}
+const allRoles = {
+    Town: {
+        Investigative: [
+            {name:'Investigator', wiki:'https://town-of-salem.fandom.com/wiki/Investigator_(ToS)', image:'images/roles/Investigator.svg', ui: 0},
+            {name:'Lookout', wiki:'https://town-of-salem.fandom.com/wiki/Lookout_(ToS)', image:'images/roles/Lookout.svg', ui: 0},
+            {name:'Psychic', wiki:'https://town-of-salem.fandom.com/wiki/Psychic_(ToS)', image:'images/roles/Psychic.svg', ui: 13},
+            {name:'Sheriff', wiki:'https://town-of-salem.fandom.com/wiki/Sheriff_(ToS)', image:'images/roles/Sheriff.svg', ui: 0},
+            {name:'Spy', wiki:'https://town-of-salem.fandom.com/wiki/Spy_(ToS)', image:'images/roles/Spy.svg', ui: 3},
+            {name:'Tracker', wiki:'https://town-of-salem.fandom.com/wiki/Tracker_(ToS)', image:'images/roles/Tracker.svg', ui: 0}
         ],
-        Killing:[
-            {name:'Jailor',wiki:'https://town-of-salem.fandom.com/wiki/Jailor_(ToS)',image:'images/roles/Jailor.svg'},
-            {name:'Vampire Hunter',wiki:'https://town-of-salem.fandom.com/wiki/Vampire_Hunter',image:'images/roles/VampireHunter.svg'},
-            {name:'Veteran',wiki:'https://town-of-salem.fandom.com/wiki/Veteran_(ToS)',image:'images/roles/Veteran.svg'},
-            {name:'Vigilante',wiki:'https://town-of-salem.fandom.com/wiki/Vigilante_(ToS)',image:'images/roles/Vigilante.svg'}
+        Killing: [
+            {name:'Jailor', wiki:'https://town-of-salem.fandom.com/wiki/Jailor_(ToS)', image:'images/roles/Jailor.svg', ui: 13},
+            {name:'Vampire Hunter', wiki:'https://town-of-salem.fandom.com/wiki/Vampire_Hunter', image:'images/roles/VampireHunter.svg', ui: 0},
+            {name:'Veteran', wiki:'https://town-of-salem.fandom.com/wiki/Veteran_(ToS)', image:'images/roles/Veteran.svg', ui: 10},
+            {name:'Vigilante', wiki:'https://town-of-salem.fandom.com/wiki/Vigilante_(ToS)', image:'images/roles/Vigilante.svg', ui: 0}
         ],
-        Protective:[
-            {name:'Bodyguard',wiki:'https://town-of-salem.fandom.com/wiki/Bodyguard_(ToS)',image:'images/roles/Bodyguard.svg'},
-            {name:'Crusader',wiki:'https://town-of-salem.fandom.com/wiki/Crusader_(ToS)',image:'images/roles/Crusader.svg'},
-            {name:'Doctor',wiki:'https://town-of-salem.fandom.com/wiki/Doctor',image:'images/roles/Doctor.svg'},
-            {name:'Trapper',wiki:'https://town-of-salem.fandom.com/wiki/Trapper_(ToS)',image:'images/roles/Trapper.svg'}
+        Protective: [
+            {name:'Bodyguard', wiki:'https://town-of-salem.fandom.com/wiki/Bodyguard_(ToS)', image:'images/roles/Bodyguard.svg', ui: 0},
+            {name:'Crusader', wiki:'https://town-of-salem.fandom.com/wiki/Crusader_(ToS)', image:'images/roles/Crusader.svg', ui: 0},
+            {name:'Doctor', wiki:'https://town-of-salem.fandom.com/wiki/Doctor', image:'images/roles/Doctor.svg', ui: 0},
+            {name:'Trapper', wiki:'https://town-of-salem.fandom.com/wiki/Trapper_(ToS)', image:'images/roles/Trapper.svg', ui: 0}
         ],
-        Support:[
-            {name:'Tavern Keeper',wiki:'https://town-of-salem.fandom.com/wiki/Tavern_Keeper_(ToS)',image:'images/roles/TavernKeeper.svg'},
-            {name:'Mayor',wiki:'https://town-of-salem.fandom.com/wiki/Mayor_(ToS)',image:'images/roles/Mayor.svg'},
-            {name:'Medium',wiki:'https://town-of-salem.fandom.com/wiki/Medium_(ToS)',image:'images/roles/Medium.svg'},
-            {name:'Retributionist',wiki:'https://town-of-salem.fandom.com/wiki/Retributionist_(ToS)',image:'images/roles/Retributionist.svg'},
-            {name:'Transporter',wiki:'https://town-of-salem.fandom.com/wiki/Transporter_(ToS)',image:'images/roles/Transporter.svg'}
+        Support: [
+            {name:'Tavern Keeper', wiki:'https://town-of-salem.fandom.com/wiki/Tavern_Keeper_(ToS)', image:'images/roles/TavernKeeper.svg', ui: 0},
+            {name:'Mayor', wiki:'https://town-of-salem.fandom.com/wiki/Mayor_(ToS)', image:'images/roles/Mayor.svg', ui: 13},
+            {name:'Medium', wiki:'https://town-of-salem.fandom.com/wiki/Medium_(ToS)', image:'images/roles/Medium.svg', ui: 13},
+            {name:'Retributionist', wiki:'https://town-of-salem.fandom.com/wiki/Retributionist_(ToS)', image:'images/roles/Retributionist.svg', ui: 12},
+            {name:'Transporter', wiki:'https://town-of-salem.fandom.com/wiki/Transporter_(ToS)', image:'images/roles/Transporter.svg', ui: 1}
         ]
     },
-    Mafia:{
-        Deception:[
-            {name:'Disguiser',wiki:'https://town-of-salem.fandom.com/wiki/Disguiser_(ToS)',image:'images/roles/Disguiser.svg'},
-            {name:'Forger',wiki:'https://town-of-salem.fandom.com/wiki/Forger',image:'images/roles/Forger.svg'},
-            {name:'Framer',wiki:'https://town-of-salem.fandom.com/wiki/Framer',image:'images/roles/Framer.svg'},
-            {name:'Hypnotist',wiki:'https://town-of-salem.fandom.com/wiki/Hypnotist',image:'images/roles/Hypnotist.svg'},
-            {name:'Janitor',wiki:'https://town-of-salem.fandom.com/wiki/Janitor',image:'images/roles/Janitor.svg'}
+    Mafia: {
+        Deception: [
+            {name:'Disguiser', wiki:'https://town-of-salem.fandom.com/wiki/Disguiser_(ToS)', image:'images/roles/Disguiser.svg', ui: 8},
+            {name:'Forger', wiki:'https://town-of-salem.fandom.com/wiki/Forger', image:'images/roles/Forger.svg', ui: 7},
+            {name:'Framer', wiki:'https://town-of-salem.fandom.com/wiki/Framer', image:'images/roles/Framer.svg', ui: 3},
+            {name:'Hypnotist', wiki:'https://town-of-salem.fandom.com/wiki/Hypnotist', image:'images/roles/Hypnotist.svg', ui: 4},
+            {name:'Janitor', wiki:'https://town-of-salem.fandom.com/wiki/Janitor', image:'images/roles/Janitor.svg', ui: 0}
         ],
-        Killing:[
-            {name:'Ambusher',wiki:'https://town-of-salem.fandom.com/wiki/Ambusher',image:'images/roles/Ambusher.svg'},
-            {name:'Godfather',wiki:'https://town-of-salem.fandom.com/wiki/Godfather',image:'images/roles/Godfather.svg'},
-            {name:'Mafioso',wiki:'https://town-of-salem.fandom.com/wiki/Mafioso',image:'images/roles/Mafioso.svg'}
+        Killing: [
+            {name:'Ambusher', wiki:'https://town-of-salem.fandom.com/wiki/Ambusher', image:'images/roles/Ambusher.svg', ui: 0},
+            {name:'Godfather', wiki:'https://town-of-salem.fandom.com/wiki/Godfather', image:'images/roles/Godfather.svg', ui: 9},
+            {name:'Mafioso', wiki:'https://town-of-salem.fandom.com/wiki/Mafioso', image:'images/roles/Mafioso.svg', ui: 9}
         ],
-        Support:[
-            {name:'Blackmailer',wiki:'https://town-of-salem.fandom.com/wiki/Blackmailer',image:'images/roles/Blackmailer.svg'},
-            {name:'Bootlegger',wiki:'https://town-of-salem.fandom.com/wiki/Bootlegger',image:'images/roles/Bootlegger.svg'},
-            {name:'Consigliere',wiki:'https://town-of-salem.fandom.com/wiki/Consigliere',image:'images/roles/Consigliere.svg'}
+        Support: [
+            {name:'Blackmailer', wiki:'https://town-of-salem.fandom.com/wiki/Blackmailer', image:'images/roles/Blackmailer.svg', ui: 0},
+            {name:'Bootlegger', wiki:'https://town-of-salem.fandom.com/wiki/Bootlegger', image:'images/roles/Bootlegger.svg', ui: 0},
+            {name:'Consigliere', wiki:'https://town-of-salem.fandom.com/wiki/Consigliere', image:'images/roles/Consigliere.svg', ui: 0}
         ]
     },
-    Coven:{
-        Evil:[
-            {name:'CovenLeader',wiki:'https://town-of-salem.fandom.com/wiki/Coven_Leader',image:'images/roles/CovenLeader.svg'},
-            {name:'HexMaster',wiki:'https://town-of-salem.fandom.com/wiki/Hex_Master_(ToS)',image:'images/roles/HexMaster.svg'},
-            {name:'Medusa',wiki:'https://town-of-salem.fandom.com/wiki/Medusa_(ToS)',image:'images/roles/Medusa.svg'},
-            {name:'Necromancer',wiki:'https://town-of-salem.fandom.com/wiki/Necromancer_(ToS)',image:'images/roles/Necromancer.svg'},
-            {name:'Poisoner',wiki:'https://town-of-salem.fandom.com/wiki/Poisoner_(ToS)',image:'images/roles/Poisoner.svg'},
-            {name:'Potion Master',wiki:'https://town-of-salem.fandom.com/wiki/Potion_Master_(ToS)',image:'images/roles/PotionMaster.svg'}
+    Coven: {
+        Evil: [
+            {name:'CovenLeader', wiki:'https://town-of-salem.fandom.com/wiki/Coven_Leader', image:'images/roles/CovenLeader.svg', ui: 1},
+            {name:'HexMaster', wiki:'https://town-of-salem.fandom.com/wiki/Hex_Master_(ToS)', image:'images/roles/HexMaster.svg', ui: 0},
+            {name:'Medusa', wiki:'https://town-of-salem.fandom.com/wiki/Medusa_(ToS)', image:'images/roles/Medusa.svg', ui: 10},
+            {name:'Necromancer', wiki:'https://town-of-salem.fandom.com/wiki/Necromancer_(ToS)', image:'images/roles/Necromancer.svg', ui: 11},
+            {name:'Poisoner', wiki:'https://town-of-salem.fandom.com/wiki/Poisoner_(ToS)', image:'images/roles/Poisoner.svg', ui: 0},
+            {name:'Potion Master', wiki:'https://town-of-salem.fandom.com/wiki/Potion_Master_(ToS)', image:'images/roles/PotionMaster.svg', ui: 6}
         ]
     },
-    Neutral:{
-        Benign:[
-            {name:'Amnesiac',wiki:'https://town-of-salem.fandom.com/wiki/Amnesiac_(ToS)',image:'images/roles/Amnesiac.svg'},
-            {name:'Guardian Angel',wiki:'https://town-of-salem.fandom.com/wiki/Guardian_Angel',image:'images/roles/GuardianAngel.svg'},
-            {name:'Survivor',wiki:'https://town-of-salem.fandom.com/wiki/Survivor',image:'images/roles/Survivor.svg'}
+    Neutral: {
+        Benign: [
+            {name:'Amnesiac', wiki:'https://town-of-salem.fandom.com/wiki/Amnesiac_(ToS)', image:'images/roles/Amnesiac.svg', ui: 11},
+            {name:'Guardian Angel', wiki:'https://town-of-salem.fandom.com/wiki/Guardian_Angel', image:'images/roles/GuardianAngel.svg', ui: 10},
+            {name:'Survivor', wiki:'https://town-of-salem.fandom.com/wiki/Survivor', image:'images/roles/Survivor.svg', ui: 10}
         ],
-        Evil:[
-            {name:'Executioner',wiki:'https://town-of-salem.fandom.com/wiki/Executioner_(ToS)',image:'images/roles/Executioner.svg'},
-            {name:'Jester',wiki:'https://town-of-salem.fandom.com/wiki/Jester_(ToS)',image:'images/roles/Jester.svg'},
-            {name:'Witch',wiki:'https://town-of-salem.fandom.com/wiki/Witch_(ToS)',image:'images/roles/Witch.svg'}
+        Evil: [
+            {name:'Executioner', wiki:'https://town-of-salem.fandom.com/wiki/Executioner_(ToS)', image:'images/roles/Executioner.svg', ui: 13},
+            {name:'Jester', wiki:'https://town-of-salem.fandom.com/wiki/Jester_(ToS)', image:'images/roles/Jester.svg', ui: 13},
+            {name:'Witch', wiki:'https://town-of-salem.fandom.com/wiki/Witch_(ToS)', image:'images/roles/Witch.svg', ui: 1}
         ],
-        Killing:[
-            {name:'Arsonist',wiki:'https://town-of-salem.fandom.com/wiki/Arsonist_(ToS)',image:'images/roles/Arsonist.svg'},
-            {name:'Juggernaut',wiki:'https://town-of-salem.fandom.com/wiki/Juggernaut',image:'images/roles/Juggernaut.svg'},
-            {name:'SerialKiller',wiki:'https://town-of-salem.fandom.com/wiki/Serial_Killer_(ToS)',image:'images/roles/SerialKiller.svg'},
-            {name:'Werewolf',wiki:'https://town-of-salem.fandom.com/wiki/Werewolf_(ToS)',image:'images/roles/Werewolf.svg'}
+        Killing: [
+            {name:'Arsonist', wiki:'https://town-of-salem.fandom.com/wiki/Arsonist_(ToS)', image:'images/roles/Arsonist.svg', ui: 0},
+            {name:'Juggernaut', wiki:'https://town-of-salem.fandom.com/wiki/Juggernaut', image:'images/roles/Juggernaut.svg', ui: 0},
+            {name:'SerialKiller', wiki:'https://town-of-salem.fandom.com/wiki/Serial_Killer_(ToS)', image:'images/roles/SerialKiller.svg', ui: 2},
+            {name:'Werewolf', wiki:'https://town-of-salem.fandom.com/wiki/Werewolf_(ToS)', image:'images/roles/Werewolf.svg', ui: 0}
         ],
-        Chaos:[
-            {name:'Pestilence',wiki:'https://town-of-salem.fandom.com/wiki/Pestilence_(ToS)',image:'images/roles/Pestilence.svg'},
-            {name:'Pirate',wiki:'https://town-of-salem.fandom.com/wiki/Pirate_(ToS)',image:'images/roles/Pirate.svg'},
-            {name:'Plaguebearer',wiki:'https://town-of-salem.fandom.com/wiki/Plaguebearer_(ToS)',image:'images/roles/Plaguebearer.svg'},
-            {name:'Vampire',wiki:'https://town-of-salem.fandom.com/wiki/Vampire_(ToS)',image:'images/roles/Vampire.svg'}
+        Chaos: [
+            {name:'Pestilence', wiki:'https://town-of-salem.fandom.com/wiki/Pestilence_(ToS)', image:'images/roles/Pestilence.svg', ui: 0},
+            {name:'Pirate', wiki:'https://town-of-salem.fandom.com/wiki/Pirate_(ToS)', image:'images/roles/Pirate.svg', ui: 14},
+            {name:'Plaguebearer', wiki:'https://town-of-salem.fandom.com/wiki/Plaguebearer_(ToS)', image:'images/roles/Plaguebearer.svg', ui: 0},
+            {name:'Vampire', wiki:'https://town-of-salem.fandom.com/wiki/Vampire_(ToS)', image:'images/roles/Vampire.svg', ui: 5}
         ]
     }
 };

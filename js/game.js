@@ -7,7 +7,8 @@ function startGame(){
     connections.forEach(conn => {
         conn.send([7,roles[connections.indexOf(conn)]]);
     });
-
+    document.getElementById("hostIntroBoard").style.display = "none";
+    document.getElementById("hostPlayingBoard").style.display = "flex";
 
 }
 
@@ -77,15 +78,24 @@ function switchTabs(tab){
 }
 
 function markDead(ind){
-    document.querySelectorAll(`.PSplays[data-player="${ind}"]`)[0].style.display = "none";
-    deadPlayer = document.querySelectorAll(`.PSplays[data-player="${ind}"]`)[0].cloneNode(true);
-    graveyard.appendChild(deadPlayer);
+    document.querySelectorAll(`[data-player="${ind}"]`).forEach(player => {
+        player.style.display = "none";
+    });    
+    document.getElementById("graveyard").querySelector(`[data-player="${ind}"]`).style.display = "flex";
+}   
+
+function revive(ind){
+    document.querySelectorAll(`[data-player="${ind}"]`).forEach(player => {
+        player.style.display = "flex";
+    });    
+    document.getElementById("graveyard").querySelector(`[data-player="${ind}"]`).style.display = "none";
 }
 
 function changeTime(time){
     currentTime = time;
     const timeTeller = document.getElementById('time');
-    document.getElementById('.PSselector').style.display = "none";
+    document.getElementById('playerSelector').style.display = "none";
+    document.getElementById('trialSelector').style.display = "none";
     switch (time){
         case 0:
         case 3:
@@ -101,15 +111,15 @@ function changeTime(time){
             timeTeller.innerText = `Day ${currentDay}, Discussion`;
             break;
         case 2:
-            document.getElementById('PSselector').style.display = "flex";
+            document.getElementById('playerSelector').style.display = "flex";
             timeTeller.innerText = `Day ${currentDay}, Voting`;
         break;
         case 4:
-            document.getElementById('PSselector').style.display = "flex";
+            document.getElementById('trialSelector').style.display = "flex";
             timeTeller.innerText = `Day ${currentDay}, Voting`;
         break;
         case 5:
-            document.getElementById('PSselector').style.display = "flex";
+            document.getElementById('abilitySelector').style.display = "flex";
             timeTeller.innerText = `Night ${currentDay}`;
         break;
 
@@ -145,4 +155,16 @@ function showRole(){
         document.getElementById("showRole").innerHTML = `<p>Hidden... Press to reveal!</p>`
     }
     hidden = !hidden
+}
+
+function vote(option){
+    document.getElementById("trialSelector").querySelectorAll("button").forEach(button => {
+        button.style.backgroundColor = "#F7FFC2";
+        button.style.color = "#380060";
+        button.style.borderWidth = "0px";
+    })
+    document.getElementById(option).style.backgroundColor = "#380060";
+    document.getElementById(option).style.borderWidth = "10px";
+    document.getElementById(option).style.borderColor = "#F7FFC2";
+    document.getElementById(option).style.color = "#F7FFC2";
 }

@@ -116,7 +116,13 @@ function clientUpdatePlayerlist(msg){
         player.appendChild(playerName);
 
         document.getElementById("gamePlayerList").appendChild(player);
+        player.dataset.player = (names.indexOf(cName));
 
+        const deadPlayer = player.cloneNode(true);
+        deadPlayer.dataset.player = (names.indexOf(cName));
+        document.getElementById("graveyard").appendChild(deadPlayer);
+        deadPlayer.style.display = "none";
+        
         const PLplayer = player.cloneNode(true)
         document.getElementById("playerList").appendChild(PLplayer);
         
