@@ -42,8 +42,7 @@ let host = false;
 const peer = new Peer();
 
 const peerInt = setInterval((e) => {
-    console.log(peer.id);
-    if(!peer.id){
+    if(peer.id){
         clearInterval(peerInt);
         document.getElementById("loading").style.display = "none"
         document.getElementById("playerIntroBoard").style.display = "flex"
@@ -215,10 +214,12 @@ function sendMsg(msg){
         return;
     }
     if(isAlphaNumeric(msg)){
+        document.getElementById("chatInput").value = "";
         console.log(whisperTarget);
         if(whisperTarget !== ""){
             hostConn.send([8,[whisperTarget, msg, names.indexOf(myName)]])
             console.log("whispering")
+            whisperTarget = "";
             return;
         }
         hostConn.send([4,msg]);

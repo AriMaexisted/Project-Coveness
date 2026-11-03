@@ -106,6 +106,10 @@ function changeTime(time){
         break;
         case 4:
             document.getElementById('PSselector').style.display = "flex";
+            timeTeller.innerText = `Day ${currentDay}, Voting`;
+        break;
+        case 5:
+            document.getElementById('PSselector').style.display = "flex";
             timeTeller.innerText = `Night ${currentDay}`;
         break;
 

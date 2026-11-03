@@ -83,6 +83,8 @@ const allRoles={
     }
 };
 
+const allRolesAlph = [];
+
 
 let focusedRole = ""
 
@@ -100,6 +102,29 @@ function roleIter(roleMenu, ind){
     roleStart.classList.add('RMdiv')
     roleMenu.appendChild(roleStart);
 
+    const searchButton = document.createElement('button');
+    searchButton.addEventListener('click', () => {
+        transfer("RMsearch".concat(ind));
+    });
+    searchButton.style.height = "10vh";
+    searchButton.style.aspectRatio = 1;
+    searchButton.innerText = "All";
+
+    const searchDiv = document.createElement('div');
+    searchDiv.id = "RMsearch".concat(ind);
+    searchDiv.classList.add("RMdiv");
+
+    const searchBackButton = document.createElement('button');
+    searchBackButton.addEventListener('click', ()=>{
+        transfer('RMstart'.concat(ind));
+    })
+    searchBackButton.innerText = "Back";
+    searchDiv.appendChild(searchBackButton);
+
+    roleMenu.appendChild(searchDiv);
+    roleStart.appendChild(searchButton);
+    
+
     Object.entries(allRoles).forEach(([team, alignments]) => {
         const teamButton = document.createElement('button');
         const teamDiv = document.createElement('div');
@@ -108,18 +133,20 @@ function roleIter(roleMenu, ind){
         teamButton.addEventListener('click', () => {
             transfer("RM".concat(team, ind));
         });
+        teamButton.style.height = "10vh";
+        teamButton.style.aspectRatio = 1;
         teamButton.innerText = team;
-
+        
         roleStart.appendChild(teamButton);
         roleMenu.appendChild(teamDiv);
-
+        
         const alignmentBackButton = document.createElement('button');
         alignmentBackButton.addEventListener('click', () => {
             transfer('RMstart'.concat(ind));
         });
         alignmentBackButton.innerText = "Back"
         teamDiv.appendChild(alignmentBackButton);
-
+        
         Object.entries(alignments).forEach(([alignment, roles]) => {
 
             const alignmentButton = document.createElement('button');
@@ -129,8 +156,11 @@ function roleIter(roleMenu, ind){
             alignmentButton.addEventListener('click', () => {
                 transfer("RM".concat(team, alignment, ind));
             });
-            alignmentButton.innerHTML = `<img class="RMimg" src="./images/icons/alignment/${team.concat(alignment)}.svg">`;
-
+            // alignmentButton.innerHTML = `<img class="RMrole" src="./images/icons/alignment/${team.concat(alignment)}.svg"> <p> ${team} ${alignment}`;
+            alignmentButton.innerText = `${team} ${alignment}`;
+            alignmentButton.style.height = "10vh";
+            alignmentButton.style.aspectRatio = 1;
+            
             console.log(teamDiv)
             teamDiv.appendChild(alignmentButton);
             roleMenu.appendChild(alignmentDiv);
@@ -159,16 +189,33 @@ function roleIter(roleMenu, ind){
                     transfer("RM".concat(roleName, ind));
                     setFocusedRole(roleName);
                 });
-                roleButton.innerHTML = `<img class="RMimg" src="./images/roles/${roleNameRaw}.svg">`;
+                // roleButton.innerHTML = `<img class="RMimg" src="./images/roles/${roleNameRaw}.svg">`;
+                roleButton.innerText = `${roleNameRaw}`;
                 // const roleImg = document.createElement('img')
                 // roleButton.innerHTML = 
                 
                 alignmentDiv.appendChild(roleButton);
                 roleMenu.appendChild(roleDiv);
 
+                allRolesAlph.push(role);
 
             });
         });
+    });
+
+    const sortedRoles = [...allRolesAlph].sort((a, b) => a.name.localeCompare(b.name));
+
+    sortedRoles.forEach(role => {
+        const roleName = role.name;
+        const roleNameRaw = role.name.replaceAll(" ", "");
+
+        const roleButton = document.createElement('button');
+        roleButton.addEventListener('click', () => {
+            transfer("RM".concat(roleName, ind));
+            setFocusedRole(roleName);
+        });
+        roleButton.innerText = `${roleNameRaw}`;
+        searchDiv.appendChild(roleButton);
     });
 }
 

@@ -25,7 +25,11 @@
 }
 
 .RMimg{
-    height: 30vh;
+    height: 20vh;
+}
+
+.RMrole{
+    height: 5vh;
 }
 
 .RMiframeContainer{
