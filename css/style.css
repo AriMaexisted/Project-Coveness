@@ -21,6 +21,10 @@ button{
     font-weight: bolder;
 }
 
+button:active{
+    background-color:#a2a979;
+}
+
 button:disabled{
     background-color:#a2a979;
 }

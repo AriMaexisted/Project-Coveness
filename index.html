@@ -28,6 +28,7 @@
     </div>
 
     <div id="hostPlayingBoard">
+        <p id="hostWaitAlert">Wait</p>
         <div>    
             <button onclick="setTime(0)">Announcements</button>
             <button onclick="setTime(1)">Discussion</button>
@@ -35,6 +36,12 @@
             <button onclick="setTime(3)">Stand</button>
             <button onclick="setTime(4)">Decide</button>
             <button onclick="setTime(5)">Night</button>
+        </div>
+        <div id="timerWrapper">
+            <input id="timerInput">
+            <p class="timer"></p>
+            <button onclick="timer('start')" id="timerStart">Start</button>
+            <button onclick="timer('stop')" id="timerStop">Stop</button>
         </div>
         <div>
             
@@ -81,9 +88,6 @@
         </div>
         
         <div id="playingMenu">
-                    <div>
-                        <h2 id="time"></h2>
-                    </div>
             <div id="topBar">
                 <div id="playerTabs">
                     <button onclick="switchTabs('gamePlayerList')">Players</button>
@@ -113,6 +117,10 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <h2 id="time"></h2>
+                <h2 id="timerDisplay"></h2>
+            </div>            
 
             <div id="midBar">
                 <button onclick="showRole()"id="showRole">
@@ -124,7 +132,7 @@
                     </div>
                     <div id="PSselector">
                         <button onClick="moveVote(true)">&lt;</button>
-                        <button id="PSsubmit">Vote</button>
+                        <button id="PSsubmit" onClick="submitVote()">Vote</button>
                         <button onClick="moveVote(false)">&gt;</button>
                     </div>
                 </div>

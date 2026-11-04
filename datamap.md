@@ -10,3 +10,6 @@
 |7|Array|Game start|H->C|
 |8|Array|Whisper|C->H|
 |9|Int|Change time|H->C|
+|10|Int|Voting|C->H|
+|11|Int|Timer display|H->C|
+

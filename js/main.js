@@ -176,6 +176,12 @@ function messageRecieved(data, conn){
         case 9:
             changeTime(msg);
             break;
+        case 10:
+            updateVoters(msg, connections.indexOf(conn));
+            break;
+        case 11:
+            updateTimer(msg);
+            break;
     }
 
 }

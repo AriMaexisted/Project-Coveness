@@ -9,7 +9,9 @@ function startGame(){
     });
     document.getElementById("hostIntroBoard").style.display = "none";
     document.getElementById("hostPlayingBoard").style.display = "flex";
-
+    let timer1 = setInterval(() => {
+        document.getElementById("hostWaitAlert").style.display = "none";
+    }, 4000)
 }
 
 function setTime(time){
@@ -17,6 +19,32 @@ function setTime(time){
         conn.send([9, time]);
     })
 }
+
+
+let timerVal = 0
+let currentTimer = null
+
+function timer(option){
+    if(option==="start"){
+        timerVal = document.getElementById("timerInput").value; 
+        currentTimer = setInterval(() => {
+            timerVal--;
+            document.querySelectorAll(".timer").forEach((element) => {
+                element.innerText = timerVal;
+                connections.forEach(conn => {
+                    conn.send([11, timerVal])
+                })
+            });
+            if(timerVal <= 0){
+                clearInterval(currentTimer);
+            }
+        }, 1000)
+    }
+    if(option==="stop" && !currentTimer){
+        clearInterval(currentTimer);
+    }
+}
+
 
 
 // --------------CLIENT CONNECTION--------------
@@ -129,6 +157,7 @@ function changeTime(time){
 let currentFocus = 0;
 
 function moveVote(isDown){
+    retractVote();
     document.querySelectorAll(".PSplays").forEach((icon) => {
         icon.style.display = "none";
     })
@@ -144,6 +173,14 @@ function moveVote(isDown){
         currentFocus = 0;
     }
     document.querySelectorAll(`.PSplays[data-player="${currentFocus}"]`)[0].style.display = "flex";
+}
+
+function submitVote(){
+    hostConn.send([10, currentFocus]);
+}
+
+function retractVote(){
+    hostConn.send([10, -1]);
 }
 
 let hidden = false
@@ -167,4 +204,8 @@ function vote(option){
     document.getElementById(option).style.borderWidth = "10px";
     document.getElementById(option).style.borderColor = "#F7FFC2";
     document.getElementById(option).style.color = "#F7FFC2";
+}
+
+function updateTimer(time){
+    document.getElementById("timerDisplay").innerHTML = "Time:".concat(time);
 }
