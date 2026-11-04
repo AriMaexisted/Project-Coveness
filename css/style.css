@@ -270,3 +270,26 @@ dialog{
 .deadPlayer{
     display: none;
 }
+
+#abilitySelectorWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.abilitySelector{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionSelectorPlayer{
+    display: none;
+}
+
+.cautiousBox{
+    display: flex;
+    flex-direction: row;
+}

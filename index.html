@@ -95,6 +95,7 @@
                     <button onclick="switchTabs('lastWill')">Last Will</button>
                     <button onclick="switchTabs('roles')">Roles</button>
                     <button onclick="switchTabs('deathNote')" id="DeathNoteBtn">Death Note</button>
+                    <button onclick="switchTabs('forge')" id="forgeryBtn">Forgery</button>
                 </div>
                 <div id="topBarContent">
                     <div id="gamePlayerList" class="topBarTabs">
@@ -113,6 +114,10 @@
                     </div>
                     <div id="deathNote" class="topBarTabs">
                         <textarea id="deathNoteText"></textarea>
+                        <button>Save</button>
+                    </div>
+                    <div id="forge" class="topBarTabs">
+                        <textarea id="forgery"></textarea>
                         <button>Save</button>
                     </div>
                 </div>
@@ -141,8 +146,200 @@
                     <button id="Innocent" onClick="vote('Innocent')">Innocent</button>
                     <button id="Abstain" onClick="vote('Abstain')">Abstain</button>
                 </div>
-                <div id="abilitySelector">
+                <div id="abilitySelectorWrapper">
+
+                    <div class="abilitySelector" data-uitype="0">
+                        <div class="display0">
+    
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector(0, true)">&lt;</button>
+                            <button id="ability0" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector(0, false)">&gt;</button>
+                        </div>
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="1">
+                        <div class="display1a">
+    
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('1a', true)">&lt;</button>
+                            <button id="ability1a" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('1a', false)">&gt;</button>
+                        </div>
+
+                        <div class="display1b">
+    
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('1b', true)">&lt;</button>
+                            <button id="ability1b" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('1b', false)">&gt;</button>
+                        </div>                        
+                    </div>
                     
+                    <div class="abilitySelector" data-uitype="2">
+                        <div class="display2">
+    
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('2', true)">&lt;</button>
+                            <button id="ability2" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('2', false)">&gt;</button>
+                        </div>
+                        <div class="cautiousBox">
+                            <h3>Go Cautious</h3>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="3">
+                        <div class="display3">
+    
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('3', true)">&lt;</button>
+                            <button id="ability3" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('3', false)">&gt;</button>
+                        </div>
+                        <div class="cautiousBox">
+                            <h3>Go Cautious</h3>
+                            <input type="checkbox">
+                        </div>                        
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="4">
+                        <div class="display4">
+                            
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('4', true)">&lt;</button>
+                            <button id="ability4" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('4', false)">&gt;</button>
+                        </div>
+                        <div class="hypnotistMsg">
+                            <h3>Fake Message:</h3>
+                            <select id="hypnoSelect">
+                                <option>You were Transported to another location.</option>
+                                <option>Someone occupied your night. You were Roleblocked!</option>
+                                <option>You were attacked but someone fought off your attacker!</option>
+                                <option>You were attacked but someone nursed you back to health!</option>
+                                <option class="unCovenExpansion">You feel a mystical power dominating you. You were controlled by a  Witch!</option>
+
+                                <option class="covenExpansion">You were Poisoned. You will die tomorrow unless you are cured!</option>
+                                <option class="covenExpansion">You were Poisoned. You will die tomorrow!</option>
+                                <option class="covenExpansion">You were attacked but someone protected you!</option>
+                                <option class="covenExpansion">You were Poisoned but someone nursed you back to health!</option>
+                                <option class="covenExpansion">Someone tried to Poison you but someone fought off your attacker!</option>
+                                <option class="covenExpansion">You triggered a trap!</option>
+                                <option class="covenExpansion">You were attacked but a trap saved you!</option>
+                                <option class="covenExpansion">A trap attacked you but someone nursed you back to health!</option>
+                            </select>
+                        </div>                    
+                    </div>
+
+                    <div class="abilitySelctor" data-uitype="5">
+                        <div class="display5">
+                            
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('5', true)">&lt;</button>
+                            <button id="ability5" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('5', false)">&gt;</button>
+                        </div>
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="6">
+                        <div class="display6">
+                            
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('6', true)">&lt;</button>
+                            <button id="ability6" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('6', false)">&gt;</button>
+                        </div>
+                        <div class="potions">
+                            <h3>Potion:</h3>
+                            <select id="potionSelect">
+                                <option data-potion="HP">Healing Potion (3/3)</option>
+                                <option data-potion="RP">Revealing Poton (3/3)</option>
+                                <option data-potion="AP">Attacking Potion (3/3)</option>
+                            </select>
+                        </div>                     
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="7">
+                        <div class="display7">
+                            
+                        </div>
+                        <div class="selector">
+                            <button onClick="moveSelector('7', true)">&lt;</button>
+                            <button id="ability7" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('7', false)">&gt;</button>
+                        </div>
+                        <div class="roleForge">
+                            <h3>Choose Role</h3>
+                            <select id="roleForgeSelect">
+                                <option>Ambusher</option>
+                                <option>Amnesiac</option>
+                                <option>Arsonist</option>
+                                <option>Blackmailer</option>
+                                <option>Bodyguard</option>
+                                <option>Bootlegger</option>
+                                <option>Consigliere</option>
+                                <option class="covenExpansion">Coven Leader</option>
+                                <option class="covenExpansion">Crusader</option>
+                                <option>Disguiser</option>
+                                <option>Doctor</option>
+                                <option>Executioner</option>
+                                <option>Forger</option>
+                                <option>Framer</option>
+                                <option>Godfather</option>
+                                <option class="covenExpansion">Guardian Angel</option>
+                                <option class="covenExpansion">Hex Master</option>
+                                <option>Hypnotist</option>
+                                <option>Investigator</option>
+                                <option>Jailor</option>
+                                <option>Janitor</option>
+                                <option>Jester</option>
+                                <option class="covenExpansion">Juggernaut</option>
+                                <option>Lookout</option>
+                                <option>Mafioso</option>
+                                <option>Mayor</option>
+                                <option>Medium</option>
+                                <option class="covenExpansion">Medusa</option>
+                                <option class="covenExpansion">Necromancer</option>
+                                <option class="covenExpansion">Pestilence</option>
+                                <option class="covenExpansion">Pirate</option>
+                                <option class="covenExpansion">Plaguebearer</option>
+                                <option class="covenExpansion">Poisoner</option>
+                                <option class="covenExpansion">Potion Master</option>
+                                <option class="covenExpansion">Psychic</option>
+                                <option>Retributionist</option>
+                                <option>Serial Killer</option>
+                                <option>Sheriff</option>
+                                <option>Spy</option>
+                                <option>Survivor</option>
+                                <option>Tavern Keeper</option>
+                                <option class="covenExpansion">Tracker</option>
+                                <option>Transporter</option>
+                                <option class="covenExpansion">Trapper</option>
+                                <option>Vampire</option>
+                                <option>Vampire Hunter</option>
+                                <option>Veteran</option>
+                                <option>Vigilante</option>
+                                <option>Werewolf</option>
+                                <option class="unCovenExpansion">Witch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="abilitySelector" data-uitype="8">
+                        <h3 id="ui8Action">Do action</h3>
+                        <h3 id="ui8Action">Do action</h3>
+                    </div>
+
                 </div>
             </div>
         </div>

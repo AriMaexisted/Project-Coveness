@@ -74,6 +74,10 @@ function clientUpdatePlayerlist(msg){
     introPlayers.innerHTML = ""
     document.getElementById("gamePlayerList").innerHTML = ""
     document.getElementById("whisperPlayerList").innerHTML = ""
+    document.getElementById("PSdisplay").innerHTML = ""
+    document.querySelector(".abilitySelector[data-uitype='0'] .display0").innerHTML = "";
+    document.querySelector(".abilitySelector[data-uitype='1'] .display1a").innerHTML = "";
+    document.querySelector(".abilitySelector[data-uitype='1'] .display1b").innerHTML = "";
 
     const hostWhisper = document.createElement('button');
     hostWhisper.addEventListener('click', () => {
@@ -125,6 +129,48 @@ function clientUpdatePlayerlist(msg){
         
         const PLplayer = player.cloneNode(true)
         document.getElementById("playerList").appendChild(PLplayer);
+
+        const selector0 = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='0'] .display0").appendChild(selector0);
+        selector0.classList.add("player0");
+        selector0.classList.add("actionSelectorPlayer");
+        selector0.dataset.player = (names.indexOf(cName));
+        
+        const selector1a = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='1'] .display1a").appendChild(selector1a);
+        selector1a.classList.add("player1a");
+        selector1a.classList.add("actionSelectorPlayer");
+        selector1a.dataset.player = (names.indexOf(cName));
+        
+        const selector1b = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='1'] .display1b").appendChild(selector1b);
+        selector1b.classList.add("player1b");
+        selector1b.classList.add("actionSelectorPlayer");
+        selector1b.dataset.player = (names.indexOf(cName));
+
+        const selector2 = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='2'] .display2").appendChild(selector2);
+        selector2.classList.add("player2");
+        selector2.classList.add("actionSelectorPlayer");
+        selector2.dataset.player = (names.indexOf(cName));
+
+        const selector3 = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='3'] .display3").appendChild(selector3);
+        selector3.classList.add("player3");
+        selector3.classList.add("actionSelectorPlayer");
+        selector3.dataset.player = (names.indexOf(cName));
+
+        const selector4 = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='4'] .display4").appendChild(selector4);
+        selector4.classList.add("player4");
+        selector4.classList.add("actionSelectorPlayer");
+        selector4.dataset.player = (names.indexOf(cName));
+
+        const selector5 = player.cloneNode(true);
+        document.querySelector(".abilitySelector[data-uitype='5'] .display4").appendChild(selector5);
+        selector5.classList.add("player5");
+        selector5.classList.add("actionSelectorPlayer");
+        selector5.dataset.player = (names.indexOf(cName));
         
         const PSplayer = player.cloneNode(true);
         document.getElementById("PSdisplay").appendChild(PSplayer);

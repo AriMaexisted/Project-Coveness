@@ -90,7 +90,21 @@ function gameStart(role){
     document.querySelectorAll(".PSplays").forEach((icon) => {
         icon.style.display = "none";
     })
+    document.querySelectorAll(".actionSelectorPlayer").forEach((icon) => {
+        icon.style.display = "none";
+    })
     document.querySelectorAll('.PSplays[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player0[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player1a[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player1b[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player2[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player3[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player4[data-player="0"]')[0].style.display = "flex";
+
+
+    document.querySelectorAll(".covenExpansion").forEach((element) => {
+        element.style.display = "none";
+    })
 }
 
 function switchTabs(tab){
@@ -147,7 +161,7 @@ function changeTime(time){
             timeTeller.innerText = `Day ${currentDay}, Voting`;
         break;
         case 5:
-            document.getElementById('abilitySelector').style.display = "flex";
+            document.getElementById('abilitySelectorWrapper').style.display = "flex";
             timeTeller.innerText = `Night ${currentDay}`;
         break;
 
@@ -208,4 +222,25 @@ function vote(option){
 
 function updateTimer(time){
     document.getElementById("timerDisplay").innerHTML = "Time:".concat(time);
+}
+
+let abilityFocus = 0;
+
+function moveSelector(ind, isDown){
+    retractVote();
+    document.querySelectorAll(".player".concat(ind)).forEach((icon) => {
+        icon.style.display = "none";
+    })
+    if(isDown){
+        abilityFocus--;
+    }else{
+        abilityFocus++;
+    }
+    if(abilityFocus<0){
+        abilityFocus = names.length-1;
+    }
+    if(abilityFocus>=names.length){
+        abilityFocus = 0;
+    }
+    document.querySelectorAll(`.PSplays[data-player="${abilityFocus}"]`)[0].style.display = "flex";
 }
