@@ -54,8 +54,15 @@ let myRole = "none"
 let currentDay = 0
 let currentTime = 3
 
+function getRoleByName(targetName) {
+    return Object.values(allRoles)
+        .flatMap(faction => Object.values(faction))
+        .flat()
+        .find(role => role.name === targetName);
+}
+
 function gameStart(role){
-    myRole = role
+    myRole = getRoleByName(role)
     document.getElementById("playerPlayingBoard").style.display = "flex";
     const subtext = document.getElementById("roleRevealSubtext");
     const card = document.getElementById("roleRevealCards");
@@ -95,11 +102,46 @@ function gameStart(role){
     })
     document.querySelectorAll('.PSplays[data-player="0"]')[0].style.display = "flex";
     document.querySelectorAll('.player0[data-player="0"]')[0].style.display = "flex";
-    document.querySelectorAll('.player1a[data-player="0"]')[0].style.display = "flex";
-    document.querySelectorAll('.player1b[data-player="0"]')[0].style.display = "flex";
-    document.querySelectorAll('.player2[data-player="0"]')[0].style.display = "flex";
-    document.querySelectorAll('.player3[data-player="0"]')[0].style.display = "flex";
-    document.querySelectorAll('.player4[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.player1[data-player="0"]')[0].style.display = "flex";
+    
+    document.querySelectorAll(".abilitySelector").forEach((icon) => {
+        icon.style.display = "none";
+    })
+    
+    switch(myRole.ui){
+        case 0:
+            document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
+            break;
+        case 2:
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
+            break;
+        case 3:
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
+            break;
+        case 4:
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.querySelector(".abilitySelector[data-uitype='1']").style.display = "flex";
+            break;
+        case 5:
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.querySelector(".abilitySelector[data-uitype='4']").style.display = "flex";
+            break;
+        case 6:
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            break;
+        case 7:
+            document.querySelector(".abilitySelector[data-uitype='6']").style.display = "flex";
+            break;
+        case 8:
+            document.querySelector(".abilitySelector[data-uitype='5']").style.display = "flex";
+            break;
+                
+
+
+    }
+    
 
 
     document.querySelectorAll(".covenExpansion").forEach((element) => {
@@ -201,7 +243,7 @@ let hidden = false
 
 function showRole(){
     if(hidden){
-        document.getElementById("showRole").innerHTML = `<img id="showRoleImg" src="./images/roles/${myRole}.svg" style="height: 30vh; aspect-ratio: 5 / 7;">`
+        document.getElementById("showRole").innerHTML = `<img id="showRoleImg" src="./images/roles/${myRole.name}.svg" style="height: 30vh; aspect-ratio: 5 / 7;">`
     }else{
         document.getElementById("showRole").innerHTML = `<p>Hidden... Press to reveal!</p>`
     }

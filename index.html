@@ -148,6 +148,7 @@
                 </div>
                 <div id="abilitySelectorWrapper">
 
+                    <!-- Main Player Selector -->
                     <div class="abilitySelector" data-uitype="0">
                         <div class="display0">
     
@@ -159,65 +160,28 @@
                         </div>
                     </div>
 
+                    <!-- Secondary Player Selector -->
                     <div class="abilitySelector" data-uitype="1">
-                        <div class="display1a">
+                        <div class="display1">
     
                         </div>
                         <div class="selector">
-                            <button onClick="moveSelector('1a', true)">&lt;</button>
-                            <button id="ability1a" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('1a', false)">&gt;</button>
-                        </div>
-
-                        <div class="display1b">
-    
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('1b', true)">&lt;</button>
-                            <button id="ability1b" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('1b', false)">&gt;</button>
-                        </div>                        
+                            <button onClick="moveSelector('1', true)">&lt;</button>
+                            <button id="ability1" onClick="submitAction()">Vote</button>
+                            <button onClick="moveSelector('1', false)">&gt;</button>
+                        </div>                      
                     </div>
                     
+                    <!-- Checkbox -->
                     <div class="abilitySelector" data-uitype="2">
-                        <div class="display2">
-    
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('2', true)">&lt;</button>
-                            <button id="ability2" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('2', false)">&gt;</button>
-                        </div>
                         <div class="cautiousBox">
                             <h3>Go Cautious</h3>
                             <input type="checkbox">
                         </div>
                     </div>
 
+                    <!-- Hypno Message -->
                     <div class="abilitySelector" data-uitype="3">
-                        <div class="display3">
-    
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('3', true)">&lt;</button>
-                            <button id="ability3" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('3', false)">&gt;</button>
-                        </div>
-                        <div class="cautiousBox">
-                            <h3>Go Cautious</h3>
-                            <input type="checkbox">
-                        </div>                        
-                    </div>
-
-                    <div class="abilitySelector" data-uitype="4">
-                        <div class="display4">
-                            
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('4', true)">&lt;</button>
-                            <button id="ability4" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('4', false)">&gt;</button>
-                        </div>
                         <div class="hypnotistMsg">
                             <h3>Fake Message:</h3>
                             <select id="hypnoSelect">
@@ -239,26 +203,8 @@
                         </div>                    
                     </div>
 
-                    <div class="abilitySelctor" data-uitype="5">
-                        <div class="display5">
-                            
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('5', true)">&lt;</button>
-                            <button id="ability5" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('5', false)">&gt;</button>
-                        </div>
-                    </div>
-
-                    <div class="abilitySelector" data-uitype="6">
-                        <div class="display6">
-                            
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('6', true)">&lt;</button>
-                            <button id="ability6" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('6', false)">&gt;</button>
-                        </div>
+                    <!-- Potions -->
+                    <div class="abilitySelector" data-uitype="4">
                         <div class="potions">
                             <h3>Potion:</h3>
                             <select id="potionSelect">
@@ -269,15 +215,8 @@
                         </div>                     
                     </div>
 
-                    <div class="abilitySelector" data-uitype="7">
-                        <div class="display7">
-                            
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('7', true)">&lt;</button>
-                            <button id="ability7" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('7', false)">&gt;</button>
-                        </div>
+                    <!-- Forger  -->
+                    <div class="abilitySelector" data-uitype="5">
                         <div class="roleForge">
                             <h3>Choose Role</h3>
                             <select id="roleForgeSelect">
@@ -335,9 +274,14 @@
                         </div>
                     </div>
 
-                    <div class="abilitySelector" data-uitype="8">
-                        <h3 id="ui8Action">Do action</h3>
-                        <h3 id="ui8Action">Do action</h3>
+                    <!-- Pirate -->
+                    <div class="abilitySelector" data-uitype="6">
+                        <h3>Choose yer attack!</h3>
+                        <select>
+                            <option>Scimitar</option>
+                            <option>Rapier</option>
+                            <option>Pistol</option>
+                        </select>
                     </div>
 
                 </div>
