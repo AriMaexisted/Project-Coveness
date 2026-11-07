@@ -55,8 +55,7 @@ let currentDay = 0
 let currentTime = 3
 
 function getRoleByName(targetName) {
-    return Object.values(allRoles)
-        .flatMap(faction => Object.values(faction))
+    return Object.values(ALLROLES)
         .flat()
         .find(role => role.name === targetName);
 }
@@ -178,20 +177,16 @@ function revive(ind){
 function changeTime(time){
     currentTime = time;
     const timeTeller = document.getElementById('time');
+    chatDisabled(false);
     document.getElementById('playerSelector').style.display = "none";
     document.getElementById('trialSelector').style.display = "none";
     switch (time){
         case 0:
         case 3:
-            document.querySelectorAll('.chatInputWrapper button').forEach((button)=>{
-                button.disabled = true;
-            });
+            chatDisabled(true);
             timeTeller.innerText = `Day ${currentDay}, Announcements`;
             break;
         case 1:
-            document.querySelectorAll('.chatInputWrapper button').forEach((button)=>{
-                button.disabled = true;
-            });
             timeTeller.innerText = `Day ${currentDay}, Discussion`;
             break;
         case 2:
@@ -208,6 +203,15 @@ function changeTime(time){
         break;
 
     }
+}
+
+function chatDisabled(disabled){
+    whisperTarget = "";
+    document.querySelectorAll('#chatInputWrapper button').forEach((button)=>{
+        button.disabled = disabled;
+    });
+    document.getElementById("chatInput").placeholder = (disabled ? "Chat disabled" : "Type here")
+    document.getElementById("chatInput").disabled = disabled;
 }
 
 let currentFocus = 0;
