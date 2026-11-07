@@ -46,3 +46,12 @@
 .RMroleDiv{
     flex-direction: row;
 }
+
+.roleCell{
+    border: 2px solid var(--yell);
+    margin: 0;
+}
+
+.roleTable{
+    border-collapse: collapse;
+}

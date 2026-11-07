@@ -125,7 +125,52 @@ function roleIter(roleMenu, ind){
         allRolesAlph.push(role.name)
 
         // Content inside of rolediv
-        
+        let cardImg = document.createElement('img');
+        cardImg.src = `images/roles/${role.name.replace(/\s/g, "")}.svg`;
+        cardImg.style.height = "40vh";
+        cardImg.style.aspectRatio = 5/7;
+        roleDiv.appendChild(cardImg);
+
+        let dataDiv = document.createElement('div');
+        // dataDiv.style.height = "40vh";
+        roleDiv.appendChild(dataDiv);
+
+        dataDiv.innerHTML = `
+    <table class="roleTable">
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Faction</td>
+            <td class="roleCell">${role.faction}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Alignment</td>
+            <td class="roleCell">${role.alignment}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Defense</td>
+            <td class="roleCell">${role.defense}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Attack</td>
+            <td class="roleCell">${role.attack}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Unique</td>
+            <td class="roleCell">${role.unique}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Sumary</td>
+            <td class="roleCell">${role.summary}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Investigation Results (Non-DLC) </td>
+            <td class="roleCell">${investigationResults[role.investResult]}</td>
+        </tr>
+        <tr>
+            <td class="roleCell" style="font-weight: bold;">Investigation Results (DLC) </td>
+            <td class="roleCell">${investigationResultsDLC[role.investResult]}</td>
+        </tr>
+    </table>`
+
         
         
     })
@@ -136,7 +181,7 @@ function roleIter(roleMenu, ind){
         const roleButton = document.createElement('button');
         roleButton.addEventListener('click', () => {
             transfer("RM".concat(role.replace(/\s/g, ""), ind));
-            setFocusedRole(role.name);
+            setFocusedRole(role);
         });
         roleButton.innerText = role;
         searchDiv.appendChild(roleButton);
