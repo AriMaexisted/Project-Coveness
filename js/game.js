@@ -54,6 +54,8 @@ let myRole = "none"
 let currentDay = 0
 let currentTime = 3
 
+let roleShowing = false;
+
 function getRoleByName(targetName) {
     return Object.values(ALLROLES)
         .flat()
@@ -106,39 +108,38 @@ function gameStart(role){
     document.querySelectorAll(".abilitySelector").forEach((icon) => {
         icon.style.display = "none";
     })
-    
+    console.log(myRole.ui);
+    console.log("ability")
     switch(myRole.ui){
-        case 0:
+        case "0":
             document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
             break;
-        case 2:
+        case "2":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
             break;
-        case 3:
+        case "3":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
             break;
-        case 4:
+        case "4":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='1']").style.display = "flex";
             break;
-        case 5:
+        case "5":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='4']").style.display = "flex";
             break;
-        case 6:
+        case "6":
+            console.log("Hi@")
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             break;
-        case 7:
+        case "7":
             document.querySelector(".abilitySelector[data-uitype='6']").style.display = "flex";
             break;
-        case 8:
+        case "8":
             document.querySelector(".abilitySelector[data-uitype='5']").style.display = "flex";
             break;
-                
-
-
     }
     
 
@@ -180,6 +181,8 @@ function changeTime(time){
     chatDisabled(false);
     document.getElementById('playerSelector').style.display = "none";
     document.getElementById('trialSelector').style.display = "none";
+    document.getElementById("abilitySelectorWrapper").style.display = "none";
+    roleShowing = false;
     switch (time){
         case 0:
         case 3:
@@ -198,7 +201,8 @@ function changeTime(time){
             timeTeller.innerText = `Day ${currentDay}, Voting`;
         break;
         case 5:
-            document.getElementById('abilitySelectorWrapper').style.display = "flex";
+            roleShowing = true;
+            document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
             timeTeller.innerText = `Night ${currentDay}`;
         break;
 
@@ -251,6 +255,11 @@ function showRole(){
     }else{
         document.getElementById("showRole").innerHTML = `<p>Hidden... Press to reveal!</p>`
     }
+    console.log(roleShowing);
+    console.log(hidden);
+    if(roleShowing){
+        document.getElementById("abilitySelectorWrapper").style.display = hidden?"flex":"none";
+    }
     hidden = !hidden
 }
 
@@ -289,4 +298,10 @@ function moveSelector(ind, isDown){
         abilityFocus = 0;
     }
     document.querySelectorAll(`.PSplays[data-player="${abilityFocus}"]`)[0].style.display = "flex";
+}
+
+
+function specialGameStart(role){
+    clientUpdatePlayerlist([["AAA","BBB","CCC"],[[0,0,0],[1,1,1],[2,2,2]]]);
+    gameStart(role);
 }

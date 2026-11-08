@@ -276,9 +276,17 @@ dialog{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .abilitySelector{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hypnotistMsg{
     display: flex;
     flex-direction: column;
     align-items: center;
