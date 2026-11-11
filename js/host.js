@@ -93,7 +93,8 @@ function newPlayer(msg, conn){
         cConn.send([3, [names, avatars]]);        
     })
     updatePlayerlist();
-    votes.push(0);
+    votes.push(-1);
+    trial.push(0);
     disconnected.push(false);
     const dcI = setInterval(()=>{
         if(disconnected[connections.indexOf(conn)]){
@@ -162,8 +163,3 @@ function sendWhisperUpdate(id, msg){
     updateChatbox([id, `To ${names[msg[0]]} from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);
 }
 
-const votes = [];
-
-function updateVoters(msg, voter){
-    votes[voter] = msg
-}

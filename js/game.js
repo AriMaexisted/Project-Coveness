@@ -12,6 +12,8 @@ function startGame(){
     let timer1 = setInterval(() => {
         document.getElementById("hostWaitAlert").style.display = "none";
     }, 4000)
+    document.getElementById("trialVoteUpdate").innerText = trial;
+    document.getElementById("voteUpdate").innerText = votes;
 }
 
 function setTime(time){
@@ -46,6 +48,30 @@ function timer(option){
 }
 
 
+const votes = [];
+
+function updateVoters(msg, voter){
+    votes[voter] = msg;
+    document.getElementById("voteUpdate").innerText = votes;
+}
+
+const trial = [];
+
+function updateTrialVotes(msg, voter){
+    trial[voter] = msg;
+    document.getElementById("trialVoteUpdate").innerText = trial;
+}
+
+let day = 0;
+
+function dayChange(isIncrease){
+    day += isIncrease?1:-1;
+    document.getElementById("dayDisplay").innerText = day;
+    connections.forEach(conn =>{
+        conn.send([13, day]);
+    })
+}
+
 
 // --------------CLIENT CONNECTION--------------
 
@@ -75,10 +101,10 @@ function gameStart(role){
     roleIter(document.getElementById("playingRoleList"), "pla")
     transfer('RMstartpla');
     console.log(role);
-    document.getElementById("showRoleImg").src = `./images/roles/${role}.svg`; 
+    document.getElementById("showRoleImg").src = `./images/roles/${role.replaceAll(" ", "")}.svg`; 
     document.getElementById("showRoleImg").style.height = "30vh";
     document.getElementById("showRoleImg").style.aspectRatio = "5/7"
-    card.src = `./images/roles/${role}.svg`;
+    card.src = `./images/roles/${role.replaceAll(" ", "")}.svg`;
     card.style.height = "30vh";
     card.style.aspectRatio = "5/7";
     subtext.innerText = `${role}`;
@@ -92,6 +118,7 @@ function gameStart(role){
         document.getElementById("roleReveal").style.display = "none";
         document.getElementById("chatDiv").style.display = "flex";
         document.getElementById("playingMenu").style.display = "flex";
+        changeTime(0);
         clearInterval(timer2);
     }, 4000)
 
@@ -112,33 +139,42 @@ function gameStart(role){
     console.log("ability")
     switch(myRole.ui){
         case "0":
-            document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
+            document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
+            document.getElementById("ui2text").innerText = myRole.button;
             break;
         case "2":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button.split("|")[0];
+            document.getElementById("ui2text").innerText = myRole.button.split("|")[1];
             break;
         case "3":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='3']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button;
             break;
         case "4":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='1']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button.split("|")[0];
+            document.getElementById("ability1").innerText = myRole.button.split("|")[1];
             break;
         case "5":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='4']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button;
             break;
         case "6":
-            console.log("Hi@")
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button;
             break;
         case "7":
             document.querySelector(".abilitySelector[data-uitype='6']").style.display = "flex";
             break;
         case "8":
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
             document.querySelector(".abilitySelector[data-uitype='5']").style.display = "flex";
+            document.getElementById("ability0").innerText = myRole.button;
             break;
     }
     
@@ -204,7 +240,11 @@ function changeTime(time){
             roleShowing = true;
             document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
             timeTeller.innerText = `Night ${currentDay}`;
-        break;
+            break;
+        case 6:
+            timeTeller.innerText = `Evening ${currentDay}`;
+            break;
+
 
     }
 }
@@ -251,7 +291,7 @@ let hidden = false
 
 function showRole(){
     if(hidden){
-        document.getElementById("showRole").innerHTML = `<img id="showRoleImg" src="./images/roles/${myRole.name}.svg" style="height: 30vh; aspect-ratio: 5 / 7;">`
+        document.getElementById("showRole").innerHTML = `<img id="showRoleImg" src="./images/roles/${myRole.name.replaceAll(" ", "")}.svg" style="height: 30vh; aspect-ratio: 5 / 7;">`
     }else{
         document.getElementById("showRole").innerHTML = `<p>Hidden... Press to reveal!</p>`
     }
@@ -272,7 +312,9 @@ function vote(option){
     document.getElementById(option).style.backgroundColor = "#380060";
     document.getElementById(option).style.borderWidth = "10px";
     document.getElementById(option).style.borderColor = "#F7FFC2";
-    document.getElementById(option).style.color = "#F7FFC2";
+    document.getElementById(option).style.color = "#F7FFC2";  
+
+    hostConn.send(12, option);
 }
 
 function updateTimer(time){

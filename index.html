@@ -24,6 +24,12 @@
         <button onclick="claimHost()">Back to player</button>
         <button onclick="startGame()">Start game</button>
         <button onclick="copyId()">Copy ID</button>
+        <div class="hostIntroOptions">
+            <h2>Coven Expansion</h2>
+            <input id="covenExpansionCheckbox" type="checkbox">
+
+
+        </div>
         <div id="playerConfig">
 
         </div>
@@ -38,12 +44,24 @@
             <button onclick="setTime(3)">Stand</button>
             <button onclick="setTime(4)">Decide</button>
             <button onclick="setTime(5)">Night</button>
+            <button onclick="setTime(6)">Evening</button>
         </div>
         <div id="timerWrapper">
             <input id="timerInput">
             <p class="timer"></p>
             <button onclick="timer('start')" id="timerStart">Start</button>
             <button onclick="timer('stop')" id="timerStop">Stop</button>
+        </div>
+        <div id="dayWrapper">
+            <button onclick="dayChange(false)">-</button>
+            <h3 id="dayDisplay">0</h3>
+            <button onclick="dayChange(true)">+</button>
+        </div>
+        <div>
+            <h3>Votes</h3>
+            <p id="voteUpdate"></p>
+            <h3>Trials</h3>
+            <p id="trialVoteUpdate"></p>
         </div>
         <div>
             
@@ -148,7 +166,7 @@
                     <button id="Innocent" onClick="vote('Innocent')">Innocent</button>
                     <button id="Abstain" onClick="vote('Abstain')">Abstain</button>
                 </div>
-                <div id="x">
+                <div id="abilitySelectorWrapper">
 
                     <!-- Main Player Selector -->
                     <div class="abilitySelector" data-uitype="0">
@@ -177,7 +195,7 @@
                     <!-- Checkbox -->
                     <div class="abilitySelector" data-uitype="2">
                         <div class="cautiousBox">
-                            <h3>Go Cautious</h3>
+                            <h3 id="ui2text">Go Cautious</h3>
                             <input type="checkbox">
                         </div>
                     </div>

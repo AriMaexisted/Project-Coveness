@@ -182,6 +182,12 @@ function messageRecieved(data, conn){
         case 11:
             updateTimer(msg);
             break;
+        case 12:
+            updateTrialVotes(msg, connections.indexOf(conn));
+            break;
+        case 13:
+            dayUpdate(msg);
+            break;
     }
 
 }

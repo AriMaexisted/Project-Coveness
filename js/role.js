@@ -5,10 +5,18 @@ let focusedRole = ""
 let RMnum = 0
 let roleMenus = document.getElementsByClassName("roleMenu");
 
+ALLROLES.forEach(role => {
+    allRolesAlph.push(role.name);
+})
+
+allRolesAlph.sort()
+
 Array.prototype.forEach.call(roleMenus, function(roleMenu) {
     roleIter(roleMenu, RMnum);
     console.log("done")
 });
+
+
 
 function roleIter(roleMenu, ind){
     const roleStart = document.createElement('div');
@@ -121,8 +129,7 @@ function roleIter(roleMenu, ind){
         
         document.getElementById(alignmentDivId).appendChild(roleButton);
         roleMenu.appendChild(roleDiv);
-        
-        allRolesAlph.push(role.name)
+    
 
         // Content inside of rolediv
         let cardImg = document.createElement('img');
@@ -170,13 +177,10 @@ function roleIter(roleMenu, ind){
             <td class="roleCell">${investigationResultsDLC[role.investResult]}</td>
         </tr>
     </table>`
-
-        
-        
+    
     })
     
-    allRolesAlph.sort()
-    
+    console.log("allRoles".concat(allRolesAlph.length));
     allRolesAlph.forEach(role => {
         const roleButton = document.createElement('button');
         roleButton.addEventListener('click', () => {
@@ -187,8 +191,12 @@ function roleIter(roleMenu, ind){
         searchDiv.appendChild(roleButton);
         roleButton.style.height = "10vh";
         roleButton.style.width = "10vh";
-    });
+    });    
+
+
+        
 }
+
 
 function transfer(id, ind){
     const menus = document.querySelectorAll(".RMdiv");
