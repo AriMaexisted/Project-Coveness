@@ -335,3 +335,13 @@ dialog{
     display: none;
     flex-direction: column;
 }
+
+#hostPlayerControlBoard, #hostPlayerControlBoard th, #hostPlayerControlBoard tr, #hostPlayerControlBoard td{
+    border: 2px solid var(--yell);
+}
+
+#hostPlayerControlBoardDiv{
+    display: flex;
+    width: 90%;
+    overflow-y: scroll
+}

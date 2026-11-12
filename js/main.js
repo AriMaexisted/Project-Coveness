@@ -39,7 +39,7 @@ let host = false;
  * Peer
  * The user's peer 
  */
-const peer = new Peer();
+let peer = new Peer();
 
 const peerInt = setInterval((e) => {
     if(peer.id){
@@ -93,6 +93,17 @@ setInterval(() => {
 function claimHost(){
     host = !host
     if(host){
+        peer.disconnect();
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+        let result = '';
+        for(let i=0; i<6; i++){
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        peer = new Peer(result);
+        peer.on('connection', function(conn){
+            handleConnections(conn);
+        });
+        document.getElementById("hostId").innerText = result;
         copyId();
         document.getElementById("hostIntroBoard").style.display = "flex"
         document.getElementById("playerIntroBoard").style.display = "none"
@@ -109,6 +120,10 @@ function claimHost(){
 function copyId(){
     copyTextToClipboard(peer.id);
 }
+
+peer.on('error', function(err) {
+    console.log(err);
+ });
 
 // PEER
 // Listens for 
@@ -225,6 +240,14 @@ function whisper(){
 function sendMsg(msg){
     if(!hostConn){
         if(host){
+            console.log(whisperTarget)
+            if(whisperTarget !== ""){
+                sendWhisperUpdate(8,[whisperTarget, msg, "host"])
+                console.log("whispering")
+                whisperTarget = "";
+                document.getElementById("chatInput").placeholder = "Type here";
+                return;
+            }
             sendChatUpdate(-1, msg);
         }
         return;

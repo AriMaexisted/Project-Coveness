@@ -24,11 +24,10 @@
         <button onclick="claimHost()">Back to player</button>
         <button onclick="startGame()">Start game</button>
         <button onclick="copyId()">Copy ID</button>
+        <h2 id="hostId"></h2>
         <div class="hostIntroOptions">
             <h2>Coven Expansion</h2>
             <input id="covenExpansionCheckbox" type="checkbox">
-
-
         </div>
         <div id="playerConfig">
 
@@ -56,6 +55,20 @@
             <button onclick="dayChange(false)">-</button>
             <h3 id="dayDisplay">0</h3>
             <button onclick="dayChange(true)">+</button>
+        </div>
+        <div id="hostPlayerControlBoardDiv">
+            <table id="hostPlayerControlBoard">
+                <tr>
+                    <th>Player</th>
+                    <th>Action</th>
+                    <th>A/D</th>
+                    <th>Role Change</th>
+                    <th>Dead</th>
+                    <th>Chat Disabled</th>
+                </tr>
+                <tr>
+                </tr>
+            </table>
         </div>
         <div>
             <h3>Votes</h3>

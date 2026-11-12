@@ -5,7 +5,7 @@ let playing = false;
 
 function startGame(){
     connections.forEach(conn => {
-        conn.send([7,roles[connections.indexOf(conn)]]);
+        conn.send([7,[roles[connections.indexOf(conn)],document.getElementById("covenExpansionCheckbox").checked]]);
     });
     document.getElementById("hostIntroBoard").style.display = "none";
     document.getElementById("hostPlayingBoard").style.display = "flex";
@@ -88,7 +88,8 @@ function getRoleByName(targetName) {
         .find(role => role.name === targetName);
 }
 
-function gameStart(role){
+function gameStart(msg){
+    role = msg[0]
     myRole = getRoleByName(role)
     document.getElementById("playerPlayingBoard").style.display = "flex";
     const subtext = document.getElementById("roleRevealSubtext");
@@ -178,11 +179,16 @@ function gameStart(role){
             break;
     }
     
-
+    covenExpansion = msg[1]
 
     document.querySelectorAll(".covenExpansion").forEach((element) => {
-        element.style.display = "none";
+        element.style.display = covenExpansion?"flex":"none";
     })
+
+    document.querySelectorAll(".unCovenExpansion").forEach((element) => {
+        element.style.display = covenExpansion?"flex":"none";
+    })
+    switchTabs('gamePlayerList')
 }
 
 function switchTabs(tab){
@@ -342,8 +348,11 @@ function moveSelector(ind, isDown){
     document.querySelectorAll(`.PSplays[data-player="${abilityFocus}"]`)[0].style.display = "flex";
 }
 
-
 function specialGameStart(role){
     clientUpdatePlayerlist([["AAA","BBB","CCC"],[[0,0,0],[1,1,1],[2,2,2]]]);
     gameStart(role);
+}
+
+function dayUpdate(change){
+    currentDay = change;
 }

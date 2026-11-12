@@ -77,6 +77,61 @@ function updatePlayerlist(){
         whisperButtonDiv.append(whisperButtonName);
 
         document.getElementById("whisperPlayerList").append(whisperButtonDiv);
+
+        //Host Player Control Board
+        
+        const playerRow = document.createElement('tr');
+        playerRow.dataset.player = (names.indexOf(cName));
+
+        const HPCBname = document.createElement('td');
+        const HPCBaction = document.createElement('td');
+        const HPCBAttDef = document.createElement('td');
+        const HPCBRoleChange = document.createElement('td');
+        const HPCBDead = document.createElement('td');
+        const HPCBChatDisabled = document.createElement('td');
+
+        const HPCBnameLabel = document.createElement('p');
+        HPCBnameLabel.innerText = cName;
+        HPCBname.appendChild(HPCBnameLabel);
+
+        const HPCBactionLabel = document.createElement('p');
+        HPCBactionLabel.classList.add('actionLabel');
+        HPCBaction.appendChild(HPCBactionLabel);
+
+        const HPCBAttDefLabel = document.createElement('p');
+        HPCBAttDefLabel.classList.add('ADlabel');
+        HPCBAttDef.appendChild(HPCBAttDefLabel);
+
+        const HPCBRoleChangeBtn = document.createElement('button');
+        HPCBRoleChangeBtn.addEventListener('click', () => {
+            setRole();
+            selectedPlayer = names.indexOf(cName)
+        })
+        HPCBRoleChangeBtn.classList.add('roleChange');
+        HPCBRoleChange.appendChild(HPCBRoleChangeBtn);
+
+        const HPCBDeadCheck = document.createElement('input');
+        HPCBDeadCheck.type = "checkbox";
+        HPCBDeadCheck.classList.add('deadCheck');
+        HPCBDead.appendChild(HPCBDeadCheck);
+
+        const HPCBChatDisabledCheck = document.createElement('input');
+        HPCBChatDisabledCheck.type = "checkbox";
+        HPCBChatDisabledCheck.classList.add('chatDisabled');
+        HPCBChatDisabled.appendChild(HPCBChatDisabledCheck);
+
+        playerRow.appendChild(HPCBname);
+        playerRow.appendChild(HPCBaction);
+        playerRow.appendChild(HPCBAttDef);
+        playerRow.appendChild(HPCBRoleChange);
+        playerRow.appendChild(HPCBDead);
+        playerRow.appendChild(HPCBChatDisabled);
+
+        document.getElementById("hostPlayerControlBoard").appendChild(playerRow);
+
+
+        
+        document.getElementById('hostPlayerControlBoard')
     })
 }
 
@@ -141,7 +196,18 @@ function sendChatUpdate(id, text){
 }
 
 function sendWhisperUpdate(id, msg){
+    console.log(msg);
 
+    if(msg[0] == msg[2]){
+        if(msg[0] !== "host"){
+            connections.forEach((conn) => {
+                conn.send([5, [id, `${names[msg[2]]} is whispering to themselves... for some reason`]]);
+                console.log(conn);
+            } )
+            updateChatbox(`${names[msg[2]]} is whispering to themselves... for some reason`);
+        }
+        return;
+    }
     
     console.log(msg)
     if(msg[0] == "host"){
@@ -150,6 +216,16 @@ function sendWhisperUpdate(id, msg){
         return;
         connections.forEach((conn) => {
             conn.send([5, [id, `${names[msg[2]]} is whispering to the host`]]);
+            console.log(conn);
+        } )
+        return;
+    }
+    if(msg[2] == "host"){
+        connections[msg[0]].send([5, [id, `From Host: ${msg[1]}`]]);
+        updateChatbox([id, `To ${names[msg[0]]} from the Host Host: ${msg[1]}`]);
+        return;
+        connections.forEach((conn) => {
+            conn.send([5, [id, `The host is whispering to ${names[msg[2]]}`]]);
             console.log(conn);
         } )
         return;
