@@ -12,4 +12,7 @@
 |9|Int|Change time|H->C|
 |10|Int|Voting|C->H|
 |11|Int|Timer display|H->C|
+|12|String|Update Trial Votes|C->H|
+|13|String|Update current day|H->C|
+|14|String|Update Action|C->H|
 

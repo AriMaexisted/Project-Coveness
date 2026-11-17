@@ -70,10 +70,10 @@ setInterval(() => {
         if(!disconnect){
             disconnect=true
         }else{
-            window.removeEventListener('beforeunload', function (e) {
-                e.preventDefault();
-                e.returnValue = '';
-            });
+            if(hostConn.open){
+                disconnect=true;
+                return;
+            }
             alert("You have been disconnected.")
             location.reload();
         }
@@ -154,7 +154,7 @@ function handleConnections(conn){
  */
 function messageRecieved(data, conn){
     let msg = data[1];
-    console.log(msg)
+    console.log(data)
     switch(data[0]){
         case 0:
             disconnected[connections.indexOf(conn)] = false;
@@ -202,6 +202,9 @@ function messageRecieved(data, conn){
             break;
         case 13:
             dayUpdate(msg);
+            break;
+        case 14:
+            computeAction(msg, connections.indexOf(conn));
             break;
     }
 

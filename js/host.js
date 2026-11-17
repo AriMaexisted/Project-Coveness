@@ -15,6 +15,7 @@ function updatePlayerlist(){
     const playerConfig = document.getElementById("playerConfig")
     
     playerConfig.innerHTML = "";
+    document.getElementById("hostPlayerControlBoardDiv").innerHTML = ""
     names.forEach(cName => {
         const playerDiv = document.createElement('div');
         const playerName = document.createElement('h1');
@@ -79,59 +80,39 @@ function updatePlayerlist(){
         document.getElementById("whisperPlayerList").append(whisperButtonDiv);
 
         //Host Player Control Board
+
+        const playerBoard = document.getElementById("hostBoardPlayerTemplate").cloneNode(true);
+        playerBoard.removeAttribute('id');
+        playerBoard.dataset.player = names.indexOf(cName);
+        playerBoard.style.display = "flex";
         
-        const playerRow = document.createElement('tr');
-        playerRow.dataset.player = (names.indexOf(cName));
+        const PBavatar = avatarDiv.cloneNode(true);
+        playerBoard.querySelectorAll(".hostBoardPlayerName")[0].appendChild(PBavatar);
+        const PBname = document.createElement('p');
+        PBname.innerText = cName;
+        playerBoard.querySelectorAll(".hostBoardPlayerName")[0].appendChild(PBname);
 
-        const HPCBname = document.createElement('td');
-        const HPCBaction = document.createElement('td');
-        const HPCBAttDef = document.createElement('td');
-        const HPCBRoleChange = document.createElement('td');
-        const HPCBDead = document.createElement('td');
-        const HPCBChatDisabled = document.createElement('td');
-
-        const HPCBnameLabel = document.createElement('p');
-        HPCBnameLabel.innerText = cName;
-        HPCBname.appendChild(HPCBnameLabel);
-
-        const HPCBactionLabel = document.createElement('p');
-        HPCBactionLabel.classList.add('actionLabel');
-        HPCBaction.appendChild(HPCBactionLabel);
-
-        const HPCBAttDefLabel = document.createElement('p');
-        HPCBAttDefLabel.classList.add('ADlabel');
-        HPCBAttDef.appendChild(HPCBAttDefLabel);
-
-        const HPCBRoleChangeBtn = document.createElement('button');
-        HPCBRoleChangeBtn.addEventListener('click', () => {
+        const PBroleBtn = playerBoard.querySelectorAll(".roleBtn")[0];
+        PBroleBtn.addEventListener('click', () => {
             setRole();
             selectedPlayer = names.indexOf(cName)
         })
-        HPCBRoleChangeBtn.classList.add('roleChange');
-        HPCBRoleChange.appendChild(HPCBRoleChangeBtn);
 
-        const HPCBDeadCheck = document.createElement('input');
-        HPCBDeadCheck.type = "checkbox";
-        HPCBDeadCheck.classList.add('deadCheck');
-        HPCBDead.appendChild(HPCBDeadCheck);
+        const PBatt = playerBoard.querySelectorAll(".att")[0];
+        PBatt.addEventListener('input', (e) => {
+            playerAttack[names.indexOf(cName)] = PBatt.value;
+        });
 
-        const HPCBChatDisabledCheck = document.createElement('input');
-        HPCBChatDisabledCheck.type = "checkbox";
-        HPCBChatDisabledCheck.classList.add('chatDisabled');
-        HPCBChatDisabled.appendChild(HPCBChatDisabledCheck);
+        const PBdef = playerBoard.querySelectorAll(".def")[0];
+        PBdef.addEventListener('input', (e) => {
+            playerDefense[names.indexOf(cName)] = PBdef.value;
+        });
 
-        playerRow.appendChild(HPCBname);
-        playerRow.appendChild(HPCBaction);
-        playerRow.appendChild(HPCBAttDef);
-        playerRow.appendChild(HPCBRoleChange);
-        playerRow.appendChild(HPCBDead);
-        playerRow.appendChild(HPCBChatDisabled);
-
-        document.getElementById("hostPlayerControlBoard").appendChild(playerRow);
+        
+        document.getElementById("hostPlayerControlBoardDiv").appendChild(playerBoard);
 
 
         
-        document.getElementById('hostPlayerControlBoard')
     })
 }
 
@@ -170,6 +151,7 @@ function kick(player){
         connections.splice(player, 1);
         names.splice(player, 1);
         avatars.splice(player, 1);
+        disconnected.splice(player, 1);
         updatePlayerlist();
     }
 }

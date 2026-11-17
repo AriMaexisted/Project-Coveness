@@ -14,323 +14,353 @@
     <script src="js/game.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/role.css">
+    <link rel="icon" type="image/png" href="/images/icons/webIcon.svg">
 </head>
 <body>
-    <div id="loading">
-        <h1>Loading please wait</h1>
-    </div>
+    <div id="nonChatDiv">
+        <div id="loading">
+            <h1>Loading please wait</h1>
+        </div>
 
-    <div id="hostIntroBoard">
-        <button onclick="claimHost()">Back to player</button>
-        <button onclick="startGame()">Start game</button>
-        <button onclick="copyId()">Copy ID</button>
-        <h2 id="hostId"></h2>
-        <div class="hostIntroOptions">
-            <h2>Coven Expansion</h2>
-            <input id="covenExpansionCheckbox" type="checkbox">
-        </div>
-        <div id="playerConfig">
-
-        </div>
-    </div>
-
-    <div id="hostPlayingBoard">
-        <p id="hostWaitAlert">Wait</p>
-        <div>    
-            <button onclick="setTime(0)">Announcements</button>
-            <button onclick="setTime(1)">Discussion</button>
-            <button onclick="setTime(2)">Voting</button>
-            <button onclick="setTime(3)">Stand</button>
-            <button onclick="setTime(4)">Decide</button>
-            <button onclick="setTime(5)">Night</button>
-            <button onclick="setTime(6)">Evening</button>
-        </div>
-        <div id="timerWrapper">
-            <input id="timerInput">
-            <p class="timer"></p>
-            <button onclick="timer('start')" id="timerStart">Start</button>
-            <button onclick="timer('stop')" id="timerStop">Stop</button>
-        </div>
-        <div id="dayWrapper">
-            <button onclick="dayChange(false)">-</button>
-            <h3 id="dayDisplay">0</h3>
-            <button onclick="dayChange(true)">+</button>
-        </div>
-        <div id="hostPlayerControlBoardDiv">
-            <table id="hostPlayerControlBoard">
-                <tr>
-                    <th>Player</th>
-                    <th>Action</th>
-                    <th>A/D</th>
-                    <th>Role Change</th>
-                    <th>Dead</th>
-                    <th>Chat Disabled</th>
-                </tr>
-                <tr>
-                </tr>
-            </table>
-        </div>
-        <div>
-            <h3>Votes</h3>
-            <p id="voteUpdate"></p>
-            <h3>Trials</h3>
-            <p id="trialVoteUpdate"></p>
-        </div>
-        <div>
-            
-        </div>
-    </div>
-
-    <div id="playerIntroBoard">
-        <button id="hostClaimBtn" onclick="claimHost()">Claim host</button>
-        <input id="name" type="text" placeholder="name">
-        <input id="code" type="text" placeholder="code">
-        <button id="joinGameBtn" onclick="joinGame()">Join Game!</button>
-        <h2>Players</h2>
-        <div id="playerList">
-            
-        </div>
-        <div id="avatarCreatorDiv">
-            <div>
-                <button onclick="avatarChange(0, 'changer')">&lt;</button>
-                <button onclick="avatarChange(1, 'changer')">&lt;</button>
-                <button onclick="avatarChange(2, 'changer')">&lt;</button>
+        <div id="hostIntroBoard">
+            <button onclick="claimHost()">Back to player</button>
+            <button onclick="startGame()">Start game</button>
+            <button onclick="copyId()">Copy ID</button>
+            <h2 id="hostId"></h2>
+            <div class="hostIntroOptions">
+                <h2>Coven Expansion</h2>
+                <input id="covenExpansionCheckbox" type="checkbox">
             </div>
-            <div class="avatarWrapper" style="height:100px;">
-                <img class="avatarT changer" style="z-index: 3;" src="images/avatar/T0.svg"></img>
-                <img class="avatarB changer" style="z-index: 2;" src="images/avatar/B0.svg"></img>
-                <img class="avatarC changer" style="z-index: 1;" src="images/avatar/C0.svg"></img>
+            <div id="playerConfig">
+
+            </div>
+        </div>
+
+        <div id="hostPlayingBoard">
+            <p id="hostWaitAlert">Wait</p>
+            <div>    
+                <button onclick="setTime(0)">Announcements</button>
+                <button onclick="setTime(1)">Discussion</button>
+                <button onclick="setTime(2)">Voting</button>
+                <button onclick="setTime(3)">Stand</button>
+                <button onclick="setTime(4)">Decide</button>
+                <button onclick="setTime(5)">Night</button>
+                <button onclick="setTime(6)">Evening</button>
+            </div>
+            <div id="timerWrapper">
+                <input id="timerInput">
+                <p class="timer"></p>
+                <button onclick="timer('start')" id="timerStart">Start</button>
+                <button onclick="timer('stop')" id="timerStop">Stop</button>
+            </div>
+            <div id="dayWrapper">
+                <button onclick="dayChange(false)">-</button>
+                <h3 id="dayDisplay">0</h3>
+                <button onclick="dayChange(true)">+</button>
+            </div>
+            <div id="hostPlayerControlBoardDiv">
+
             </div>
             <div>
-                <button onclick="avatarChange(3, 'changer')">&gt;</button>
-                <button onclick="avatarChange(4, 'changer')">&gt;</button>
-                <button onclick="avatarChange(5, 'changer')">&gt;</button>
+                <h3>Votes</h3>
+                <p id="voteUpdate"></p>
+                <h3>Trials</h3>
+                <p id="trialVoteUpdate"></p>
             </div>
             <div>
-                <button onclick="randomAvatar()">Random</button>
+                
             </div>
         </div>
-    </div>
-    
-    <div id="playerPlayingBoard">
-        
-        <div id="roleReveal">
-            <h3 id="roleRevealIntro">Your role is...</h3>
-            <img id="roleRevealCards">
-            <p id="roleRevealSubtext"></p>
-        </div>
-        
-        <div id="playingMenu">
-            <div id="topBar">
-                <div id="playerTabs">
-                    <button onclick="switchTabs('gamePlayerList')">Players</button>
-                    <button onclick="switchTabs('graveyard')">Graveyard</button>
-                    <button onclick="switchTabs('lastWill')">Last Will</button>
-                    <button onclick="switchTabs('roles')">Roles</button>
-                    <button onclick="switchTabs('deathNote')" id="DeathNoteBtn">Death Note</button>
-                    <button onclick="switchTabs('forge')" id="forgeryBtn">Forgery</button>
+
+        <div id="playerIntroBoard">
+            <button id="hostClaimBtn" onclick="claimHost()">Claim host</button>
+            <input id="name" type="text" placeholder="name">
+            <input id="code" type="text" placeholder="code">
+            <button id="joinGameBtn" onclick="joinGame()">Join Game!</button>
+            <h2>Players</h2>
+            <div id="playerList">
+                
+            </div>
+            <div id="avatarCreatorDiv">
+                <div>
+                    <button onclick="avatarChange(0, 'changer')">&lt;</button>
+                    <button onclick="avatarChange(1, 'changer')">&lt;</button>
+                    <button onclick="avatarChange(2, 'changer')">&lt;</button>
                 </div>
-                <div id="topBarContent">
-                    <div id="gamePlayerList" class="topBarTabs">
-
-                    </div>
-                    <div id="graveyard" class="topBarTabs">
-
-                    </div>
-                    <div id="lastWill" class="topBarTabs">
-                        <textarea id="lastWillText"></textarea>
-                        <button>Save</button>
-                    </div>
-                    <div id="roles" class="topBarTabs">
-                        <div id="playingRoleList"></div>
-
-                    </div>
-                    <div id="deathNote" class="topBarTabs">
-                        <textarea id="deathNoteText"></textarea>
-                        <button>Save</button>
-                    </div>
-                    <div id="forge" class="topBarTabs">
-                        <textarea id="forgery"></textarea>
-                        <button>Save</button>
-                    </div>
+                <div class="avatarWrapper" style="height:100px;">
+                    <img class="avatarT changer" style="z-index: 3;" src="images/avatar/T0.svg"></img>
+                    <img class="avatarB changer" style="z-index: 2;" src="images/avatar/B0.svg"></img>
+                    <img class="avatarC changer" style="z-index: 1;" src="images/avatar/C0.svg"></img>
+                </div>
+                <div>
+                    <button onclick="avatarChange(3, 'changer')">&gt;</button>
+                    <button onclick="avatarChange(4, 'changer')">&gt;</button>
+                    <button onclick="avatarChange(5, 'changer')">&gt;</button>
+                </div>
+                <div>
+                    <button onclick="randomAvatar()">Random</button>
                 </div>
             </div>
-            <div>
-                <h2 id="time"></h2>
-                <h2 id="timerDisplay"></h2>
-            </div>            
+        </div>
+        
+        <div id="playerPlayingBoard">
+            
+            <div id="roleReveal">
+                <h3 id="roleRevealIntro">Your role is...</h3>
+                <img id="roleRevealCards">
+                <p id="roleRevealSubtext"></p>
+            </div>
+            
+            <div id="playingMenu">
+                <div id="topBar">
+                    <div id="playerTabs">
+                        <button onclick="switchTabs('gamePlayerList')">Players</button>
+                        <button onclick="switchTabs('graveyard')">Graveyard</button>
+                        <button onclick="switchTabs('lastWill')">Last Will</button>
+                        <button onclick="switchTabs('roles')">Roles</button>
+                        <button onclick="switchTabs('deathNote')" id="DeathNoteBtn">Death Note</button>
+                        <button onclick="switchTabs('forge')" id="forgeryBtn">Forgery</button>
+                    </div>
+                    <div id="topBarContent">
+                        <div id="gamePlayerList" class="topBarTabs">
 
-            <div id="midBar">
-                <button onclick="showRole()"id="showRole">
-                    <img id="showRoleImg">
-                </button>
-                <div id="playerSelector">
-                    <div id="PSdisplay">
+                        </div>
+                        <div id="graveyard" class="topBarTabs">
+
+                        </div>
+                        <div id="lastWill" class="topBarTabs">
+                            <textarea id="lastWillText"></textarea>
+                            <button>Save</button>
+                        </div>
+                        <div id="roles" class="topBarTabs">
+                            <div id="playingRoleList"></div>
+
+                        </div>
+                        <div id="deathNote" class="topBarTabs">
+                            <textarea id="deathNoteText"></textarea>
+                            <button>Save</button>
+                        </div>
+                        <div id="forge" class="topBarTabs">
+                            <textarea id="forgery"></textarea>
+                            <button>Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 id="time"></h2>
+                    <h2 id="timerDisplay"></h2>
+                </div>            
+
+                <div id="midBar">
+                    <button onclick="showRole()"id="showRole">
+                        <img id="showRoleImg">
+                    </button>
+                    <div id="playerSelector">
+                        <div id="PSdisplay">
+                            
+                        </div>
+                        <div id="PSselector">
+                            <button onClick="moveVote(true)">&lt;</button>
+                            <button id="PSsubmit" onClick="submitVote()">Vote</button>
+                            <button onClick="moveVote(false)">&gt;</button>
+                        </div>
+                    </div>
+                    <div id="trialSelector">
+                        <button id="Guilty" onClick="vote('Guilty')">Guilty</button>
+                        <button id="Innocent" onClick="vote('Innocent')">Innocent</button>
+                        <button id="Abstain" onClick="vote('Abstain')">Abstain</button>
+                    </div>
+                    <div id="abilitySelectorWrapper">
+
+                        <!-- Main Player Selector -->
+                        <div class="abilitySelector" data-uitype="0">
+                            <div class="display0">
+        
+                            </div>
+                            <div class="selector">
+                                <button onClick="moveSelector(0, true)">&lt;</button>
+                                <button id="ability0" onClick="submitAction()">Vote</button>
+                                <button onClick="moveSelector(0, false)">&gt;</button>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Player Selector -->
+                        <div class="abilitySelector" data-uitype="1">
+                            <div class="display1">
+        
+                            </div>
+                            <div class="selector">
+                                <button onClick="moveSelector('1', true)">&lt;</button>
+                                <button id="ability1" onClick="submitAction()">Vote</button>
+                                <button onClick="moveSelector('1', false)">&gt;</button>
+                            </div>                      
+                        </div>
                         
-                    </div>
-                    <div id="PSselector">
-                        <button onClick="moveVote(true)">&lt;</button>
-                        <button id="PSsubmit" onClick="submitVote()">Vote</button>
-                        <button onClick="moveVote(false)">&gt;</button>
-                    </div>
-                </div>
-                <div id="trialSelector">
-                    <button id="Guilty" onClick="vote('Guilty')">Guilty</button>
-                    <button id="Innocent" onClick="vote('Innocent')">Innocent</button>
-                    <button id="Abstain" onClick="vote('Abstain')">Abstain</button>
-                </div>
-                <div id="abilitySelectorWrapper">
+                        <!-- Checkbox -->
+                        <div class="abilitySelector" data-uitype="2">
+                            <div class="cautiousBox">
+                                <h3 id="ui2text">Go Cautious</h3>
+                                <input id="abilityCheckbox" type="checkbox">
+                            </div>
+                        </div>
 
-                    <!-- Main Player Selector -->
-                    <div class="abilitySelector" data-uitype="0">
-                        <div class="display0">
-    
-                        </div>
-                        <div class="selector">
-                            <button onClick="moveSelector(0, true)">&lt;</button>
-                            <button id="ability0" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector(0, false)">&gt;</button>
-                        </div>
-                    </div>
+                        <!-- Hypno Message -->
+                        <div class="abilitySelector" data-uitype="3">
+                            <div class="hypnotistMsg">
+                                <h3>Fake Message:</h3>
+                                <select style="width: 90%" id="hypnoSelect">
+                                    <option>You were Transported to another location.</option>
+                                    <option>Someone occupied your night. You were Roleblocked!</option>
+                                    <option>You were attacked but someone fought off your attacker!</option>
+                                    <option>You were attacked but someone nursed you back to health!</option>
+                                    <option class="unCovenExpansion">You feel a mystical power dominating you. You were controlled by a  Witch!</option>
 
-                    <!-- Secondary Player Selector -->
-                    <div class="abilitySelector" data-uitype="1">
-                        <div class="display1">
-    
+                                    <option class="covenExpansion">You were Poisoned. You will die tomorrow unless you are cured!</option>
+                                    <option class="covenExpansion">You were Poisoned. You will die tomorrow!</option>
+                                    <option class="covenExpansion">You were attacked but someone protected you!</option>
+                                    <option class="covenExpansion">You were Poisoned but someone nursed you back to health!</option>
+                                    <option class="covenExpansion">Someone tried to Poison you but someone fought off your attacker!</option>
+                                    <option class="covenExpansion">You triggered a trap!</option>
+                                    <option class="covenExpansion">You were attacked but a trap saved you!</option>
+                                    <option class="covenExpansion">A trap attacked you but someone nursed you back to health!</option>
+                                </select>
+                            </div>                    
                         </div>
-                        <div class="selector">
-                            <button onClick="moveSelector('1', true)">&lt;</button>
-                            <button id="ability1" onClick="submitAction()">Vote</button>
-                            <button onClick="moveSelector('1', false)">&gt;</button>
-                        </div>                      
-                    </div>
-                    
-                    <!-- Checkbox -->
-                    <div class="abilitySelector" data-uitype="2">
-                        <div class="cautiousBox">
-                            <h3 id="ui2text">Go Cautious</h3>
+
+                        <!-- Potions -->
+                        <div class="abilitySelector" data-uitype="4">
+                            <div class="potions">
+                                <h3>Potion:</h3>
+                                <select id="potionSelect">
+                                    <option data-potion="HP">Healing Potion (3/3)</option>
+                                    <option data-potion="RP">Revealing Poton (3/3)</option>
+                                    <option data-potion="AP">Attacking Potion (3/3)</option>
+                                </select>
+                            </div>                     
+                        </div>
+
+                        <!-- Forger  -->
+                        <div class="abilitySelector" data-uitype="5">
+                            <div class="roleForge">
+                                <h3>Choose Role</h3>
+                                <select id="roleForgeSelect">
+                                    <option>Ambusher</option>
+                                    <option>Amnesiac</option>
+                                    <option>Arsonist</option>
+                                    <option>Blackmailer</option>
+                                    <option>Bodyguard</option>
+                                    <option>Bootlegger</option>
+                                    <option>Consigliere</option>
+                                    <option class="covenExpansion">Coven Leader</option>
+                                    <option class="covenExpansion">Crusader</option>
+                                    <option>Disguiser</option>
+                                    <option>Doctor</option>
+                                    <option>Executioner</option>
+                                    <option>Forger</option>
+                                    <option>Framer</option>
+                                    <option>Godfather</option>
+                                    <option class="covenExpansion">Guardian Angel</option>
+                                    <option class="covenExpansion">Hex Master</option>
+                                    <option>Hypnotist</option>
+                                    <option>Investigator</option>
+                                    <option>Jailor</option>
+                                    <option>Janitor</option>
+                                    <option>Jester</option>
+                                    <option class="covenExpansion">Juggernaut</option>
+                                    <option>Lookout</option>
+                                    <option>Mafioso</option>
+                                    <option>Mayor</option>
+                                    <option>Medium</option>
+                                    <option class="covenExpansion">Medusa</option>
+                                    <option class="covenExpansion">Necromancer</option>
+                                    <option class="covenExpansion">Pestilence</option>
+                                    <option class="covenExpansion">Pirate</option>
+                                    <option class="covenExpansion">Plaguebearer</option>
+                                    <option class="covenExpansion">Poisoner</option>
+                                    <option class="covenExpansion">Potion Master</option>
+                                    <option class="covenExpansion">Psychic</option>
+                                    <option>Retributionist</option>
+                                    <option>Serial Killer</option>
+                                    <option>Sheriff</option>
+                                    <option>Spy</option>
+                                    <option>Survivor</option>
+                                    <option>Tavern Keeper</option>
+                                    <option class="covenExpansion">Tracker</option>
+                                    <option>Transporter</option>
+                                    <option class="covenExpansion">Trapper</option>
+                                    <option>Vampire</option>
+                                    <option>Vampire Hunter</option>
+                                    <option>Veteran</option>
+                                    <option>Vigilante</option>
+                                    <option>Werewolf</option>
+                                    <option class="unCovenExpansion">Witch</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Pirate -->
+                        <div class="abilitySelector" data-uitype="6">
+                            <h3>Choose yer attack!</h3>
+                            <select id="piratePicker">
+                                <option>Scimitar</option>
+                                <option>Rapier</option>
+                                <option>Pistol</option>
+                            </select>
+                        </div>
+
+                        <!-- No Action -->
+                        <div class="abilitySelector" data-uitype="-1">
+                            <h3>No action</h3>
                             <input type="checkbox">
                         </div>
+
                     </div>
-
-                    <!-- Hypno Message -->
-                    <div class="abilitySelector" data-uitype="3">
-                        <div class="hypnotistMsg">
-                            <h3>Fake Message:</h3>
-                            <select style="width: 90%" id="hypnoSelect">
-                                <option>You were Transported to another location.</option>
-                                <option>Someone occupied your night. You were Roleblocked!</option>
-                                <option>You were attacked but someone fought off your attacker!</option>
-                                <option>You were attacked but someone nursed you back to health!</option>
-                                <option class="unCovenExpansion">You feel a mystical power dominating you. You were controlled by a  Witch!</option>
-
-                                <option class="covenExpansion">You were Poisoned. You will die tomorrow unless you are cured!</option>
-                                <option class="covenExpansion">You were Poisoned. You will die tomorrow!</option>
-                                <option class="covenExpansion">You were attacked but someone protected you!</option>
-                                <option class="covenExpansion">You were Poisoned but someone nursed you back to health!</option>
-                                <option class="covenExpansion">Someone tried to Poison you but someone fought off your attacker!</option>
-                                <option class="covenExpansion">You triggered a trap!</option>
-                                <option class="covenExpansion">You were attacked but a trap saved you!</option>
-                                <option class="covenExpansion">A trap attacked you but someone nursed you back to health!</option>
-                            </select>
-                        </div>                    
-                    </div>
-
-                    <!-- Potions -->
-                    <div class="abilitySelector" data-uitype="4">
-                        <div class="potions">
-                            <h3>Potion:</h3>
-                            <select id="potionSelect">
-                                <option data-potion="HP">Healing Potion (3/3)</option>
-                                <option data-potion="RP">Revealing Poton (3/3)</option>
-                                <option data-potion="AP">Attacking Potion (3/3)</option>
-                            </select>
-                        </div>                     
-                    </div>
-
-                    <!-- Forger  -->
-                    <div class="abilitySelector" data-uitype="5">
-                        <div class="roleForge">
-                            <h3>Choose Role</h3>
-                            <select id="roleForgeSelect">
-                                <option>Ambusher</option>
-                                <option>Amnesiac</option>
-                                <option>Arsonist</option>
-                                <option>Blackmailer</option>
-                                <option>Bodyguard</option>
-                                <option>Bootlegger</option>
-                                <option>Consigliere</option>
-                                <option class="covenExpansion">Coven Leader</option>
-                                <option class="covenExpansion">Crusader</option>
-                                <option>Disguiser</option>
-                                <option>Doctor</option>
-                                <option>Executioner</option>
-                                <option>Forger</option>
-                                <option>Framer</option>
-                                <option>Godfather</option>
-                                <option class="covenExpansion">Guardian Angel</option>
-                                <option class="covenExpansion">Hex Master</option>
-                                <option>Hypnotist</option>
-                                <option>Investigator</option>
-                                <option>Jailor</option>
-                                <option>Janitor</option>
-                                <option>Jester</option>
-                                <option class="covenExpansion">Juggernaut</option>
-                                <option>Lookout</option>
-                                <option>Mafioso</option>
-                                <option>Mayor</option>
-                                <option>Medium</option>
-                                <option class="covenExpansion">Medusa</option>
-                                <option class="covenExpansion">Necromancer</option>
-                                <option class="covenExpansion">Pestilence</option>
-                                <option class="covenExpansion">Pirate</option>
-                                <option class="covenExpansion">Plaguebearer</option>
-                                <option class="covenExpansion">Poisoner</option>
-                                <option class="covenExpansion">Potion Master</option>
-                                <option class="covenExpansion">Psychic</option>
-                                <option>Retributionist</option>
-                                <option>Serial Killer</option>
-                                <option>Sheriff</option>
-                                <option>Spy</option>
-                                <option>Survivor</option>
-                                <option>Tavern Keeper</option>
-                                <option class="covenExpansion">Tracker</option>
-                                <option>Transporter</option>
-                                <option class="covenExpansion">Trapper</option>
-                                <option>Vampire</option>
-                                <option>Vampire Hunter</option>
-                                <option>Veteran</option>
-                                <option>Vigilante</option>
-                                <option>Werewolf</option>
-                                <option class="unCovenExpansion">Witch</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Pirate -->
-                    <div class="abilitySelector" data-uitype="6">
-                        <h3>Choose yer attack!</h3>
-                        <select>
-                            <option>Scimitar</option>
-                            <option>Rapier</option>
-                            <option>Pistol</option>
-                        </select>
-                    </div>
-
                 </div>
+            </div>
+
+        </div>
+
+        <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
+            <div class="roleMenu" id="roleMenuTemp">
+            </div>
+            <p>Selected role:</p>
+            <p id="selRole"></p>
+            <button onclick="submitRole()">Submit</button>
+            
+        </dialog>
+
+        <div id="hostBoardPlayerTemplate" class="hostBoardPlayer" style="display: flex;">
+            <div class="hostBoardPlayerName">
+            </div>
+            <div class="hostBoardPlayerRoleInfo">
+                <button class="roleBtn">
+                    Role
+                </button>
+                <div class="attackDefense">
+                    <input type="number" class="att">
+                    <input type="number" class="def">
+                </div>
+            </div>
+            <div class="hostBoardAction">
+                
+            </div>
+            <div class="hostBoardPlayerStatuses">
+                <button class="hostBoardToggle alive">Alive</button>
+                <button class="hostBoardToggle chat">Chat ON</button>
+            </div>
+            <div class="hostBoardPlayerEffects">
+                <button class="hostBoardToggle framed">Framed</button>
+                <button class="hostBoardToggle doused">Doused</button>
+                <button class="hostBoardToggle rotten">RRotten</button>
+                <button class="hostBoardToggle rotten covenExpansion">NRotten</button>
+                <button class="hostBoardToggle framed covenExpansion">Hexed</button>
+                <button class="hostBoardToggle framed covenExpansion">Infected</button>
             </div>
         </div>
 
+            <!-- <button onclick="setRole()">Role</button> -->
+            <!-- <button onclick="specialGameStart('Hypnotist')">Invest</button> -->
     </div>
-
-    <dialog id="roleSelect" class="roleMenuDialog" closedby="any">
-        <div class="roleMenu" id="roleMenuTemp">
-        </div>
-        <p>Selected role:</p>
-        <p id="selRole"></p>
-        <button onclick="submitRole()">Submit</button>
-        
-    </dialog>
 
 
     <dialog id="whisperPlayerList" closedby="any">
@@ -338,11 +368,6 @@
     </dialog>
 
 
-    <!-- <button onclick="setRole()">Role</button> -->
-    <button onclick="specialGameStart('Hypnotist')">Invest</button>
-
-
-    
 
     <div id="chatDiv">
         <div id="chatInputWrapper">

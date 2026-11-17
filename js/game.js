@@ -3,6 +3,10 @@ let playing = false;
 
 // --------------HOST CONNECTION---------------
 
+let playerAttack = [];
+let playerDefense = [];
+
+
 function startGame(){
     connections.forEach(conn => {
         conn.send([7,[roles[connections.indexOf(conn)],document.getElementById("covenExpansionCheckbox").checked]]);
@@ -14,6 +18,17 @@ function startGame(){
     }, 4000)
     document.getElementById("trialVoteUpdate").innerText = trial;
     document.getElementById("voteUpdate").innerText = votes;
+    roles.forEach((role, ind) => {
+
+        playerAttack.push(getRoleByName(role).attack);
+        playerDefense.push(getRoleByName(role).defense);
+
+        document.querySelectorAll(`.hostBoardPlayer[data-player="${ind}"]`)[0].querySelectorAll(".att")[0].value = getRoleByName(role).attack;
+        document.querySelectorAll(`.hostBoardPlayer[data-player="${ind}"]`)[0].querySelectorAll(".def")[0].value = getRoleByName(role).defense;
+        
+        document.querySelectorAll(`.hostBoardPlayer[data-player="${ind}"]`)[0].querySelectorAll(".roleBtn")[0].innerText = role;
+    })
+    
 }
 
 function setTime(time){
@@ -42,7 +57,7 @@ function timer(option){
             }
         }, 1000)
     }
-    if(option==="stop" && !currentTimer){
+    if(option==="stop" && currentTimer){
         clearInterval(currentTimer);
     }
 }
@@ -70,6 +85,12 @@ function dayChange(isIncrease){
     connections.forEach(conn =>{
         conn.send([13, day]);
     })
+}
+
+function computeAction(action, player){
+    console.log("computer action");
+    const playerBoard = document.querySelectorAll(`.hostBoardPlayer[data-player="${player}"]`)[0];
+    playerBoard.querySelectorAll(".hostBoardAction")[0].innerText = action;
 }
 
 
@@ -136,12 +157,16 @@ function gameStart(msg){
     document.querySelectorAll(".abilitySelector").forEach((icon) => {
         icon.style.display = "none";
     })
+    document.querySelectorAll('.abilitySelector[data-uitype="-1"]')[0].style.display = "flex";
     console.log(myRole.ui);
     console.log("ability")
     switch(myRole.ui){
         case "0":
             document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
             document.getElementById("ui2text").innerText = myRole.button;
+            break;
+        case "1":
+            document.querySelectorAll('.abilitySelector[data-uitype="-1"]')[0].style.display = "none";
             break;
         case "2":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
@@ -249,6 +274,7 @@ function changeTime(time){
             break;
         case 6:
             timeTeller.innerText = `Evening ${currentDay}`;
+            submitAction();
             break;
 
 
@@ -327,7 +353,7 @@ function updateTimer(time){
     document.getElementById("timerDisplay").innerHTML = "Time:".concat(time);
 }
 
-let abilityFocus = 0;
+let abilityFocus = [0,0];
 
 function moveSelector(ind, isDown){
     retractVote();
@@ -335,17 +361,17 @@ function moveSelector(ind, isDown){
         icon.style.display = "none";
     })
     if(isDown){
-        abilityFocus--;
+        abilityFocus[ind]--;
     }else{
-        abilityFocus++;
+        abilityFocus[ind]++;
     }
-    if(abilityFocus<0){
-        abilityFocus = names.length-1;
+    if(abilityFocus[ind]<0){
+        abilityFocus[ind] = names.length-1;
     }
-    if(abilityFocus>=names.length){
-        abilityFocus = 0;
+    if(abilityFocus[ind]>=names.length){
+        abilityFocus[ind] = 0;
     }
-    document.querySelectorAll(`.PSplays[data-player="${abilityFocus}"]`)[0].style.display = "flex";
+    document.querySelectorAll(`.player${ind}[data-player="${abilityFocus[ind]}"]`)[0].style.display = "flex";
 }
 
 function specialGameStart(role){
@@ -355,4 +381,42 @@ function specialGameStart(role){
 
 function dayUpdate(change){
     currentDay = change;
+}
+
+
+function submitAction(){
+    let action = ""
+    switch(myRole.ui){
+        case "0":
+            action = `${myRole.button} ${document.getElementById("abilityCheckbox").value}`;
+            break;
+        case "1":
+            if(myRole.name === "Jailor"){
+
+            }
+            action = "No action"
+            break;
+        case "2":
+            action = `${myRole.button.split("|")[0]} ${abilityFocus[0]} Cautious: ${document.getElementById("abilityCheckbox").value}`
+            break;
+        case "3":
+            action = `${myRole.button.split("|")[0]} ${abilityFocus[0]} with "${hypnoSelect.value}"`;
+            break;
+        case "4":
+            action = `${myRole.button.split("|")[0]} ${abilityFocus[0]} and ${myRole.button.split("|")[1]} ${abilityFocus[1]}`;
+            break;
+        case "5":
+            action = `${myRole.button.split("|")[0]} ${abilityFocus[0]} with ${document.getElementById("potionSelect").value}`
+            break;
+        case "6":
+            action = `${myRole.button} ${abilityFocus[0]}`
+            break;
+        case "7":
+            action = `${document.getElementById('piratePicker').value}`
+            break;
+        case "8":
+            action = `Forge ${abilityFocus[0]} as ${document.getElementById("roleForgeSelect").value}`
+            break;
+    }
+    hostConn.send([14,action])
 }
