@@ -206,6 +206,16 @@ function messageRecieved(data, conn){
         case 14:
             computeAction(msg, connections.indexOf(conn));
             break;
+        case 15:
+            connections.forEach(cConn => {
+                cConn.send([16, connections.indexOf(conn)]);
+            }) 
+            break;
+        case 16:
+            showMayorPopup(msg);
+            break;
+            
+        
     }
 
 }

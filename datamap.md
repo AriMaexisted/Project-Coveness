@@ -15,4 +15,6 @@
 |12|String|Update Trial Votes|C->H|
 |13|String|Update current day|H->C|
 |14|String|Update Action|C->H|
+|15|String|Send Mayor Reveal|C->H|
+|16|String|Mayor Reveal|H->C|
 

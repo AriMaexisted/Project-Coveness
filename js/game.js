@@ -6,6 +6,8 @@ let playing = false;
 let playerAttack = [];
 let playerDefense = [];
 
+let mayorRevealed = false;
+
 
 function startGame(){
     connections.forEach(conn => {
@@ -273,12 +275,24 @@ function changeTime(time){
             timeTeller.innerText = `Night ${currentDay}`;
             break;
         case 6:
-            timeTeller.innerText = `Evening ${currentDay}`;
+            timeTeller.innerText = `Day Break ${currentDay}`;
             submitAction();
             break;
-
-
     }
+    if(["Jailor", "Pirate"].includes(myRole.name)){ 
+        if(time === 5){
+            hostConn.send([14,`${myRole.button} ${abilityFocus[0]}`])
+        }else{
+            document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
+            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+            document.getElementById("ability0").innerText = (myRole.name==="Jailor")?"Imprison":"Plunder";
+        }
+    }
+    if(myRole.name === "Mayor" && time<5 && !mayorRevealed){
+        document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
+        document.querySelector(".abilitySelector[data-uitype='7']").style.display = "flex";    
+    }
+
 }
 
 function chatDisabled(disabled){
@@ -376,7 +390,7 @@ function moveSelector(ind, isDown){
 
 function specialGameStart(role){
     clientUpdatePlayerlist([["AAA","BBB","CCC"],[[0,0,0],[1,1,1],[2,2,2]]]);
-    gameStart(role);
+    gameStart([role,true]);
 }
 
 function dayUpdate(change){
@@ -419,4 +433,17 @@ function submitAction(){
             break;
     }
     hostConn.send([14,action])
+}
+
+function showMayorPopup(mayor){
+    document.querySelectorAll("#mayorHasRevealed h3")[0].innerText = `${names[mayor]} has revealed themself as the mayor!`
+    document.getElementById("mayorHasRevealed").showModal();
+}
+
+
+
+function mayorReveal(){
+    hostConn.send([15,""])
+    mayorRevealed = true;
+    document.getElementById("revealYourselfMayor").close();
 }

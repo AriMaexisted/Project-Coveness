@@ -14,7 +14,7 @@
     <script src="js/game.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/role.css">
-    <link rel="icon" type="image/png" href="/images/icons/webIcon.svg">
+    <link rel="icon" type="image/png" href="images/icons/webIcon.svg">
 </head>
 <body>
     <div id="nonChatDiv">
@@ -308,6 +308,12 @@
                             </select>
                         </div>
 
+                        <!-- Mayor Reveal -->
+                        <div class="abilitySelector" data-uitype="7">
+                            <button onclick="document.getElementById('revealYourselfMayor').showModal()">Reveal yourself?</button>
+                        </div>
+                        
+
                         <!-- No Action -->
                         <div class="abilitySelector" data-uitype="-1">
                             <h3>No action</h3>
@@ -327,6 +333,26 @@
             <p id="selRole"></p>
             <button onclick="submitRole()">Submit</button>
             
+        </dialog>
+
+        <dialog id="revealYourselfMayor" closedby="any">
+            <div class="column">
+                <h3>Reveal yourself as mayor?</h3>
+                <div class="row">
+                    <button onclick="mayorReveal()">Reveal!</button>
+                    <button onclick="document.getElementById('revealYourselfMayor').close()">Close</button>
+                </div>
+            </div>
+        </dialog>
+
+        <dialog id="mayorHasRevealed" closedby="any">
+            <div class="col">
+                <div class="row">
+                    <img style="height: 10vh;" src="images/icons/Mayor.svg">
+                    <h3 style="text-align: center;">Username has revealed themself as the mayor!</h3>
+                </div>
+                <button onclick="document.getElementById('mayorHasRevealed').close()">Hurrah!</button>
+            </div>
         </dialog>
 
         <div id="hostBoardPlayerTemplate" class="hostBoardPlayer" style="display: flex;">
