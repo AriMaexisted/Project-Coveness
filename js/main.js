@@ -20,6 +20,9 @@ const REVEALASMAYOR = 15;
 const MAYORREVEALED = 16;
 const RBASJAILPIR = 17;
 const JAILEDPIRATED = 18;
+const KILL = 19;
+const REVIVE = 20;
+const UPDATETEXT = 21;
 
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
@@ -241,6 +244,16 @@ function messageRecieved(data, conn){
         case JAILEDPIRATED:
             roleBlocked(msg);
             break;
+        case KILL:
+            markDead(msg);
+            break;
+        case REVIVE:
+            revive(msg);
+            break;
+        case UPDATETEXT:
+            updateText(msg, connections.indexOf(conn));
+            break;
+
         
     }
 

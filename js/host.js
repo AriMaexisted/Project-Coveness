@@ -16,6 +16,7 @@ function updatePlayerlist(){
     
     playerConfig.innerHTML = "";
     document.getElementById("hostPlayerControlBoardDiv").innerHTML = ""
+    document.getElementById("whisperPlayerList").innerHTML = ""
     names.forEach(cName => {
         const playerDiv = document.createElement('div');
         const playerName = document.createElement('h1');
@@ -77,6 +78,10 @@ function updatePlayerlist(){
         whisperButtonDiv.append(whisperButtonIcon);
         whisperButtonDiv.append(whisperButtonName);
 
+        whisperButtonDiv.addEventListener('click', () => {
+            setWhisperTarget(names.indexOf(cName));
+        })
+
         document.getElementById("whisperPlayerList").append(whisperButtonDiv);
 
         //Host Player Control Board
@@ -107,6 +112,14 @@ function updatePlayerlist(){
         PBdef.addEventListener('input', (e) => {
             playerDefense[names.indexOf(cName)] = PBdef.value;
         });
+
+        const PBalive = playerBoard.querySelectorAll(".alive")[0];
+        PBalive.addEventListener('click', () => {
+            PBalive.innerText = (PBalive.innerText == "Alive")?"Dead":"Alive";
+            connections.forEach(conn => {
+                conn.send([((PBalive.innerText == "Alive")?REVIVE:KILL), names.indexOf(cName)]);
+            })
+        })
 
         
         document.getElementById("hostPlayerControlBoardDiv").appendChild(playerBoard);

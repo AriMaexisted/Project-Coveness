@@ -102,6 +102,14 @@ function roleBlockJP(msg){
     connections[target].send([JAILEDPIRATED, isJailor])
 }
 
+function updateText(msg, player){
+    let newText = msg[0];
+    let isLastWill = msg[1];
+
+    const elementToChange = document.querySelector(`.hostBoardPlayer[data-player="${player}"] ${(isLastWill)?".lastWill":".deathNote"}`);
+    elementToChange.innerText = newText;
+}
+
 
 // --------------CLIENT CONNECTION--------------
 
@@ -219,9 +227,9 @@ function gameStart(msg){
 
     switch(myRole.dayUi){
         case "0":
+            document.querySelector(".dayAbilitySelector[data-uitype='-1']").style.display = "none";
             break;
         case "1":
-            console.log("it's   ")
             document.querySelector(".dayAbilitySelector[data-uitype='0']").style.display = "flex";
             document.getElementById("dayAbility0").innerText = myRole.dayUiButton;
             break;
@@ -243,10 +251,23 @@ function gameStart(msg){
         element.style.display = (!covenExpansion)?"flex":"none";
     })
     switchTabs('gamePlayerList');
+
+    if(myRole.hasDeathNote === "TRUE"){
+        document.getElementById("DeathNoteBtn").style.display = "flex"
+    }
+    
+    if(myRole.name === "Forger"){
+        document.getElementById("forgeryBtn").style.display = "flex"
+    }
+
     playing = true;
 }
 
 function switchTabs(tab){
+    let target = tab
+    if(myRole.name === "Jailor"){
+        target = "jailorDeathNote";
+    }
 
     let topBarTabs = document.getElementsByClassName("topBarTabs");
 
@@ -254,9 +275,13 @@ function switchTabs(tab){
         topBarTab.style.display = "none";
     });
 
-    document.getElementById(tab).style.display = "flex";
+    document.getElementById(target).style.display = "flex";
     
 }
+
+document.querySelector("#jailorDeathNote select").addEventListener('change', () => {
+
+})
 
 function markDead(ind){
     document.querySelectorAll(`[data-player="${ind}"]`).forEach(player => {
@@ -313,11 +338,13 @@ function changeTime(time){
             if(myRole.dayUi === '1' && !document.querySelector(".dayAbilitySelector[data-uitype='-1'] input").checked){
                 hostConn.send([RBASJAILPIR, [(myRole.name==="Jailor"),abilityFocus[0]]])
             }
+            chatDisabled(true);
             break;
         case 6:
             timeTeller.innerText = `Day Break ${currentDay}`;
             submitAction();
             document.getElementById("pirated")
+            chatDisabled(true);
             break;
     }
     // if(["Jailor", "Pirate"].includes(myRole.name)){ 

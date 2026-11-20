@@ -130,7 +130,7 @@
                         </div>
                         <div id="lastWill" class="topBarTabs">
                             <textarea id="lastWillText"></textarea>
-                            <button>Save</button>
+                            <button onclick="hostConn.send([UPDATETEXT, [document.getElementById('lastWillText').value, true]])">Save</button>
                         </div>
                         <div id="roles" class="topBarTabs">
                             <div id="playingRoleList"></div>
@@ -140,9 +140,20 @@
                             <textarea id="deathNoteText"></textarea>
                             <button>Save</button>
                         </div>
+                        <div id="jailorDeathNote" class="topBarTabs">
+                            <select>
+                                <option>No reason specified.</option>
+                                <option>They are known to be an evildoer.</option>
+                                <option>Their confession was contradictory.</option>
+                                <option>They are possessed and talking nonsense.</option>
+                                <option>They are too quiet or won't respond to questioning.</option>
+                                <option>They are an outsider that might turn against us.</option>
+                                <option>I'm using my own discretion.</option>
+                            </select>
+                        </div>
                         <div id="forge" class="topBarTabs">
                             <textarea id="forgery"></textarea>
-                            <button>Save</button>
+                            <button onclick="hostConn.send([UPDATETEXT, [document.getElementById('lastWillText').value, false]])">Save</button>
                         </div>
                     </div>
                 </div>
@@ -414,6 +425,13 @@
             <div class="hostBoardPlayerStatuses">
                 <button class="hostBoardToggle alive">Alive</button>
                 <button class="hostBoardToggle chat">Chat ON</button>
+            </div>
+
+            <div class="hostBoardPlayerText">
+                <p>Last Will</p>
+                <p class="lastWill"></p>
+                <p>Death Note</p>
+                <p class="deathNote"></p>
             </div>
             <!-- <div class="hostBoardPlayerEffects">
                 <button class="hostBoardToggle framed">Framed</button>

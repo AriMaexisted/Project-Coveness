@@ -432,3 +432,8 @@ select{
     display: flex;
     flex-direction: row;
 }
+
+.deathNote, .lastWill{
+    font-size: small;
+    color: var(--blue);
+}
