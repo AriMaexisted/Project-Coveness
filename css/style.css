@@ -39,6 +39,11 @@ dialog{
     color: var(--yell);
 }
 
+select{
+    background: var(--yell);
+    color: var(--purp)
+}
+
 .row{
     display: flex;
     flex-direction: row;
@@ -196,6 +201,12 @@ dialog{
 #chatInput{
     width: 100%;
     font-size: larger;
+    background: var(--purp);
+    color: var(--yell);
+}
+
+#chatInput::placeholder{
+    color: #a2a979;
 }
 
 #playerTabs{
@@ -308,6 +319,14 @@ dialog{
 }
 
 #abilitySelectorWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    width: 100%;
+}
+
+#dayAbilitySelectorWrapper{
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -11,7 +11,7 @@ let mayorRevealed = false;
 
 function startGame(){
     connections.forEach(conn => {
-        conn.send([7,[roles[connections.indexOf(conn)],document.getElementById("covenExpansionCheckbox").checked]]);
+        conn.send([STARTGAME,[roles[connections.indexOf(conn)],document.getElementById("covenExpansionCheckbox").checked]]);
     });
     document.getElementById("hostIntroBoard").style.display = "none";
     document.getElementById("hostPlayingBoard").style.display = "flex";
@@ -30,12 +30,12 @@ function startGame(){
         
         document.querySelectorAll(`.hostBoardPlayer[data-player="${ind}"]`)[0].querySelectorAll(".roleBtn")[0].innerText = role;
     })
-    
+    playing = true;
 }
 
 function setTime(time){
     connections.forEach(conn => {
-        conn.send([9, time]);
+        conn.send([TIMECHANGE, time]);
     })
 }
 
@@ -51,7 +51,7 @@ function timer(option){
             document.querySelectorAll(".timer").forEach((element) => {
                 element.innerText = timerVal;
                 connections.forEach(conn => {
-                    conn.send([11, timerVal])
+                    conn.send([TIMERCHANGE, timerVal])
                 })
             });
             if(timerVal <= 0){
@@ -85,7 +85,7 @@ function dayChange(isIncrease){
     day += isIncrease?1:-1;
     document.getElementById("dayDisplay").innerText = day;
     connections.forEach(conn =>{
-        conn.send([13, day]);
+        conn.send([DAYCHANGE, day]);
     })
 }
 
@@ -93,6 +93,13 @@ function computeAction(action, player){
     console.log("computer action");
     const playerBoard = document.querySelectorAll(`.hostBoardPlayer[data-player="${player}"]`)[0];
     playerBoard.querySelectorAll(".hostBoardAction")[0].innerText = action;
+}
+
+function roleBlockJP(msg){
+    let isJailor = msg[0];
+    let target = msg[1];
+    
+    connections[target].send([JAILEDPIRATED, isJailor])
 }
 
 
@@ -104,6 +111,8 @@ let currentDay = 0
 let currentTime = 3
 
 let roleShowing = false;
+
+let amRoleBlocked = false;
 
 function getRoleByName(targetName) {
     return Object.values(ALLROLES)
@@ -155,11 +164,13 @@ function gameStart(msg){
     document.querySelectorAll('.PSplays[data-player="0"]')[0].style.display = "flex";
     document.querySelectorAll('.player0[data-player="0"]')[0].style.display = "flex";
     document.querySelectorAll('.player1[data-player="0"]')[0].style.display = "flex";
+    document.querySelectorAll('.dayPlayer0[data-player="0"]')[0].style.display = "flex";
     
     document.querySelectorAll(".abilitySelector").forEach((icon) => {
         icon.style.display = "none";
     })
     document.querySelectorAll('.abilitySelector[data-uitype="-1"]')[0].style.display = "flex";
+    document.querySelectorAll('.dayAbilitySelector[data-uitype="-1"]')[0].style.display = "flex";
     console.log(myRole.ui);
     console.log("ability")
     switch(myRole.ui){
@@ -205,6 +216,22 @@ function gameStart(msg){
             document.getElementById("ability0").innerText = myRole.button;
             break;
     }
+
+    switch(myRole.dayUi){
+        case "0":
+            break;
+        case "1":
+            console.log("it's   ")
+            document.querySelector(".dayAbilitySelector[data-uitype='0']").style.display = "flex";
+            document.getElementById("dayAbility0").innerText = myRole.dayUiButton;
+            break;
+        case "2":
+            document.querySelector(".dayAbilitySelector[data-uitype='1']").style.display = "flex";
+            document.getElementById("dayAbility1").innerText = myRole.dayUiButton;
+            break;
+
+            
+    }
     
     covenExpansion = msg[1]
 
@@ -213,9 +240,10 @@ function gameStart(msg){
     })
 
     document.querySelectorAll(".unCovenExpansion").forEach((element) => {
-        element.style.display = covenExpansion?"flex":"none";
+        element.style.display = (!covenExpansion)?"flex":"none";
     })
-    switchTabs('gamePlayerList')
+    switchTabs('gamePlayerList');
+    playing = true;
 }
 
 function switchTabs(tab){
@@ -251,9 +279,14 @@ function changeTime(time){
     document.getElementById('playerSelector').style.display = "none";
     document.getElementById('trialSelector').style.display = "none";
     document.getElementById("abilitySelectorWrapper").style.display = "none";
+    document.getElementById("roleBlockedDiv").style.display = "none"
     roleShowing = false;
+    if(!hidden){
+        document.getElementById("dayAbilitySelectorWrapper").style.display = "flex"
+    }
     switch (time){
         case 0:
+            amRoleBlocked = false; 
         case 3:
             chatDisabled(true);
             timeTeller.innerText = `Day ${currentDay}, Announcements`;
@@ -270,28 +303,38 @@ function changeTime(time){
             timeTeller.innerText = `Day ${currentDay}, Voting`;
         break;
         case 5:
+            document.getElementById("dayAbilitySelectorWrapper").style.display = "none"
             roleShowing = true;
-            document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
             timeTeller.innerText = `Night ${currentDay}`;
+            if(!hidden){
+                document.getElementById("abilitySelectorWrapper").style.display = !amRoleBlocked?"flex":"none";
+                document.getElementById("roleBlockedDiv").style.display = amRoleBlocked?"flex":"none";
+            }
+            if(myRole.dayUi === '1' && !document.querySelector(".dayAbilitySelector[data-uitype='-1'] input").checked){
+                hostConn.send([RBASJAILPIR, [(myRole.name==="Jailor"),abilityFocus[0]]])
+            }
             break;
         case 6:
             timeTeller.innerText = `Day Break ${currentDay}`;
             submitAction();
+            document.getElementById("pirated")
             break;
     }
-    if(["Jailor", "Pirate"].includes(myRole.name)){ 
-        if(time === 5){
-            hostConn.send([14,`${myRole.button} ${abilityFocus[0]}`])
-        }else{
-            document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
-            document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
-            document.getElementById("ability0").innerText = (myRole.name==="Jailor")?"Imprison":"Plunder";
-        }
-    }
-    if(myRole.name === "Mayor" && time<5 && !mayorRevealed){
-        document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
-        document.querySelector(".abilitySelector[data-uitype='7']").style.display = "flex";    
-    }
+    // if(["Jailor", "Pirate"].includes(myRole.name)){ 
+    //     if(time === 5){
+    //         document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+    //         hostConn.send([RBASJAILPIR, [(myRole.name==="Jailor"),abilityFocus[0]]]);
+    //     }else{
+    //         document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
+    //         document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
+    //         document.querySelector(".abilitySelector[data-uitype='-1']").style.display = "flex";
+    //         document.getElementById("ability0").innerText = (myRole.name==="Jailor")?"Imprison":"Plunder";
+    //     }
+    // }
+    // if(myRole.name === "Mayor" && time<5 && !mayorRevealed){
+    //     document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
+    //     document.querySelector(".abilitySelector[data-uitype='7']").style.display = "flex";    
+    // }
 
 }
 
@@ -326,11 +369,11 @@ function moveVote(isDown){
 }
 
 function submitVote(){
-    hostConn.send([10, currentFocus]);
+    hostConn.send([VOTE, currentFocus]);
 }
 
 function retractVote(){
-    hostConn.send([10, -1]);
+    hostConn.send([VOTE, -1]);
 }
 
 let hidden = false
@@ -343,10 +386,14 @@ function showRole(){
     }
     console.log(roleShowing);
     console.log(hidden);
-    if(roleShowing){
-        document.getElementById("abilitySelectorWrapper").style.display = hidden?"flex":"none";
+    hidden = !hidden    
+    if(roleShowing && !hidden){
+        document.getElementById("abilitySelectorWrapper").style.display = !amRoleBlocked?"flex":"none";
+        document.getElementById("roleBlockedDiv").style.display = amRoleBlocked?"flex":"none";
+    }else{
+        document.getElementById("abilitySelectorWrapper").style.display = "none";
+        document.getElementById("roleBlockedDiv").style.display = "none";
     }
-    hidden = !hidden
 }
 
 function vote(option){
@@ -388,6 +435,27 @@ function moveSelector(ind, isDown){
     document.querySelectorAll(`.player${ind}[data-player="${abilityFocus[ind]}"]`)[0].style.display = "flex";
 }
 
+let dayAbilityFocus = [0];
+
+function dayMoveSelector(ind, isDown){
+    retractVote();
+    document.querySelectorAll(".dayPlayer".concat(ind)).forEach((icon) => {
+        icon.style.display = "none";
+    })
+    if(isDown){
+        dayAbilityFocus[ind]--;
+    }else{
+        dayAbilityFocus[ind]++;
+    }
+    if(dayAbilityFocus[ind]<0){
+        dayAbilityFocus[ind] = names.length-1;
+    }
+    if(dayAbilityFocus[ind]>=names.length){
+        dayAbilityFocus[ind] = 0;
+    }
+    document.querySelectorAll(`.dayPlayer${ind}[data-player="${dayAbilityFocus[ind]}"]`)[0].style.display = "flex";
+}
+
 function specialGameStart(role){
     clientUpdatePlayerlist([["AAA","BBB","CCC"],[[0,0,0],[1,1,1],[2,2,2]]]);
     gameStart([role,true]);
@@ -406,9 +474,10 @@ function submitAction(){
             break;
         case "1":
             if(myRole.name === "Jailor"){
-
+                action = `${myRole.button} ${abilityFocus[0]}`
+            }else{
+                action = "No action"
             }
-            action = "No action"
             break;
         case "2":
             action = `${myRole.button.split("|")[0]} ${abilityFocus[0]} Cautious: ${document.getElementById("abilityCheckbox").value}`
@@ -432,18 +501,40 @@ function submitAction(){
             action = `Forge ${abilityFocus[0]} as ${document.getElementById("roleForgeSelect").value}`
             break;
     }
-    hostConn.send([14,action])
+    if(amRoleBlocked){
+        if(pirated){
+            action = `Pirate Defense: ${document.getElementById("pirateDefender").value}`
+        }
+    }
+    hostConn.send([NIGHTACTION,action])
 }
+
+
+// Role specific functions
+
+let pirated = false;
 
 function showMayorPopup(mayor){
     document.querySelectorAll("#mayorHasRevealed h3")[0].innerText = `${names[mayor]} has revealed themself as the mayor!`
     document.getElementById("mayorHasRevealed").showModal();
 }
 
-
-
 function mayorReveal(){
-    hostConn.send([15,""])
+    hostConn.send([REVEALASMAYOR,""])
     mayorRevealed = true;
     document.getElementById("revealYourselfMayor").close();
+}
+
+function roleBlocked(isJailor){
+    amRoleBlocked = true;
+    if(!hidden){
+        document.getElementById("abilitySelectorWrapper").style.display = !amRoleBlocked?"flex":"none";
+        document.getElementById("roleBlockedDiv").style.display = amRoleBlocked?"flex":"none";
+    }
+    if(isJailor){
+        document.getElementById("jailed").style.display = "flex";
+    }else{
+        pirated = true;
+        document.getElementById("pirated").showModal();
+    }
 }

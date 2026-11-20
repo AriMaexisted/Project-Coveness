@@ -321,6 +321,35 @@
                         </div>
 
                     </div>
+                    <div id="dayAbilitySelectorWrapper">
+
+                        <!-- Picker UI -->
+                        <div class="dayAbilitySelector abilitySelector" data-uitype="0">
+                            <div class="display0">
+        
+                            </div>
+                            <div class="selector">
+                                <button onClick="dayMoveSelector(0, true)">&lt;</button>
+                                <button id="dayAbility0" onClick="submitAction()">Imprison</button>
+                                <button onClick="dayMoveSelector(0, false)">&gt;</button>
+                            </div>
+                        </div>   
+                        
+                        <!-- Button UI -->
+                        <div class="dayAbilitySelector abilitySelector" data-uitype="1">
+                            <button id="dayAbility1"></button>
+                        </div>
+
+                        <div class="dayAbilitySelector abilitySelector" data-uitype="-1">
+                            <h3>No action</h3>
+                            <input type="checkbox">
+                        </div>
+
+                    </div>
+                    <div id="roleBlockedDiv">
+                        <h3>Something is stopping you from doing your action</h3>
+                        <h3 id="jailed">You have been jailed!</h3>
+                    </div>
                 </div>
             </div>
 
@@ -355,7 +384,19 @@
             </div>
         </dialog>
 
-        <div id="hostBoardPlayerTemplate" class="hostBoardPlayer" style="display: flex;">
+        <dialog id="pirated">
+            <div class="col">
+                <h3>Argghhhh ye have been PLUNDERED!</h3>
+                <p>You have to choose one defense. Two will let you live, one the pirate gets you.</p>
+                <select id="pirateDefender">
+                    <option>Sidestep</option>
+                    <option>Chainmail</option>
+                    <option>Backpedal</option>
+                </select>
+            </div>
+        </dialog>
+
+        <div id="hostBoardPlayerTemplate" class="hostBoardPlayer" style="display: none;">
             <div class="hostBoardPlayerName">
             </div>
             <div class="hostBoardPlayerRoleInfo">
@@ -374,14 +415,14 @@
                 <button class="hostBoardToggle alive">Alive</button>
                 <button class="hostBoardToggle chat">Chat ON</button>
             </div>
-            <div class="hostBoardPlayerEffects">
+            <!-- <div class="hostBoardPlayerEffects">
                 <button class="hostBoardToggle framed">Framed</button>
                 <button class="hostBoardToggle doused">Doused</button>
                 <button class="hostBoardToggle rotten">RRotten</button>
                 <button class="hostBoardToggle rotten covenExpansion">NRotten</button>
                 <button class="hostBoardToggle framed covenExpansion">Hexed</button>
                 <button class="hostBoardToggle framed covenExpansion">Infected</button>
-            </div>
+            </div> -->
         </div>
 
             <!-- <button onclick="setRole()">Role</button> -->

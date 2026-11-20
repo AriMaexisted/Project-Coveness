@@ -1,6 +1,26 @@
 //PEER CODE--------------------------------------------------------
 
 
+const PING = 0;
+const PONG = 1;
+const DISPLAYNAME = 2;
+const PLAYERLIST = 3;
+const SENDMESSAGE = 4;
+const NEWMESSAGE = 5;
+const AVATAR = 6;
+const STARTGAME = 7;
+const WHISPERMESSAGE = 8;
+const TIMECHANGE = 9;
+const VOTE = 10;
+const TIMERCHANGE = 11
+const VERDICT = 12;
+const DAYCHANGE = 13;
+const NIGHTACTION = 14;
+const REVEALASMAYOR = 15;
+const MAYORREVEALED = 16;
+const RBASJAILPIR = 17;
+const JAILEDPIRATED = 18;
+
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
 
@@ -65,7 +85,7 @@ window.addEventListener('beforeunload', function (e) {
 setInterval(() => {
     //Client send ping out
     if(hostConn){
-        hostConn.send([0,"Ping"])
+        hostConn.send([PING,"Ping"])
         console.log("Ping")
         if(!disconnect){
             disconnect=true
@@ -156,65 +176,71 @@ function messageRecieved(data, conn){
     let msg = data[1];
     console.log(data)
     switch(data[0]){
-        case 0:
+        case PING:
             disconnected[connections.indexOf(conn)] = false;
-            conn.send([1,"Pong"]);
+            conn.send([PONG,"Pong"]);
             console.log("Pong");
             break;
-        case 1:
+        case PONG:
             disconnect = false
             console.log("Sent");
             break;
-        case 2:
+        case DISPLAYNAME:
             if(!playing){
                 newPlayer(msg, conn);
+                console.log(conn);
             }
             break;
-        case 3:
+        case PLAYERLIST:
             clientUpdatePlayerlist(msg);
             break;
-        case 4:
+        case SENDMESSAGE:
             sendChatUpdate(connections.indexOf(conn), msg);
             break;
-        case 5:
+        case NEWMESSAGE:
             updateChatbox(msg);
             break;
-        case 6:
+        case AVATAR:
             avatars.push(msg);
             break;
-        case 7:
+        case STARTGAME:
             gameStart(msg);
             break;
-        case 8:
+        case WHISPERMESSAGE:
             sendWhisperUpdate(-2, msg);
             break;
-        case 9:
+        case TIMECHANGE:
             changeTime(msg);
             break;
-        case 10:
+        case VOTE:
             updateVoters(msg, connections.indexOf(conn));
             break;
-        case 11:
+        case TIMERCHANGE:
             updateTimer(msg);
             break;
-        case 12:
+        case VERDICT:
             updateTrialVotes(msg, connections.indexOf(conn));
             break;
-        case 13:
+        case DAYCHANGE:
             dayUpdate(msg);
             break;
-        case 14:
+        case NIGHTACTION:
             computeAction(msg, connections.indexOf(conn));
             break;
-        case 15:
+        case REVEALASMAYOR:
             connections.forEach(cConn => {
-                cConn.send([16, connections.indexOf(conn)]);
+                cConn.send([MAYORREVEALED, connections.indexOf(conn)]);
             }) 
             break;
-        case 16:
+        case MAYORREVEALED:
             showMayorPopup(msg);
             break;
-            
+        case RBASJAILPIR:
+            roleBlockJP(msg);
+            break;
+        case JAILEDPIRATED:
+            roleBlocked(msg);
+            break;
         
     }
 
@@ -242,7 +268,7 @@ function randomAvatar(){
     document.querySelector(`.changer.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
     document.querySelector(`.changer.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
     if(hostConn){
-        hostConn.send([6, avatar]);
+        hostConn.send([AVATAR, avatar]);
     }
 }
 
@@ -269,13 +295,13 @@ function sendMsg(msg){
         document.getElementById("chatInput").value = "";
         console.log(whisperTarget);
         if(whisperTarget !== ""){
-            hostConn.send([8,[whisperTarget, msg, names.indexOf(myName)]])
+            hostConn.send([WHISPERMESSAGE,[whisperTarget, msg, names.indexOf(myName)]])
             console.log("whispering")
             whisperTarget = "";
             document.getElementById("chatInput").placeholder = "Type here";
             return;
         }
-        hostConn.send([4,msg]);
+        hostConn.send([SENDMESSAGE, msg]);
     }else{
         const errorMsg = document.getElementById("chatError");
         if(errorMsg.style.display = "flex"){

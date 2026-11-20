@@ -126,7 +126,7 @@ function newPlayer(msg, conn){
     }
     names.push(newName);
     connections.forEach(cConn => {
-        cConn.send([3, [names, avatars]]);        
+        cConn.send([PLAYERLIST, [names, avatars]]);        
     })
     updatePlayerlist();
     votes.push(-1);
@@ -137,6 +137,9 @@ function newPlayer(msg, conn){
             if(!playing){
                 alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
                 kick(connections.indexOf(conn));
+                clearInterval(dcI);
+            }else{
+                alert(`Player ${connections.indexOf(conn)+1} has disconnected`);
                 clearInterval(dcI);
             }
         }else{
@@ -171,7 +174,7 @@ function submitRole(){
 
 function sendChatUpdate(id, text){
     connections.forEach((conn) => {
-        conn.send([5, [id, text]]);
+        conn.send([NEWMESSAGE, [id, text]]);
         console.log(conn);
     } )
     updateChatbox([id, text]);
@@ -183,7 +186,7 @@ function sendWhisperUpdate(id, msg){
     if(msg[0] == msg[2]){
         if(msg[0] !== "host"){
             connections.forEach((conn) => {
-                conn.send([5, [id, `${names[msg[2]]} is whispering to themselves... for some reason`]]);
+                conn.send([NEWMESSAGE, [id, `${names[msg[2]]} is whispering to themselves... for some reason`]]);
                 console.log(conn);
             } )
             updateChatbox(`${names[msg[2]]} is whispering to themselves... for some reason`);
@@ -193,31 +196,31 @@ function sendWhisperUpdate(id, msg){
     
     console.log(msg)
     if(msg[0] == "host"){
-        connections[msg[2]].send([5, [id, `To Host: ${msg[1]}`]]);
+        connections[msg[2]].send([NEWMESSAGE, [id, `To Host: ${msg[1]}`]]);
         updateChatbox([id, `To Host from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);
         return;
         connections.forEach((conn) => {
-            conn.send([5, [id, `${names[msg[2]]} is whispering to the host`]]);
+            conn.send([NEWMESSAGE, [id, `${names[msg[2]]} is whispering to the host`]]);
             console.log(conn);
         } )
         return;
     }
     if(msg[2] == "host"){
-        connections[msg[0]].send([5, [id, `From Host: ${msg[1]}`]]);
+        connections[msg[0]].send([NEWMESSAGE, [id, `From Host: ${msg[1]}`]]);
         updateChatbox([id, `To ${names[msg[0]]} from the Host Host: ${msg[1]}`]);
         return;
         connections.forEach((conn) => {
-            conn.send([5, [id, `The host is whispering to ${names[msg[2]]}`]]);
+            conn.send([NEWMESSAGE, [id, `The host is whispering to ${names[msg[2]]}`]]);
             console.log(conn);
         } )
         return;
     }
     connections.forEach((conn) => {
-        conn.send([5, [id, `${names[msg[2]]} is whispering to ${names[msg[0]]}`]]);
+        conn.send([NEWMESSAGE, [id, `${names[msg[2]]} is whispering to ${names[msg[0]]}`]]);
         console.log(conn);
     } )
-    connections[msg[2]].send([5, [id, `To ${names[msg[0]]}: ${msg[1]}`]]);
-    connections[msg[0]].send([5, [id, `From ${names[msg[2]]}: ${msg[1]}`]]);
+    connections[msg[2]].send([NEWMESSAGE, [id, `To ${names[msg[0]]}: ${msg[1]}`]]);
+    connections[msg[0]].send([NEWMESSAGE, [id, `From ${names[msg[2]]}: ${msg[1]}`]]);
     updateChatbox([id, `To ${names[msg[0]]} from ${names[msg[2]]} ${names[msg[2]]}: ${msg[1]}`]);
 }
 

@@ -23,7 +23,7 @@ function joinGame(){
 
 
     if(hostConn){
-        hostConn.send([0,"Ping"]); // Sends a ping to start loop
+        hostConn.send([PING,"Ping"]); // Sends a ping to start loop
         console.log("Connected")
         document.getElementById("joinGameBtn").disabled = true;
         document.getElementById("hostClaimBtn").disabled = true;
@@ -40,8 +40,8 @@ function joinGame(){
     // Sends name
     hostConn.on('open', function(){
         console.log("Hostconn: " + hostConn.peer);
-        hostConn.send([6, avatar]);
-        hostConn.send([2,document.getElementById("name").value]);
+        hostConn.send([AVATAR, avatar]);
+        hostConn.send([DISPLAYNAME, document.getElementById("name").value]);
     });
 
     
@@ -77,6 +77,7 @@ function clientUpdatePlayerlist(msg){
     document.getElementById("PSdisplay").innerHTML = ""
     document.querySelector(".abilitySelector[data-uitype='0'] .display0").innerHTML = "";
     document.querySelector(".abilitySelector[data-uitype='1'] .display1").innerHTML = "";
+    document.querySelector(".dayAbilitySelector[data-uitype='0'] .display0").innerHTML = "";
 
     const hostWhisper = document.createElement('button');
     hostWhisper.addEventListener('click', () => {
@@ -140,6 +141,12 @@ function clientUpdatePlayerlist(msg){
         selector1.classList.add("player1");
         selector1.classList.add("actionSelectorPlayer");
         selector1.dataset.player = (names.indexOf(cName));
+        
+        const selectorday0 = player.cloneNode(true);
+        document.querySelector(".dayAbilitySelector[data-uitype='0'] .display0").appendChild(selectorday0);
+        selectorday0.classList.add("dayPlayer0");
+        selectorday0.classList.add("actionSelectorPlayer");
+        selectorday0.dataset.player = (names.indexOf(cName));
 
         const PSplayer = player.cloneNode(true);
         document.getElementById("PSdisplay").appendChild(PSplayer);
@@ -190,6 +197,6 @@ function avatarChange(id, spClass){
     document.querySelector(`.${spClass}.avatarC`).src = `images/avatar/C${avatar[2]}.svg`
     document.querySelector(`.${spClass}.avatarB`).src = `images/avatar/B${avatar[1]}.svg`
     if(hostConn){
-        hostConn.send([6, avatar]);
+        hostConn.send([AVATAR, avatar]);
     }
 }

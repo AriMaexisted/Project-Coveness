@@ -17,4 +17,6 @@
 |14|String|Update Action|C->H|
 |15|String|Send Mayor Reveal|C->H|
 |16|String|Mayor Reveal|H->C|
+|17|Array|Jailor/Pirate rbd|C->H|
+|18|String|You are roleblocked|H->C|
 
