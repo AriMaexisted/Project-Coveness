@@ -23,6 +23,7 @@ const JAILEDPIRATED = 18;
 const KILL = 19;
 const REVIVE = 20;
 const UPDATETEXT = 21;
+const CHANGEROLE = 22;
 
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
@@ -252,6 +253,9 @@ function messageRecieved(data, conn){
             break;
         case UPDATETEXT:
             updateText(msg, connections.indexOf(conn));
+            break;
+        case CHANGEROLE:
+            changeRole(msg)
             break;
 
         

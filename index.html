@@ -118,8 +118,8 @@
                         <button onclick="switchTabs('graveyard')">Graveyard</button>
                         <button onclick="switchTabs('lastWill')">Last Will</button>
                         <button onclick="switchTabs('roles')">Roles</button>
-                        <button onclick="switchTabs('deathNote')" id="DeathNoteBtn">Death Note</button>
-                        <button onclick="switchTabs('forge')" id="forgeryBtn">Forgery</button>
+                        <button onclick="switchTabs('deathNote')" id="DeathNoteBtn" style="align-items: center;justify-content: center;">Death Note</button>
+                        <button onclick="switchTabs('forge')" id="forgeryBtn" style="align-items: center;justify-content: center;">Forgery</button>
                     </div>
                     <div id="topBarContent">
                         <div id="gamePlayerList" class="topBarTabs">
@@ -357,9 +357,13 @@
                         </div>
 
                     </div>
-                    <div id="roleBlockedDiv">
+                    <div id="roleBlockedDiv" class="col">
                         <h3>Something is stopping you from doing your action</h3>
                         <h3 id="jailed">You have been jailed!</h3>
+                    </div>
+                    <div id="noActionTonight" class="col" style="display: none;">
+                        <h3>You don't have an action tonight</h3>
+                        <p id="reason"></p>
                     </div>
                 </div>
             </div>

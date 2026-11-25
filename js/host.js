@@ -180,9 +180,13 @@ function setRole(){
 }
 
 function submitRole(){
+    if(playing){
+        connections[selectedPlayer].send([CHANGEROLE, focusedRole])
+        document.querySelector(`.hostBoardPlayer[data-player="${selectedPlayer}"] .roleBtn`).innerText = focusedRole;
+    }
     roles[selectedPlayer] = focusedRole;
-    roleSelect.close();
     document.getElementById("playerDiv-".concat(selectedPlayer)).querySelector(".roleBtn").innerText = focusedRole;
+    roleSelect.close();
 }
 
 function sendChatUpdate(id, text){

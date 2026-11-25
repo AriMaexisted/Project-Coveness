@@ -188,6 +188,7 @@ function gameStart(msg){
             break;
         case "1":
             document.querySelectorAll('.abilitySelector[data-uitype="-1"]')[0].style.display = "none";
+            document.getElementById("reason").innerText = "You're role usually doesn't do anything at night'";
             break;
         case "2":
             document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
@@ -223,7 +224,12 @@ function gameStart(msg){
             document.querySelector(".abilitySelector[data-uitype='5']").style.display = "flex";
             document.getElementById("ability0").innerText = myRole.button;
             break;
-    }
+        case "9":
+            document.querySelector(".abilitySelector[data-uitype='2']").style.display = "flex";
+            document.getElementById("ui2text").innerText = myRole.button;
+            document.querySelectorAll('.abilitySelector[data-uitype="-1"]')[0].style.display = "none";
+
+    } 
 
     switch(myRole.dayUi){
         case "0":
@@ -236,6 +242,7 @@ function gameStart(msg){
         case "2":
             document.querySelector(".dayAbilitySelector[data-uitype='1']").style.display = "flex";
             document.getElementById("dayAbility1").innerText = myRole.dayUiButton;
+            document.querySelector(".dayAbilitySelector[data-uitype='-1']").style.display = "none";
             break;
 
             
@@ -254,10 +261,14 @@ function gameStart(msg){
 
     if(myRole.hasDeathNote === "TRUE"){
         document.getElementById("DeathNoteBtn").style.display = "flex"
+    }else{
+        document.getElementById("DeathNoteBtn").style.display = "none"
     }
     
     if(myRole.name === "Forger"){
         document.getElementById("forgeryBtn").style.display = "flex"
+    }else{
+        document.getElementById("forgeryBtn").style.display = "none"
     }
 
     playing = true;
@@ -265,7 +276,7 @@ function gameStart(msg){
 
 function switchTabs(tab){
     let target = tab
-    if(myRole.name === "Jailor"){
+    if(myRole.name === "Jailor" && target === "deathNote"){
         target = "jailorDeathNote";
     }
 
@@ -334,9 +345,16 @@ function changeTime(time){
             if(!hidden){
                 document.getElementById("abilitySelectorWrapper").style.display = !amRoleBlocked?"flex":"none";
                 document.getElementById("roleBlockedDiv").style.display = amRoleBlocked?"flex":"none";
-            }
+            } 
             if(myRole.dayUi === '1' && !document.querySelector(".dayAbilitySelector[data-uitype='-1'] input").checked){
                 hostConn.send([RBASJAILPIR, [(myRole.name==="Jailor"),abilityFocus[0]]])
+            }else if(myRole.dayUi === '1' && document.querySelector(".dayAbilitySelector[data-uitype='-1'] input").checked){
+                document.getElementById("abilitySelectorWrapper").style.display = "none";
+                document.getElementById("noActionTonight").style.display = "flex";
+                document.getElementById("reason").innerText = "You didn't choose anyone during the day.";
+            }
+            if(myRole.ui === '1'){
+                document.getElementById('noActionTonight').style.display('flex');
             }
             chatDisabled(true);
             break;
@@ -408,8 +426,12 @@ let hidden = false
 function showRole(){
     if(hidden){
         document.getElementById("showRole").innerHTML = `<img id="showRoleImg" src="./images/roles/${myRole.name.replaceAll(" ", "")}.svg" style="height: 30vh; aspect-ratio: 5 / 7;">`
+        document.getElementById("DeathNoteBtn").style.display = (myRole.hasDeathNote === "TRUE")?"flex":"none";
+        document.getElementById("forgeryBtn").style.display = (myRole.name === "Forger")?"flex":"none";
     }else{
         document.getElementById("showRole").innerHTML = `<p>Hidden... Press to reveal!</p>`
+        document.getElementById("DeathNoteBtn").style.display = "none";
+        document.getElementById("forgeryBtn").style.display = "none";
     }
     console.log(roleShowing);
     console.log(hidden);
@@ -534,6 +556,10 @@ function submitAction(){
         }
     }
     hostConn.send([NIGHTACTION,action])
+}
+
+function changeRole(msg){
+    gameStart([msg,covenExpansion]);    
 }
 
 
