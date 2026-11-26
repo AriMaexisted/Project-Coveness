@@ -190,6 +190,21 @@ function submitRole(){
 }
 
 function sendChatUpdate(id, text){
+    if(hostTime === 5){
+        let chatId = getRoleByName(roles[id]).chat;
+        console.log(chatId);
+        if(chatId === "0"){
+            return;
+        }
+        roles.forEach((role, ind) => {
+            console.log(`${role}: ${ind}: ${getRoleByName(role).chat}`);
+            if(getRoleByName(role).chat === chatId){
+                connections[ind].send([NEWMESSAGE, [id,text]]);
+            }
+        });
+        updateChatbox([-1, `Chat ${chatId} ${names[id]}: ${text}`])
+        return;
+    }
     connections.forEach((conn) => {
         conn.send([NEWMESSAGE, [id, text]]);
         console.log(conn);

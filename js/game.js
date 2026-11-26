@@ -33,7 +33,10 @@ function startGame(){
     playing = true;
 }
 
+let hostTime = 0;
+
 function setTime(time){
+    hostTime = time;
     connections.forEach(conn => {
         conn.send([TIMECHANGE, time]);
     })
@@ -320,6 +323,8 @@ function changeTime(time){
     if(!hidden){
         document.getElementById("dayAbilitySelectorWrapper").style.display = "flex"
     }
+    jailed = false;
+    pirated = false;
     switch (time){
         case 0:
             amRoleBlocked = false; 
@@ -356,30 +361,16 @@ function changeTime(time){
             if(myRole.ui === '1'){
                 document.getElementById('noActionTonight').style.display('flex');
             }
-            chatDisabled(true);
+            nightChat();
             break;
         case 6:
             timeTeller.innerText = `Day Break ${currentDay}`;
             submitAction();
-            document.getElementById("pirated")
+            document.getElementById("pirated").close();
+            document.getElementById("lastWillText").disabled = true;
             chatDisabled(true);
             break;
     }
-    // if(["Jailor", "Pirate"].includes(myRole.name)){ 
-    //     if(time === 5){
-    //         document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
-    //         hostConn.send([RBASJAILPIR, [(myRole.name==="Jailor"),abilityFocus[0]]]);
-    //     }else{
-    //         document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
-    //         document.querySelector(".abilitySelector[data-uitype='0']").style.display = "flex";
-    //         document.querySelector(".abilitySelector[data-uitype='-1']").style.display = "flex";
-    //         document.getElementById("ability0").innerText = (myRole.name==="Jailor")?"Imprison":"Plunder";
-    //     }
-    // }
-    // if(myRole.name === "Mayor" && time<5 && !mayorRevealed){
-    //     document.getElementById("abilitySelectorWrapper").style.display = hidden?"none":"flex"
-    //     document.querySelector(".abilitySelector[data-uitype='7']").style.display = "flex";    
-    // }
 
 }
 
@@ -566,6 +557,7 @@ function changeRole(msg){
 // Role specific functions
 
 let pirated = false;
+let jailed = false;
 
 function showMayorPopup(mayor){
     document.querySelectorAll("#mayorHasRevealed h3")[0].innerText = `${names[mayor]} has revealed themself as the mayor!`
@@ -585,9 +577,16 @@ function roleBlocked(isJailor){
         document.getElementById("roleBlockedDiv").style.display = amRoleBlocked?"flex":"none";
     }
     if(isJailor){
+        jailed = true;
         document.getElementById("jailed").style.display = "flex";
     }else{
         pirated = true;
         document.getElementById("pirated").showModal();
+    }
+}
+
+function nightChat(){
+    if(!jailed && myRole.chat == "0"){
+        chatDisabled(true);
     }
 }
