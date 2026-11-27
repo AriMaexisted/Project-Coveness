@@ -24,6 +24,7 @@ const KILL = 19;
 const REVIVE = 20;
 const UPDATETEXT = 21;
 const CHANGEROLE = 22;
+const DISABLECHAT = 23;
 
 // Helper 
 const isAlphaNumeric = str => /^[a-z0-9 ,.!?]*$/gi.test(str);
@@ -257,6 +258,8 @@ function messageRecieved(data, conn){
         case CHANGEROLE:
             changeRole(msg)
             break;
+        case DISABLECHAT:
+            chatDisabled(msg);
 
         
     }

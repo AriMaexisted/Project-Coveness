@@ -121,6 +121,12 @@ function updatePlayerlist(){
             })
         })
 
+        const PBchat = playerBoard.querySelectorAll(".chat")[0];
+        PBchat.addEventListener('click', () => {
+            PBchat.innerText = (PBchat.innerText == "Chat ON")?"Chat OFF":"Chat ON";
+            connections[names.indexOf(cName)].send([DISABLECHAT, (PBchat.innerText == "Chat OFF")]);
+        })
+
         
         document.getElementById("hostPlayerControlBoardDiv").appendChild(playerBoard);
 
@@ -190,7 +196,7 @@ function submitRole(){
 }
 
 function sendChatUpdate(id, text){
-    if(hostTime === 5){
+    if(hostTime === 5 && id !== -1){
         let chatId = getRoleByName(roles[id]).chat;
         console.log(chatId);
         if(chatId === "0"){
