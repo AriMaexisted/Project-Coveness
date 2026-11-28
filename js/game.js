@@ -447,7 +447,7 @@ function vote(option){
     document.getElementById(option).style.borderColor = "#F7FFC2";
     document.getElementById(option).style.color = "#F7FFC2";  
 
-    hostConn.send(12, option);
+    hostConn.send([12, option]);
 }
 
 function updateTimer(time){
